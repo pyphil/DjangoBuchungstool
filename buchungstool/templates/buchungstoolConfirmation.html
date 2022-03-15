@@ -1,0 +1,21 @@
+{% extends 'base.html' %}  
+{% block content %}
+
+<div class="container">
+  <p></p>
+  <h2>Buchungstool - Eintrag löschen für {{ buttondate }}, {{std}}. Stunde</h2>
+  <form action="{% url 'buchungstoolHome' %}" method="POST">
+    {% csrf_token %}
+    <div class="mb-3">  
+      <p>Buchung für Lerngruppe <b>{{ lerngruppe }}</b> wirklich löschen?</p>
+      <input type="hidden" name="date" value="{{ date }}">
+      <input type="hidden" name="std" value="{{ std }}">
+      <input type="hidden" name="room" value="{{ room }}">
+      <input type="hidden" name="room_text" value="{{ room_text }}">
+      <button type="submit" class="btn btn-danger" name="deleteconfirmed" value="deleteconfirmed">Eintrag löschen</button>
+      <button type="submit" class="btn btn-secondary" value="cancel" name="cancel">Abbrechen</button>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}
