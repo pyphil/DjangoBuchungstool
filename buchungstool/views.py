@@ -140,10 +140,13 @@ def eintrag(request):
     buttontext = request.POST.get('buttontext')
     krzl = request.POST.get('buttonkrzl')
     std = request.POST.get('buttonstd')
+    
     if buttontext == "frei":
         buttontext = ""
+
     isodate = request.POST.get('button_isodate')
     date = request.POST.get('button_date')
+    date_series = getDateSeries(date)
     return render(
         request, 'buchungstoolEntry.html',
         {
@@ -213,3 +216,6 @@ def getWeekCalendar(request, direction=None):
         i += 1
 
     return dates, offset, currentdate
+
+def getDateSeries(date):
+    pass
