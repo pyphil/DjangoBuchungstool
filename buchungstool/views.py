@@ -30,16 +30,21 @@ def rooms(request):
 
 
 def home(request):
-
-    if request.POST.get('selection'):
-        print(request.POST.get('selection'))
-
     entrydate = request.POST.get('date')
     buttondate = request.POST.get('buttondate')
     entrystd = request.POST.get('std')
 
     room = request.POST.get('room')
     room_text = request.POST.get('room_text')
+
+    if request.POST.get('selection'):
+        selected_date = request.POST.get('selection')
+        selected_series = getDateSeries(buttondate, int(selected_date))
+        if selected_date != '0':
+            # Serie auf besetzte Termine testen
+            print(selected_series)
+            # wenn alle frei: buchen
+            # sonst: render entry mit alert in template
 
     if room is None:
         return redirect('/')
@@ -219,15 +224,18 @@ def getWeekCalendar(request, direction=None):
     return dates, offset, currentdate
 
 
-def getDateSeries(date):
+def getDateSeries(date, end=None):
+    if end is None:
+        end = 24
+    
     date = datetime.datetime.strptime(date, '%d.%m.%Y')
 
     date_series = []
-    date_series.append({'date': date.strftime('%d.%m.%Y')})
-    for i in range(24):
+    date_series.append({'date': date.strftime('%d.%m.%Y'), 'item': 0})
+    for i in range(end):
         date = date + datetime.timedelta(days=7)
         date_series.append(
-            {'date': date.strftime('%d.%m.%Y')}
+            {'date': date.strftime('%d.%m.%Y'), 'item': i + 1}
         )
     print(date_series)
 

@@ -56,7 +56,7 @@
                   <div class="col-2">
                     <select name="selection" class="form-select custom-width" aria-label="Default select example">  
                       {% for date in date_series %}
-                        <option value="{{date.date}}">{{date.date}}</option>
+                        <option value="{{date.item}}">{{date.date}}, {{date.item}}</option>
                       {% endfor %}
                     </select>
                   </div>
