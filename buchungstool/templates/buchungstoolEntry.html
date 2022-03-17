@@ -55,33 +55,9 @@
                   </div>
                   <div class="col-2">
                     <select name="selection" class="form-select custom-width" aria-label="Default select example">  
-                      <option value="24.12.2022">24.12.2022</option>
-                      <option value="11.01.2022">11.01.2022</option>
-                      <option value="12.01.2022">12.01.2022</option>
-                      <option value="13.01.2022">13.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
-                      <option value="10.01.2022">10.01.2022</option>
+                      {% for date in date_series %}
+                        <option value="{{date.date}}">{{date.date}}</option>
+                      {% endfor %}
                     </select>
                   </div>
                 </div>

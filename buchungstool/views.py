@@ -156,7 +156,8 @@ def eintrag(request):
             'date': date,
             'buttontext': buttontext,
             'std': std,
-            'krzl': krzl
+            'krzl': krzl,
+            'date_series': date_series
         }
     )
 
@@ -217,5 +218,17 @@ def getWeekCalendar(request, direction=None):
 
     return dates, offset, currentdate
 
+
 def getDateSeries(date):
-    pass
+    date = datetime.datetime.strptime(date, '%d.%m.%Y')
+
+    date_series = []
+    date_series.append({'date': date.strftime('%d.%m.%Y')})
+    for i in range(24):
+        date = date + datetime.timedelta(days=7)
+        date_series.append(
+            {'date': date.strftime('%d.%m.%Y')}
+        )
+    print(date_series)
+
+    return date_series
