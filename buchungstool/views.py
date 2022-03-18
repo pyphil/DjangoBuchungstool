@@ -39,12 +39,29 @@ def home(request):
 
     if request.POST.get('selection'):
         selected_date = request.POST.get('selection')
-        selected_series = getDateSeries(buttondate, int(selected_date))
         if selected_date != '0':
+            selected_series = getDateSeries(buttondate, int(selected_date))
             # Serie auf besetzte Termine testen
-            print(selected_series)
+            # Booking.objects.filter(datum="2022-02-23").filter(stunde='6').exists()
+            # .datum.isoformat().split('-')
+            blocked_dates = []
+            for i in selected_series:
+                d = i['date'].split('.')
+                d = d[2] + "-" + d[1] + "-" + d[0]
+                print(d)
+                if Booking.objects.filter(datum=d).filter(stunde=int(entrystd)).exists():
+                    blocked_dates.append(d)
+
             # wenn alle frei: buchen
+            if blocked_dates == []:
+                print("buchen")
             # sonst: render entry mit alert in template
+            else:
+                print("folgende Termine sind besetzt:")
+                for i in blocked_dates:
+                    print(i)
+        else:
+            print("nur einen Termin buchen")
 
     if room is None:
         return redirect('/')
@@ -145,7 +162,7 @@ def eintrag(request):
     buttontext = request.POST.get('buttontext')
     krzl = request.POST.get('buttonkrzl')
     std = request.POST.get('buttonstd')
-    
+
     if buttontext == "frei":
         buttontext = ""
 
@@ -227,7 +244,7 @@ def getWeekCalendar(request, direction=None):
 def getDateSeries(date, end=None):
     if end is None:
         end = 24
-    
+
     date = datetime.datetime.strptime(date, '%d.%m.%Y')
 
     date_series = []
@@ -237,6 +254,5 @@ def getDateSeries(date, end=None):
         date_series.append(
             {'date': date.strftime('%d.%m.%Y'), 'item': i + 1}
         )
-    print(date_series)
 
     return date_series
