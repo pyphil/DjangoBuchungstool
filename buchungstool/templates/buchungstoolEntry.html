@@ -67,9 +67,9 @@
       </div>
 
       {% if buttontext == "" %}
-      <button type="submit" class="btn btn-primary">Speichern</button>
+      <button type="submit" name="save" value="save" class="btn btn-primary">Speichern</button>
       {% else %}
-      <button type="submit" name="save" value="save" class="btn btn-warning">Eintrag ändern</button>
+      <button type="submit" name="update" value="update" class="btn btn-warning">Eintrag ändern</button>
       <button type="submit" class="btn btn-danger" name="delete" value="delete">Eintrag löschen</button>
       {% endif %}
       <button type="submit" class="btn btn-secondary" value="cancel" name="cancel">Abbrechen</button>
