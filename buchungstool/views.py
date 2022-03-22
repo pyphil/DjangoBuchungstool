@@ -97,7 +97,9 @@ def home(request):
                         'buttontext': request.POST.get('lerngruppe'),
                         'std': entrystd,
                         'krzl': request.POST.get('krzl').upper()[:3],
-                        'date_series': getDateSeries(buttondate)
+                        'date_series': getDateSeries(buttondate),
+                        'alert': True,
+                        'blocked_dates': ", ".join(blocked_dates)
                     }
                 )
 
@@ -159,7 +161,7 @@ def home(request):
                 'std': entrystd, 'room': room, 'room_text': room_text,
                 'buttondate': buttondate}
         )
-    elif not request.POST.get('save'):
+    else:
         response = render(
             request, 'buchungstoolHome.html',
             {
