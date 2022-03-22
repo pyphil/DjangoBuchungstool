@@ -159,7 +159,7 @@ def home(request):
             request, 'buchungstoolConfirmation.html',
             {'date': entrydate, 'lerngruppe': request.POST.get('lerngruppe'),
                 'std': entrystd, 'room': room, 'room_text': room_text,
-                'buttondate': buttondate}
+                'buttondate': buttondate, 'krzl': request.POST.get('krzl').upper()[:3]}
         )
     else:
         response = render(
