@@ -24,7 +24,7 @@
 				<div class="col text-center">
 					<form class="mb-2 mt-2" action="" method="POST">
 						{% csrf_token %}
-						<button type="submit" class="btn btn-secondary"><i class="bi bi-calendar2-minus">&ensp;</i>Vorherige Woche</button>
+						<button type="submit" class="btn btn-secondary" style="background-color: #909090;"><i class="bi bi-calendar2-minus">&ensp;</i>Vorherige Woche</button>
 						<input type="hidden" name="direction" value="back" />
 						<input type="hidden" name="currentdate_nav" value="{{ currentdate }}">
 						<input type="hidden" name="room" value="{{ room }}">
@@ -35,8 +35,8 @@
 					<form class="mb-2 mt-2" action="" method="post">
 						{% csrf_token %}
 						<label for="start">Springe zu:</label>
-						<input type="date" id="start" name="currentdate" class="btn btn-secondary custom-width" value="{{ currentdate }}">
-						<input type="submit" value="OK" class="btn btn-secondary">
+						<input type="date" id="start" name="currentdate" class="btn btn-secondary custom-width" style="background-color: #909090;" value="{{ currentdate }}">
+						<input type="submit" value="OK" class="btn btn-secondary" style="background-color: #909090;">
 						<input type="hidden" name="room" value="{{ room }}">
 						<input type="hidden" name="room_text" value="{{ room_text }}">
 					</form>
@@ -44,7 +44,7 @@
 				<div class="col text-center">
 					<form class="mb-2 mt-2" action="" method="POST">
 						{% csrf_token %}
-						<button type="submit" class="btn btn-secondary">Nächste Woche&ensp;<i class="bi bi-calendar2-plus"></i></button>
+						<button type="submit" class="btn btn-secondary" style="background-color: #909090;">Nächste Woche&ensp;<i class="bi bi-calendar2-plus"></i></button>
 						<input type="hidden" name="direction" value="forward" />
 						<input type="hidden" name="currentdate_nav" value="{{ currentdate }}">
 						<input type="hidden" name="room" value="{{ room }}">
