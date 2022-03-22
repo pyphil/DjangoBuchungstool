@@ -74,10 +74,8 @@
       {% if alert %}
         <div class="alert alert-danger" role="alert">
           Das geht leider nicht. Folgende Termine sind bereits besetzt:
-          {{ blocked_dates }}
-          <!-- {% for d in blocked_dates %}
-            {{ d }}{% if d == blocked_dates.last %} {% else %}, {% endif %}
-          {% endfor %} -->
+          {{ blocked_dates }} <br>
+          Du kannst den ersten Termin buchen oder die Serie anpassen.
         </div>
       {% endif %}
 
