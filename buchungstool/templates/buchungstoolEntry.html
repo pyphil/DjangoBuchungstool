@@ -40,6 +40,8 @@
       <input type="hidden" name="room_text" value="{{ room_text }}" />
       <br>
 
+      {% if buttontext != "" and not alert %}
+      {% else %}
       <div class="accordion mb-5" id="accordionSerie">
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingOne">
@@ -73,14 +75,15 @@
                 </div>
               </div>
             </div>
+          </div>
         </div>
-      </div>
       {% if alert %}
         <div class="alert alert-danger" role="alert">
           Das geht leider nicht. Folgende Termine sind bereits besetzt:
           {{ blocked_dates }} <br>
           Du kannst den ersten Termin buchen oder die Serie anpassen.
         </div>
+      {% endif %}
       {% endif %}
 
       {% if buttontext == "" %}
