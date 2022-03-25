@@ -25,9 +25,9 @@
                         <div class="mb-3">
                             {% for room in rooms %}
                                 {% if room.card == 1 %}
-                                    <p><button type="submit" class="btn btn-secondary" name="room_text"
+                                    <button type="submit" class="btn btn-secondary mt-2" style="background-color: #909090;" name="room_text"
                                             value="{{ room.room }} - {{ room.description }}">{{ room.description }}
-                                            - {{ room.room }}</button></p>
+                                            - {{ room.room }}</button><br>
                                     <input type="hidden" name="room" value="{{ room.short_name }}" />
                                 {% endif %}
                             {% endfor %}
@@ -44,9 +44,9 @@
                         <div class="mb-3">
                             {% for room in rooms %}
                                 {% if room.card == 3 %}
-                                    <p><button type="submit" class="btn btn-secondary" name="room_text"
+                                    <button type="submit" class="btn btn-secondary mt-2" style="background-color: #909090;" name="room_text"
                                             value="{{ room.room }} - {{ room.description }}">{{ room.description }}
-                                            - {{ room.room }}</button></p>
+                                            - {{ room.room }}</button><br>
                                     <input type="hidden" name="room" value="{{ room.short_name }}" />
                                 {% endif %}
                             {% endfor %}
@@ -65,9 +65,9 @@
                         <div class="mb-3">
                             {% for room in rooms %}
                                 {% if room.card == 2 %}
-                                    <p><button type="submit" class="btn btn-secondary" name="room_text"
+                                    <button type="submit" class="btn btn-secondary mt-2" style="background-color: #909090;" name="room_text"
                                             value="{{ room.room }} - {{ room.description }}">{{ room.description }}
-                                            - {{ room.room }}</button></p>
+                                            - {{ room.room }}</button><br>
                                     <input type="hidden" name="room" value="{{ room.short_name }}" />
                                 {% endif %}
                             {% endfor %}
@@ -83,9 +83,9 @@
                         <div class="mb-3">
                             {% for room in rooms %}
                                 {% if room.card == 4 %}
-                                    <p><button type="submit" class="btn btn-secondary" name="room_text"
+                                    <button type="submit" class="btn btn-secondary mt-2" style="background-color: #909090;" name="room_text"
                                             value="{{ room.room }} - {{ room.description }}">{{ room.description }}
-                                            - {{ room.room }}</button></p>
+                                            - {{ room.room }}</button><br>
                                     <input type="hidden" name="room" value="{{ room.short_name }}" />
                                 {% endif %}
                             {% endfor %}

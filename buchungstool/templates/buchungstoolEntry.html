@@ -26,7 +26,11 @@
     {% csrf_token %}
     <div class="mb-3">
       <label class="mt-3" for="saveKrzl" class="form-label">Kürzel:</label>
-      <input type="text" class="form-control mt-2" name="krzl" value="{{ krzl }}" />
+      {% if buttontext == "" %}
+        <input type="text" class="form-control mt-2" name="krzl" value="{{ krzl }}" />
+      {% else %}
+        <input type="text" class="form-control mt-2" name="krzl" value="{{ krzl }}" readonly>
+      {% endif %}
       <label class="mt-3" for="saveLerngruppe" class="form-label">Buchen für Lerngruppe:</label>
       <input type="text" class="form-control mt-2" name="lerngruppe" value="{{ buttontext }}" />
       <input type="hidden" name="date" value="{{ isodate }}" />
@@ -36,18 +40,26 @@
       <input type="hidden" name="room_text" value="{{ room_text }}" />
       <br>
 
+      {% if buttontext != "" and not alert %}
+      {% else %}
       <div class="accordion mb-5" id="accordionSerie">
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingOne">
-            <!-- <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> -->
+            {% if alert %}
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            {% else %}
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-              Serientermin buchen
-            </button>
+            data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            Serientermin buchen
+          </button>
+          {% endif %}
           </h2>
-          <!-- <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionSerie"> -->
-          
+        
+          {% if alert %}
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionSerie">
+          {% else %}
             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSerie">
+          {% endif %}
               <div class="accordion-body">
                 <div class="row align-items-center">
                   <div class="col-auto">
@@ -56,21 +68,31 @@
                   <div class="col-2">
                     <select name="selection" class="form-select custom-width" aria-label="Default select example">  
                       {% for date in date_series %}
-                        <option value="{{date.item}}">{{date.date}}, {{date.item}}</option>
+                        <option value="{{date.item}}">{{date.date}}</option>
                       {% endfor %}
                     </select>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
         </div>
-      </div>
+      {% if alert %}
+        <div class="alert alert-danger" role="alert">
+          Das geht leider nicht. Folgende Termine sind bereits besetzt:
+          {{ blocked_dates }} <br>
+          Du kannst den ersten Termin buchen oder die Serie anpassen.
+        </div>
+      {% endif %}
+      {% endif %}
 
       {% if buttontext == "" %}
-      <button type="submit" class="btn btn-primary">Speichern</button>
+        <button type="submit" name="save" value="save" class="btn btn-primary">Speichern</button>
+      {% elif alert %}
+        <button type="submit" name="save" value="save" class="btn btn-primary">Speichern</button>
       {% else %}
-      <button type="submit" name="save" value="save" class="btn btn-warning">Eintrag ändern</button>
-      <button type="submit" class="btn btn-danger" name="delete" value="delete">Eintrag löschen</button>
+        <button type="submit" name="update" value="update" class="btn btn-warning">Eintrag ändern</button>
+        <button type="submit" class="btn btn-danger" name="delete" value="delete">Eintrag löschen</button>
       {% endif %}
       <button type="submit" class="btn btn-secondary" value="cancel" name="cancel">Abbrechen</button>
     </div>
