@@ -20,38 +20,34 @@
             <div class="card mb-3">
                 <h5 class="card-header">iPad-Koffer Niederzier</h5>
                 <div class="card-body">
-                    <form action="{% url 'buchungstoolHome' %}" method="POST">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            {% for room in rooms %}
-                                {% if room.card == 1 %}
-                                    <button type="submit" class="btn btn-secondary mt-2 text-dark" style="background-color: #f7f7f7;" name="room_text"
-                                            value="{{ room.room }} - {{ room.description }}">{{ room.description }}
-                                            - {{ room.room }}</button><br>
-                                    <input type="hidden" name="room" value="{{ room.short_name }}" />
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </form>
+                    {% for room in rooms %}
+                        {% if room.card == 1 %}
+                            <form action="{% url 'buchungstoolHome' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;" name="room_text"
+                                        value="{{ room.room }} - {{ room.description }}">{{ room.description }}
+                                        - {{ room.room }}</button><br>
+                                <input type="hidden" name="room" value="{{ room.short_name }}" />
+                            </form>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
 
             <div class="card">
                 <h5 class="card-header">Computer- und Besprechungsräume</h5>
                 <div class="card-body">
-                    <form action="{% url 'buchungstoolHome' %}" method="POST">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            {% for room in rooms %}
-                                {% if room.card == 3 %}
-                                    <button type="submit" class="btn btn-secondary mt-2 text-dark" style="background-color: #f7f7f7;" name="room_text"
-                                            value="{{ room.room }} - {{ room.description }}">{{ room.description }}
-                                            - {{ room.room }}</button><br>
-                                    <input type="hidden" name="room" value="{{ room.short_name }}" />
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </form>
+                    {% for room in rooms %}
+                        {% if room.card == 3 %}
+                            <form action="{% url 'buchungstoolHome' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;" name="room_text"
+                                        value="{{ room.room }} - {{ room.description }}">{{ room.description }}
+                                        - {{ room.room }}</button><br>
+                                <input type="hidden" name="room" value="{{ room.short_name }}" />
+                            </form>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -60,37 +56,33 @@
             <div class="card mb-3">
                 <h5 class="card-header">iPad-Koffer Merzenich</h5>
                 <div class="card-body">
-                    <form action="{% url 'buchungstoolHome' %}" method="POST">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            {% for room in rooms %}
-                                {% if room.card == 2 %}
-                                    <button type="submit" class="btn btn-secondary mt-2 text-dark" style="background-color: #f7f7f7;" name="room_text"
-                                            value="{{ room.room }} - {{ room.description }}">{{ room.description }}
-                                            - {{ room.room }}</button><br>
-                                    <input type="hidden" name="room" value="{{ room.short_name }}" />
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </form>
+                    {% for room in rooms %}
+                        {% if room.card == 2 %}
+                            <form action="{% url 'buchungstoolHome' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;" name="room_text"
+                                        value="{{ room.room }} - {{ room.description }}">{{ room.description }}
+                                        - {{ room.room }}</button><br>
+                                <input type="hidden" name="room" value="{{ room.short_name }}" />
+                            </form>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="card">
                 <h5 class="card-header">FS Mathematik</h5>
                 <div class="card-body">
-                    <form action="{% url 'buchungstoolHome' %}" method="POST">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            {% for room in rooms %}
-                                {% if room.card == 4 %}
-                                    <button type="submit" class="btn btn-secondary mt-2 text-dark" style="background-color: #f7f7f7;" name="room_text"
-                                            value="{{ room.room }} - {{ room.description }}">{{ room.description }}
-                                            - {{ room.room }}</button><br>
-                                    <input type="hidden" name="room" value="{{ room.short_name }}" />
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </form>
+                    {% for room in rooms %}
+                        {% if room.card == 4 %}
+                            <form action="{% url 'buchungstoolHome' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;" name="room_text"
+                                        value="{{ room.room }} - {{ room.description }}">{{ room.description }}
+                                        - {{ room.room }}</button><br>
+                                <input type="hidden" name="room" value="{{ room.short_name }}" />
+                            </form>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
