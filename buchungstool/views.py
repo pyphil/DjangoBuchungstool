@@ -80,13 +80,11 @@ def home(request):
                 for i in selected_series:
                     d = i['date'].split('.')
                     d = d[2] + "-" + d[1] + "-" + d[0]
-                    print(d)
                     if Booking.objects.filter(room=room).filter(datum=d).filter(stunde=int(entrystd)).exists():
                         blocked_dates.append(d)
 
                 # wenn alle frei: buchen
                 if blocked_dates == []:
-                    print("buchen")
                     for i in selected_series:
                         d = i['date'].split('.')
                         d = d[2] + "-" + d[1] + "-" + d[0]
