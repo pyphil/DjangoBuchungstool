@@ -40,7 +40,7 @@
       <input type="hidden" name="room_text" value="{{ room_text }}" />
       <br>
 
-      {% if buttontext != "" and not alert %}
+      {% if buttontext != "" and not alert and not warning_empty%}
       {% elif warning_empty and update %}
       {% else %}
       <div class="accordion mb-5" id="accordionSerie">
