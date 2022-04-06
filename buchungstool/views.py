@@ -31,9 +31,9 @@ def rooms(request):
 
 def home(request):
     entrydate = request.session.get('isodate')
-    buttondate = request.session.get('buttondate')
+    buttondate = request.session.get('date')
     entrystd = request.session.get('std')
-    
+
     if request.POST.get('room'):
         room = request.POST.get('room')
         room_text = request.POST.get('room_text')
