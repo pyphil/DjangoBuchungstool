@@ -263,18 +263,22 @@ def getWeekCalendar(request, direction=None):
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
         offset = 0
+        print("currentdate")
     elif request.POST.get('currentdate_nav'):
         currentdate = request.POST.get('currentdate_nav')
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
+        print("nav")
     elif request.POST.get('date'):
         offset = 0
         currentdate = request.POST.get('date')
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
+        print("date")
     else:
         currentdate = datetime.date.today()
         offset = 0
+        print("today")
 
     # Starts with knowing the day of the week
     # .weekday statt [2] funktioniert erst ab Python 3.9
