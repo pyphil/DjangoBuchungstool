@@ -228,14 +228,55 @@ def eintrag(request):
     request.session['krzl'] = krzl
     request.session['std'] = std
 
-    if buttontext == "frei":
-        buttontext = ""
-
     isodate = request.POST.get('button_isodate')
     date = request.POST.get('button_date')
     request.session['isodate'] = isodate
     request.session['date'] = date
 
+    userlist = []
+
+    if buttontext == "frei":
+        buttontext = ""
+    else:
+        dbobject = Booking.objects.filter(
+                room=room,
+                datum=isodate,
+                stunde=std
+            ).first()
+        n = dbobject.iPad_01.split("|")
+        userlist.append({'iPad': "iPad 01", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_02.split("|")
+        userlist.append({'iPad': "iPad 02", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_03.split("|")
+        userlist.append({'iPad': "iPad 03", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_04.split("|")
+        userlist.append({'iPad': "iPad 04", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_05.split("|")
+        userlist.append({'iPad': "iPad 05", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_06.split("|")
+        userlist.append({'iPad': "iPad 06", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_07.split("|")
+        userlist.append({'iPad': "iPad 07", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_08.split("|")
+        userlist.append({'iPad': "iPad 08", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_09.split("|")
+        userlist.append({'iPad': "iPad 09", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_10.split("|")
+        userlist.append({'iPad': "iPad 10", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_11.split("|")
+        userlist.append({'iPad': "iPad 11", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_12.split("|")
+        userlist.append({'iPad': "iPad 12", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_13.split("|")
+        userlist.append({'iPad': "iPad 13", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_14.split("|")
+        userlist.append({'iPad': "iPad 14", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_15.split("|")
+        userlist.append({'iPad': "iPad 15", 'pencil': n[0], 'student': n[1]})
+        n = dbobject.iPad_16.split("|")
+        userlist.append({'iPad': "iPad 16", 'pencil': n[0], 'student': n[1]})
+
+    print(userlist)
     date_series = getDateSeries(date)
     return render(
         request, 'buchungstoolEntry.html',
@@ -247,7 +288,8 @@ def eintrag(request):
             'buttontext': buttontext,
             'std': std,
             'krzl': krzl,
-            'date_series': date_series
+            'date_series': date_series,
+            'userlist': userlist
         }
     )
 
