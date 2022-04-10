@@ -49,6 +49,50 @@ def home(request):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
+    if request.POST.get('submit_student'):
+        ipad_text = request.POST.get('submit_student')
+        ipad = ipad_text.replace(" ","_")
+        pencil = request.POST.get("pencil_"+ipad_text)
+        student = request.POST.get("student_"+ipad_text).replace("|",",")
+        entry = Booking.objects.filter(
+            room=room,
+            datum=entrydate,
+            stunde=int(entrystd)
+        ).first()
+        if ipad == "iPad_01":
+            entry.iPad_01 = pencil + "|" + student
+        if ipad == "iPad_02":
+            entry.iPad_02 = pencil + "|" + student
+        if ipad == "iPad_03":
+            entry.iPad_03 = pencil + "|" + student
+        if ipad == "iPad_04":
+            entry.iPad_04 = pencil + "|" + student
+        if ipad == "iPad_05":
+            entry.iPad_05 = pencil + "|" + student
+        if ipad == "iPad_06":
+            entry.iPad_06 = pencil + "|" + student
+        if ipad == "iPad_07":
+            entry.iPad_07 = pencil + "|" + student
+        if ipad == "iPad_08":
+            entry.iPad_08 = pencil + "|" + student
+        if ipad == "iPad_09":
+            entry.iPad_09 = pencil + "|" + student
+        if ipad == "iPad_10":
+            entry.iPad_10 = pencil + "|" + student
+        if ipad == "iPad_11":
+            entry.iPad_11 = pencil + "|" + student
+        if ipad == "iPad_12":
+            entry.iPad_12 = pencil + "|" + student
+        if ipad == "iPad_13":
+            entry.iPad_13 = pencil + "|" + student
+        if ipad == "iPad_14":
+            entry.iPad_14 = pencil + "|" + student
+        if ipad == "iPad_15":
+            entry.iPad_15 = pencil + "|" + student
+        if ipad == "iPad_16":
+            entry.iPad_16 = pencil + "|" + student
+        entry.save()
+
     if request.POST.get('save'):
         selected_date = request.POST.get('selection')
         # Prüfen ob Felder leer sind

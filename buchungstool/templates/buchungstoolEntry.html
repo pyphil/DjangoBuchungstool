@@ -98,10 +98,13 @@
                       <label for="date"><strong>{{user.iPad}}</strong></label>
                     </div>
                     <div class="col-1">
-                      <input type="text" class="form-control" name="pencil" value="{{user.pencil}}"><small>Stift</small>
+                      <input type="text" class="form-control" name="pencil_{{user.iPad}}" value="{{user.pencil}}"><small>Stift</small>
                     </div>
                     <div class="col-5">
-                      <input type="text" class="form-control" name="student" value="{{user.student}}"><small>Schüler*innen (Vornamen mit Komma getrennt)</small>
+                      <input type="text" class="form-control" name="student_{{user.iPad}}" value="{{user.student}}"><small>Schüler*innen (Vornamen mit Komma getrennt)</small>
+                    </div>
+                    <div class="col-5 mb-4">
+                      <button type="submit" class="btn btn-primary" name="submit_student" value="{{user.iPad}}">Speichern</button>
                     </div>
                   </div>
                 {% endfor %}
