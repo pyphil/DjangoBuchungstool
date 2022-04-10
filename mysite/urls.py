@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from buchungstool import views as buchungstoolViews
+from userlist import views as userlistViews
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -25,6 +26,7 @@ urlpatterns = [
     path('', buchungstoolViews.rooms, name='buchungstoolRooms'),
     path('buchungstool/', buchungstoolViews.home, name='buchungstoolHome'),
     path('buchungstool/entry/', buchungstoolViews.eintrag, name='buchungstoolEntry'),
+    path('userlist/choice/', userlistViews.choice, name='userlistChoice'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
