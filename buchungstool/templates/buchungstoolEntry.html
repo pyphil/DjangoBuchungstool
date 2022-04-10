@@ -92,6 +92,20 @@
         
           <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSerie">
               <div class="accordion-body">
+                <div class="row">
+                  <div class="col">
+                    Eintrag in die Nutzerliste für Schüler*innen freischalten: 
+                    <div class="btn-group" role="group" aria-label="Freischalten">
+                      {% if state == "off" %}
+                        <button type="button" name="freischalten" value="off" class="btn btn-primary">OFF</button>
+                        <button type="submit" name="freischalten" value="on" class="btn btn-outline-primary">ON</button>
+                      {% elif state == "on" %}
+                        <button type="submit" name="freischalten" value="off" class="btn btn-outline-primary">OFF</button>
+                        <button type="button" name="freischalten" value="on" class="btn btn-primary">ON</button>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
                 {% for user in userlist %}
                   <div class="row align-items-center mt-2">
                     <div class="col-auto mb-4">

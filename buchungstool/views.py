@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from .models import Booking
 from .models import Room
+from userlist.models import Userlist
 import datetime
 
 
@@ -51,9 +52,9 @@ def home(request):
 
     if request.POST.get('submit_student'):
         ipad_text = request.POST.get('submit_student')
-        ipad = ipad_text.replace(" ","_")
+        ipad = ipad_text.replace(" ", "_")
         pencil = request.POST.get("pencil_"+ipad_text)
-        student = request.POST.get("student_"+ipad_text).replace("|",",")
+        student = request.POST.get("student_"+ipad_text).replace("|", ",")
         entry = Booking.objects.filter(
             room=room,
             datum=entrydate,
@@ -92,6 +93,9 @@ def home(request):
         if ipad == "iPad_16":
             entry.iPad_16 = pencil + "|" + student
         entry.save()
+
+    if request.POST.get('freischalten'):
+        print(request.POST.get('freischalten'))
 
     if request.POST.get('save'):
         selected_date = request.POST.get('selection')
@@ -283,10 +287,10 @@ def eintrag(request):
         buttontext = ""
     else:
         dbobject = Booking.objects.filter(
-                room=room,
-                datum=isodate,
-                stunde=std
-            ).first()
+            room=room,
+            datum=isodate,
+            stunde=std
+        ).first()
         n = dbobject.iPad_01.split("|")
         userlist.append({'iPad': "iPad 01", 'pencil': n[0], 'student': n[1]})
         n = dbobject.iPad_02.split("|")
@@ -320,7 +324,16 @@ def eintrag(request):
         n = dbobject.iPad_16.split("|")
         userlist.append({'iPad': "iPad 16", 'pencil': n[0], 'student': n[1]})
 
-    print(userlist)
+        activated = Userlist.objects.filter(
+            lerngruppe=buttontext,
+            datum=isodate,
+            stunde=std
+        ).first()
+        if activated:
+            print(activated.lerngruppe)
+        else:
+            print("none")
+
     date_series = getDateSeries(date)
     return render(
         request, 'buchungstoolEntry.html',
@@ -333,7 +346,8 @@ def eintrag(request):
             'std': std,
             'krzl': krzl,
             'date_series': date_series,
-            'userlist': userlist
+            'userlist': userlist,
+            'state': "off"
         }
     )
 
