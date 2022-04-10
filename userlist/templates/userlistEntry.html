@@ -13,22 +13,21 @@
 {% block content %}
 
 <div class="container">
-    <h2 class="mb-3">Liebe Schüler*innen,</h2>
+    <h2 class="mb-3">Eintrag in die Nutzerliste</h2>
     <div class="row mb-4">
         <div class="col">
-            bitte wählt hier den Tabletkoffer, zu dem Euer iPad gehört. Eure Lehrer*innen schalten euch hier die Eingabe in die iPad-Nutzerliste frei.
+            Alle, die an diesem iPad arbeiten, tragen bitte...
         </div>
     </div>
-    <form action="{% url 'userlistEntry' %}" method="POST">
-    {% csrf_token %}
+    <!-- <form action="{% url 'userlistEntry' %}" method="POST">
     {% for list in lists %}
         <div class="row mb-4">
             <div class="col text-center">
-                <button type="submit" class="btn btn-primary col-4" name="selection" value="{{list.short_name}}">{{list.description}}{{list.datum}}{{list.stunde}}</button>
+                <button type="submit" class="btn btn-primary col-4" name="selection" value="{{list.shortname}}">{{list.description}}</button>
             </div>
         </div>
     {% endfor %}
-    </form>
+    </form> -->
 </div>
 
 {% endblock content %}

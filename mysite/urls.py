@@ -26,7 +26,8 @@ urlpatterns = [
     path('', buchungstoolViews.rooms, name='buchungstoolRooms'),
     path('buchungstool/', buchungstoolViews.home, name='buchungstoolHome'),
     path('buchungstool/entry/', buchungstoolViews.eintrag, name='buchungstoolEntry'),
-    path('userlist/choice/', userlistViews.choice, name='userlistChoice'),
+    path('userlist/select/', userlistViews.select, name='userlistSelect'),
+    path('userlist/entry/', userlistViews.entry, name='userlistEntry'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
