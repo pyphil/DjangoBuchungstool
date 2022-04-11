@@ -98,7 +98,8 @@ def home(request):
         activate = Userlist(
             short_name=room,
             datum=entrydate,
-            stunde=int(entrystd)
+            stunde=int(entrystd),
+            lerngruppe=request.POST.get('lerngruppe')
         )
         activate.save()
 
