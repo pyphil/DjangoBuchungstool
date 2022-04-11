@@ -19,15 +19,20 @@
             Alle, die an diesem iPad arbeiten, tragen bitte...
         </div>
     </div>
-    <!-- <form action="{% url 'userlistEntry' %}" method="POST">
-    {% for list in lists %}
+    <form action="{% url 'userlistEntry' %}" method="POST">
         <div class="row mb-4">
+            <div class="col-2">
+                <select name="selection" class="form-select custom-width" aria-label="Default select example">  
+                  {% for date in date_series %}
+                    <option value="{{date.item}}">{{date.date}}</option>
+                  {% endfor %}
+                </select>
+            </div>
             <div class="col text-center">
                 <button type="submit" class="btn btn-primary col-4" name="selection" value="{{list.shortname}}">{{list.description}}</button>
             </div>
         </div>
-    {% endfor %}
-    </form> -->
+    </form>
 </div>
 
 {% endblock content %}

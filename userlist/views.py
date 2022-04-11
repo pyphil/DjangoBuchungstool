@@ -47,11 +47,15 @@ def entry(request):
     elif request.GET.get('access') and request.session.get('has_access'):
         return redirect('/')
 
-    lists = Userlist.objects.all()
-
     print(request.POST.get('selection'))
+
+    numbers = []
+    for i in range(1,17):
+        numbers.append(("%02d" % i))
+    
+    
 
     return render(
         request, 'userlistEntry.html',
-        {'lists': lists}
+        {'numbers': numbers}
     )
