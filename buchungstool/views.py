@@ -94,8 +94,13 @@ def home(request):
             entry.iPad_16 = pencil + "|" + student
         entry.save()
 
-    if request.POST.get('freischalten'):
-        print(request.POST.get('freischalten'))
+    if request.POST.get('freischalten') == "on":
+        activate = Userlist(
+            short_name=room,
+            datum=entrydate,
+            stunde=int(entrystd)
+        )
+        activate.save()
 
     if request.POST.get('save'):
         selected_date = request.POST.get('selection')
@@ -325,12 +330,12 @@ def eintrag(request):
         userlist.append({'iPad': "iPad 16", 'pencil': n[0], 'student': n[1]})
 
         activated = Userlist.objects.filter(
-            lerngruppe=buttontext,
+            short_name=dbobject.room,
             datum=isodate,
             stunde=std
         ).first()
         if activated:
-            print(activated.lerngruppe)
+            print(activated.short_name)
         else:
             print("none")
 
