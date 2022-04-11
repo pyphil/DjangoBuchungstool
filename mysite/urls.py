@@ -28,6 +28,7 @@ urlpatterns = [
     path('buchungstool/entry/', buchungstoolViews.eintrag, name='buchungstoolEntry'),
     path('userlist/select/', userlistViews.select, name='userlistSelect'),
     path('userlist/entry/', userlistViews.entry, name='userlistEntry'),
+    path('userlist/success/', userlistViews.success, name='userlistSuccess'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

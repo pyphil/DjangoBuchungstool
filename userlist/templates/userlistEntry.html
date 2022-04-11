@@ -19,17 +19,30 @@
             Alle, die an diesem iPad arbeiten, tragen bitte...
         </div>
     </div>
-    <form action="{% url 'userlistEntry' %}" method="POST">
+    <form action="{% url 'userlistSuccess' %}" method="POST">
+        {% csrf_token %}
         <div class="row mb-4">
-            <div class="col-2">
-                <select name="selection" class="form-select custom-width" aria-label="Default select example">  
-                  {% for date in date_series %}
-                    <option value="{{date.item}}">{{date.date}}</option>
+            <div class="col-1">
+                <select name="iPad" class="form-select custom-width" aria-label="Default select example">  
+                  {% for number in numbers %}
+                    <option value="{{number}}">{{number}}</option>
                   {% endfor %}
                 </select>
+                <small>iPad-Nr.</small>
             </div>
-            <div class="col text-center">
-                <button type="submit" class="btn btn-primary col-4" name="selection" value="{{list.shortname}}">{{list.description}}</button>
+            <div class="col-1">
+                <select name="pencil" class="form-select custom-width" aria-label="Default select example"> 
+                  {% for number in numbers %}
+                    <option value="{{number}}">{{number}}</option>
+                  {% endfor %}
+                </select>
+                <small>Stift-Nr.</small>
+            </div>
+            <div class="col-5">
+                <input type="text" class="form-control" name="students"><small>Schüler*innen (Vornamen mit Komma getrennt, wenn nötig mit Anfangsbuchstabe des Nachnamens.)</small>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary col-4" name="selection" value="{{selection}}">Speichern</button>
             </div>
         </div>
     </form>
