@@ -22,7 +22,7 @@
     <form action="{% url 'userlistSuccess' %}" method="POST">
         {% csrf_token %}
         <div class="row mb-4">
-            <div class="col-1">
+            <div class="col-2">
                 <select name="iPad" class="form-select custom-width" aria-label="Default select example">  
                   {% for number in numbers %}
                     <option value="{{number}}">{{number}}</option>
@@ -30,7 +30,7 @@
                 </select>
                 <small>iPad-Nr.</small>
             </div>
-            <div class="col-1">
+            <div class="col-2">
                 <select name="pencil" class="form-select custom-width" aria-label="Default select example"> 
                   {% for number in numbers %}
                     <option value="{{number}}">{{number}}</option>
@@ -38,11 +38,11 @@
                 </select>
                 <small>Stift-Nr.</small>
             </div>
-            <div class="col-5">
+            <div class="col">
                 <input type="text" class="form-control" name="students"><small>Schüler*innen (Vornamen mit Komma getrennt, wenn nötig mit Anfangsbuchstabe des Nachnamens.)</small>
             </div>
-            <div class="col">
-                <button type="submit" class="btn btn-primary col-4" name="selection" value="{{selection}}">Speichern</button>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary" name="selection" value="{{selection}}">Speichern</button>
             </div>
         </div>
     </form>
