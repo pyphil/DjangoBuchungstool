@@ -24,7 +24,7 @@
     {% for list in lists %}
         <div class="row mb-4">
             <div class="col text-center">
-                <button type="submit" class="btn btn-primary col-4" name="selection" value="{{list.short_name}}">{{list.short_name}}: {{list.stunde}}. Std. {{list.lerngruppe}}</button>
+                <button type="submit" class="btn btn-primary col-4" name="selection" value="{{list.id}}">{{list.short_name}}: {{list.stunde}}. Std. {{list.lerngruppe}}</button>
             </div>
         </div>
     {% endfor %}

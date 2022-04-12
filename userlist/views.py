@@ -49,18 +49,16 @@ def entry(request):
 
     print(request.POST.get('selection'))
 
-    selection_query = Userlist.objects.filter(
-        short_name=request.POST.get('selection')
-    ).first()
+    selection_query = Userlist.objects.get(
+        id=request.POST.get('selection')
+    )
 
     selection = {
-        'short_name': request.POST.get('selection'),
-        'datum': selection_query.datum,
-        'stunde': selection_query.stunde
+        'short_name': selection_query.short_name,
+        'stunde': selection_query.stunde,
+        'lerngruppe': selection_query.lerngruppe
     }
-    request.session['short_name'] = request.POST.get('selection')
-    request.session['datum'] = str(selection_query.datum)
-    request.session['stunde'] = selection_query.stunde
+    request.session['id'] = request.POST.get('selection')
 
     numbers = [""]
     for i in range(1, 17):
@@ -68,7 +66,7 @@ def entry(request):
 
     return render(
         request, 'userlistEntry.html',
-        {'numbers': numbers, }
+        {'numbers': numbers, 'selection': selection}
     )
 
 
@@ -93,12 +91,16 @@ def success(request):
     pencil = request.POST.get('pencil')
     students = request.POST.get('students')
 
+    selection_query = Userlist.objects.get(
+            id=request.session.get('id')
+    )
+
     save_users_query = Booking.objects.filter(
-        room=request.session.get('short_name'),
-        datum=request.session.get('datum'),
-        stunde=request.session.get('stunde')
+        room=selection_query.short_name,
+        datum=selection_query.datum,
+        stunde=selection_query.stunde,
     ).first()
-    print(ipad)
+
     if ipad == "01":
         save_users_query.iPad_01 = pencil + "|" + students
     if ipad == "02":

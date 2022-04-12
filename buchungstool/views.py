@@ -98,16 +98,23 @@ def home(request):
         state = "off"
         if request.POST.get('freischalten') == "on":
             activate = Userlist(
-                short_name=room,
-                datum=entrydate,
-                stunde=int(entrystd),
-                lerngruppe=request.POST.get('lerngruppe')
-            )
+                    short_name=room,
+                    datum=entrydate,
+                    stunde=int(entrystd),
+                    lerngruppe=request.POST.get('lerngruppe')
+                )
             activate.save()
             state = "on"
-        elif request.POST.get('freischalten') == "off":
-            # TODO delete!
-            pass
+        elif request.POST.get('freischalten') == "off": 
+            delete = Userlist.objects.filter(
+                    short_name=room,
+                    datum=entrydate,
+                    stunde=int(entrystd),
+                ).first()
+            delete.delete()
+
+        state, userlist = getUserlist(room, entrydate, int(entrystd))
+
         return render(
             request, 'buchungstoolEntry.html',
             {
@@ -119,7 +126,8 @@ def home(request):
                 'date_series': getDateSeries(buttondate),
                 'std': entrystd,
                 'krzl': request.POST.get('krzl').upper()[:3],
-                'state': state,
+                'userlist': userlist,
+                'state': state
             }
         )
 
@@ -307,58 +315,12 @@ def eintrag(request):
     request.session['isodate'] = isodate
     request.session['date'] = date
 
-    userlist = []
-
     if buttontext == "frei":
         buttontext = ""
+        state = "off"
+        userlist = None
     else:
-        dbobject = Booking.objects.filter(
-            room=room,
-            datum=isodate,
-            stunde=std
-        ).first()
-        n = dbobject.iPad_01.split("|")
-        userlist.append({'iPad': "iPad 01", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_02.split("|")
-        userlist.append({'iPad': "iPad 02", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_03.split("|")
-        userlist.append({'iPad': "iPad 03", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_04.split("|")
-        userlist.append({'iPad': "iPad 04", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_05.split("|")
-        userlist.append({'iPad': "iPad 05", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_06.split("|")
-        userlist.append({'iPad': "iPad 06", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_07.split("|")
-        userlist.append({'iPad': "iPad 07", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_08.split("|")
-        userlist.append({'iPad': "iPad 08", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_09.split("|")
-        userlist.append({'iPad': "iPad 09", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_10.split("|")
-        userlist.append({'iPad': "iPad 10", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_11.split("|")
-        userlist.append({'iPad': "iPad 11", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_12.split("|")
-        userlist.append({'iPad': "iPad 12", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_13.split("|")
-        userlist.append({'iPad': "iPad 13", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_14.split("|")
-        userlist.append({'iPad': "iPad 14", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_15.split("|")
-        userlist.append({'iPad': "iPad 15", 'pencil': n[0], 'student': n[1]})
-        n = dbobject.iPad_16.split("|")
-        userlist.append({'iPad': "iPad 16", 'pencil': n[0], 'student': n[1]})
-
-        activated = Userlist.objects.filter(
-            short_name=dbobject.room,
-            datum=isodate,
-            stunde=std
-        ).first()
-        if activated:
-            print(activated.short_name)
-        else:
-            print("none")
+        state, userlist = getUserlist(room, isodate, std)
 
     date_series = getDateSeries(date)
     return render(
@@ -373,7 +335,7 @@ def eintrag(request):
             'krzl': krzl,
             'date_series': date_series,
             'userlist': userlist,
-            'state': "off"
+            'state': state
         }
     )
 
@@ -454,3 +416,55 @@ def getDateSeries(date, end=None):
         )
 
     return date_series
+
+def getUserlist(room, isodate, std):
+    userlist = []
+
+    dbobject = Booking.objects.filter(
+            room=room,
+            datum=isodate,
+            stunde=std
+    ).first()
+    n = dbobject.iPad_01.split("|")
+    userlist.append({'iPad': "iPad 01", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_02.split("|")
+    userlist.append({'iPad': "iPad 02", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_03.split("|")
+    userlist.append({'iPad': "iPad 03", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_04.split("|")
+    userlist.append({'iPad': "iPad 04", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_05.split("|")
+    userlist.append({'iPad': "iPad 05", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_06.split("|")
+    userlist.append({'iPad': "iPad 06", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_07.split("|")
+    userlist.append({'iPad': "iPad 07", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_08.split("|")
+    userlist.append({'iPad': "iPad 08", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_09.split("|")
+    userlist.append({'iPad': "iPad 09", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_10.split("|")
+    userlist.append({'iPad': "iPad 10", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_11.split("|")
+    userlist.append({'iPad': "iPad 11", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_12.split("|")
+    userlist.append({'iPad': "iPad 12", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_13.split("|")
+    userlist.append({'iPad': "iPad 13", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_14.split("|")
+    userlist.append({'iPad': "iPad 14", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_15.split("|")
+    userlist.append({'iPad': "iPad 15", 'pencil': n[0], 'student': n[1]})
+    n = dbobject.iPad_16.split("|")
+    userlist.append({'iPad': "iPad 16", 'pencil': n[0], 'student': n[1]})
+
+    activated = Userlist.objects.filter(
+        short_name=dbobject.room,
+        datum=isodate,
+        stunde=std
+    ).first()
+
+    if activated:
+        return "on", userlist
+    else:
+        return "off", userlist
