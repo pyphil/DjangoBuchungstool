@@ -336,7 +336,7 @@ def eintrag(request):
 
     if buttontext == "frei":
         buttontext = ""
-        state = "off"
+        state = None
         userlist = None
     else:
         state, userlist = getUserlist(room, isodate, std)

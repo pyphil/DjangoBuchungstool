@@ -81,6 +81,8 @@
       </div>
       {% endif %}
 
+      {% if state == None %}
+      {% else %}
       <div class="accordion mb-5" id="accordionUser"> 
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingOne">
@@ -139,6 +141,8 @@
           </div>
         </div>
       </div>
+      {% endif %}
+
       {% if alert %}
         <div class="alert alert-danger" role="alert">
           Das geht leider nicht. Folgende Termine sind bereits besetzt:
