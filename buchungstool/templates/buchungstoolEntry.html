@@ -84,7 +84,7 @@
       <div class="accordion mb-5" id="accordionUser"> 
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingOne">
-            {% if state %}
+            {% if accordion == "open" %}
             <button class="accordion-button" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
             {% else %}
@@ -95,24 +95,27 @@
             </button>
           </h2>
         
-          {% if state %}
+          {% if accordion == "open" %}
             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionSerie">
           {% else %}
             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSerie">
           {% endif %}
               <div class="accordion-body">
-                <div class="row">
+                <div class="row mb-4">
                   <div class="col">
                     Eintrag in die Nutzerliste für Schüler*innen freischalten: 
                     <div class="btn-group" role="group" aria-label="Freischalten">
                       {% if state == "on" %}
                       <button type="submit" name="freischalten" value="off" class="btn btn-outline-primary">OFF</button>
-                      <button type="button" name="freischalten" value="on" class="btn btn-primary">ON</button>
+                      <button type="button" name="freischalten" value="on" class="btn btn-primary" style="background-color: #fd0d0d; border-color: #fd0d0d">ON</button>
                       {% else %}
                       <button type="button" name="freischalten" value="off" class="btn btn-primary">OFF</button>
                       <button type="submit" name="freischalten" value="on" class="btn btn-outline-primary">ON</button>
                       {% endif %}
                     </div>
+                  </div>
+                  <div class="col-auto text-end">
+                    <button type="submit" name="freischalten" value="off" class="btn btn-success">Neu Laden</button>
                   </div>
                 </div>
                 {% for user in userlist %}
@@ -120,13 +123,13 @@
                     <div class="col-auto mb-4">
                       <label for="date"><strong>{{user.iPad}}</strong></label>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
                       <input type="text" class="form-control" name="pencil_{{user.iPad}}" value="{{user.pencil}}"><small>Stift</small>
                     </div>
-                    <div class="col-5">
+                    <div class="col">
                       <input type="text" class="form-control" name="student_{{user.iPad}}" value="{{user.student}}"><small>Schüler*innen (Vornamen mit Komma getrennt)</small>
                     </div>
-                    <div class="col mb-4">
+                    <div class="col-auto mb-4">
                       <button type="submit" class="btn btn-primary" name="submit_student" value="{{user.iPad}}">Speichern</button>
                     </div>
                   </div>

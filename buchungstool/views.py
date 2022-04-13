@@ -108,7 +108,8 @@ def home(request):
                 'std': entrystd,
                 'krzl': request.POST.get('krzl').upper()[:3],
                 'userlist': userlist,
-                'state': state
+                'state': state,
+                'accordion': "open"
             }
         )
 
@@ -144,7 +145,8 @@ def home(request):
                 'std': entrystd,
                 'krzl': request.POST.get('krzl').upper()[:3],
                 'userlist': userlist,
-                'state': state
+                'state': state,
+                'accordion': "open"
             }
         )
 
@@ -352,7 +354,8 @@ def eintrag(request):
             'krzl': krzl,
             'date_series': date_series,
             'userlist': userlist,
-            'state': state
+            'state': state,
+            'accordion': "closed"
         }
     )
 
