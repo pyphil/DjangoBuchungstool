@@ -17,7 +17,10 @@
     <h4 class="mb-3">{{selection.short_name}}: {{selection.stunde}}. Std. {{selection.lerngruppe}}</h3>
     <div class="row mb-4">
         <div class="col">
-            Alle, die an diesem iPad arbeiten, tragen bitte...
+            <p>Alle, die an diesem iPad arbeiten, übernehmen die Verantwortung dafür, dass diese Gerät im gleichen Zustand zurückgegeben wird, wie ihr es bekommen habt. 
+            <strong>Wenn Euch etwas am Gerät aufällt, meldet ihr dies direkt zu Beginn der Lehrkraft.</strong></p>
+
+            <p>Tragt Eure iPad-Nummer und die Stift-Nummer (wenn ihr einen benutzt, sonst leer lassen) hier ein:</p>
         </div>
     </div>
     <form action="{% url 'userlistSuccess' %}" method="POST">
@@ -29,7 +32,7 @@
                     <option value="{{number}}">{{number}}</option>
                   {% endfor %}
                 </select>
-                <small>iPad-Nr.</small>
+                <small><strong>iPad-Nr.</strong></small>
             </div>
             <div class="col-2">
                 <select name="pencil" class="form-select custom-width" aria-label="Default select example"> 
@@ -37,10 +40,10 @@
                     <option value="{{number}}">{{number}}</option>
                   {% endfor %}
                 </select>
-                <small>Stift-Nr.</small>
+                <small><strong>Stift-Nr.</strong></small>
             </div>
             <div class="col">
-                <input type="text" class="form-control" name="students"><small>Schüler*innen (Vornamen mit Komma getrennt, wenn nötig mit Anfangsbuchstabe des Nachnamens.)</small>
+                <input type="text" class="form-control" name="students"><small>Schüler*innen (<strong>Vornamen</strong> mit Komma getrennt, wenn nötig mit Anfangsbuchstabe des Nachnamens.)</small>
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary" name="selection" value="{{selection}}">Speichern</button>
