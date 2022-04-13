@@ -50,6 +50,9 @@ def home(request):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
+    if request.POST.get('reload'):
+        return eintrag(request, True)
+
     if request.POST.get('submit_student'):
         ipad_text = request.POST.get('submit_student')
         ipad = ipad_text.replace(" ", "_")
@@ -312,7 +315,7 @@ def home(request):
         return response
 
 
-def eintrag(request):
+def eintrag(request, accordion=None):
     # room = request.POST.get('room')
     # room_text = request.POST.get('room_text')
     room = request.session.get('room')
@@ -321,18 +324,34 @@ def eintrag(request):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
-    buttontext = request.POST.get('buttontext')
-    krzl = request.POST.get('buttonkrzl')
-    std = request.POST.get('buttonstd')
+    if accordion:
+        accordion = "open"
+    else:
+        accordion = "closed"
 
-    request.session['buttontext'] = buttontext
-    request.session['krzl'] = krzl
-    request.session['std'] = std
+    if request.POST.get('buttontext'):
+        buttontext = request.POST.get('buttontext')
+        request.session['buttontext'] = buttontext
+        krzl = request.POST.get('buttonkrzl')
+        request.session['krzl'] = krzl
+    else:
+        buttontext = request.session.get('buttontext')
+        krzl = request.session.get('krzl')
+    if request.POST.get('buttonstd'):
+        std = request.POST.get('buttonstd')
+        request.session['std'] = std
+    else:
+        std = request.session.get('std')
 
-    isodate = request.POST.get('button_isodate')
-    date = request.POST.get('button_date')
-    request.session['isodate'] = isodate
-    request.session['date'] = date
+    if request.POST.get('button_isodate'):
+        isodate = request.POST.get('button_isodate')
+        date = request.POST.get('button_date')
+        request.session['isodate'] = isodate
+        request.session['date'] = date
+    else:
+        isodate = request.session.get('isodate')
+        date = request.session.get('date')
+        
 
     if buttontext == "frei":
         buttontext = ""
@@ -355,7 +374,7 @@ def eintrag(request):
             'date_series': date_series,
             'userlist': userlist,
             'state': state,
-            'accordion': "closed"
+            'accordion': accordion
         }
     )
 
