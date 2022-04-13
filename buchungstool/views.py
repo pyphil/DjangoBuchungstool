@@ -94,16 +94,33 @@ def home(request):
             entry.iPad_16 = pencil + "|" + student
         entry.save()
 
+        state, userlist = getUserlist(room, entrydate, int(entrystd))
+
+        return render(
+            request, 'buchungstoolEntry.html',
+            {
+                'room': room,
+                'room_text': room_text,
+                'isodate': entrydate,
+                'date': buttondate,
+                'buttontext': request.POST.get('lerngruppe'),
+                'date_series': getDateSeries(buttondate),
+                'std': entrystd,
+                'krzl': request.POST.get('krzl').upper()[:3],
+                'userlist': userlist,
+                'state': state
+            }
+        )
+
     if request.POST.get('freischalten'):
         state = "off"
         if request.POST.get('freischalten') == "on":
-            activate = Userlist(
+            activate = Userlist.objects.get_or_create(
                     short_name=room,
                     datum=entrydate,
                     stunde=int(entrystd),
                     lerngruppe=request.POST.get('lerngruppe')
                 )
-            activate.save()
             state = "on"
         elif request.POST.get('freischalten') == "off": 
             delete = Userlist.objects.filter(
