@@ -171,7 +171,7 @@ def home(request):
         else:
             if selected_date == '0':
                 # Neue Buchung für einen Termin
-                new = Booking(
+                new = Booking.objects.get_or_create(
                     room=room,
                     lerngruppe=request.POST.get('lerngruppe'),
                     # datum=request.POST.get('date'),
@@ -179,7 +179,7 @@ def home(request):
                     stunde=entrystd,
                     krzl=request.POST.get('krzl').upper()[:3]
                 )
-                new.save()
+                # new.save()
             if selected_date != '0':
                 selected_series = getDateSeries(buttondate, int(selected_date))
                 # Serie auf besetzte Termine testen
