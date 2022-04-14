@@ -236,6 +236,13 @@ def home(request):
             stunde=int(entrystd)
         ).first()
         entry.delete()
+        delete_userlist_entry = Userlist.objects.filter(
+            short_name=room,
+            datum=entrydate,
+            stunde=int(entrystd),
+        ).first()
+        if delete_userlist_entry:
+            delete_userlist_entry.delete()
     elif request.POST.get('update'):
         entry = Booking.objects.filter(
             room=room,
