@@ -17,6 +17,11 @@
 <div class="container">
 	<h2>{{room_text}}</h2>
 	<label for="save" class="form-label">Klicke auf das Element, das du ändern möchstest:</label>
+	{% if room_text == "N107 - Niederzier kleiner Computerraum" %}
+	  <div class="alert alert-danger" role="alert">
+		ACHTUNG: Der kleine Computeraum ist ab dem <strong>23.5. bis zu den Sommerferien</strong> für die Büchersammlung gesperrt. In diesem Zeitraum nicht buchen.
+	  </div>
+	{% endif %}
 
 	<div class="card">
 		<div class="card-header">
@@ -27,8 +32,8 @@
 						<button type="submit" class="btn btn-secondary text-dark" style="background-color: #ffffff;"><i class="bi bi-calendar2-minus">&ensp;</i>Vorherige Woche</button>
 						<input type="hidden" name="direction" value="back" />
 						<input type="hidden" name="currentdate_nav" value="{{ currentdate }}">
-						<input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}">
+						<!-- <input type="hidden" name="room" value="{{ room }}">
+						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				</div>
 				<div class="col-6 text-center">
@@ -37,8 +42,8 @@
 						<label for="start">Springe zu:</label>
 						<input type="date" id="start" name="currentdate" class="btn btn-secondary text-dark custom-width" style="background-color: #ffffff;" value="{{ currentdate }}">
 						<input type="submit" value="OK" class="btn btn-secondary text-dark" style="background-color: #ffffff;">
-						<input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}">
+						<!-- <input type="hidden" name="room" value="{{ room }}">
+						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				</div>
 				<div class="col text-center">
@@ -47,8 +52,8 @@
 						<button type="submit" class="btn btn-secondary text-dark" style="background-color: #ffffff;">Nächste Woche&ensp;<i class="bi bi-calendar2-plus"></i></button>
 						<input type="hidden" name="direction" value="forward" />
 						<input type="hidden" name="currentdate_nav" value="{{ currentdate }}">
-						<input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}">
+						<!-- <input type="hidden" name="room" value="{{ room }}">
+						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				</div>
 			</div>
@@ -90,8 +95,8 @@
 						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
 						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
 						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}">
+						<!-- <input type="hidden" name="room" value="{{ room }}">
+						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -120,8 +125,8 @@
 						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
 						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
 						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}">
+						<!-- <input type="hidden" name="room" value="{{ room }}">
+						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -150,8 +155,8 @@
 						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
 						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
 						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}">
+						<!-- <input type="hidden" name="room" value="{{ room }}">
+						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -180,8 +185,8 @@
 						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
 						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
 						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}">
+						<!-- <input type="hidden" name="room" value="{{ room }}">
+						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -210,8 +215,8 @@
 						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
 						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
 						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}">
+						<!-- <input type="hidden" name="room" value="{{ room }}">
+						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -240,8 +245,8 @@
 						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
 						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
 						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}">
+						<!-- <input type="hidden" name="room" value="{{ room }}">
+						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -270,8 +275,8 @@
 						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
 						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
 						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}">
+						<!-- <input type="hidden" name="room" value="{{ room }}">
+						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}

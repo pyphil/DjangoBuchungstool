@@ -30,11 +30,18 @@ def rooms(request):
 
 
 def home(request):
-    entrydate = request.POST.get('date')
-    buttondate = request.POST.get('buttondate')
-    entrystd = request.POST.get('std')
-    room = request.POST.get('room')
-    room_text = request.POST.get('room_text')
+    entrydate = request.session.get('isodate')
+    buttondate = request.session.get('date')
+    entrystd = request.session.get('std')
+
+    if request.POST.get('room'):
+        room = request.POST.get('room')
+        room_text = request.POST.get('room_text')
+        request.session['room'] = room
+        request.session['room_text'] = room_text
+    else:
+        room = request.session.get('room')
+        room_text = request.session.get('room_text')
 
     if room is None:
         return redirect('/')
@@ -63,14 +70,15 @@ def home(request):
         else:
             if selected_date == '0':
                 # Neue Buchung für einen Termin
-                new = Booking(
+                new = Booking.objects.get_or_create(
                     room=room,
                     lerngruppe=request.POST.get('lerngruppe'),
-                    datum=request.POST.get('date'),
+                    # datum=request.POST.get('date'),
+                    datum=request.session.get('isodate'),
                     stunde=entrystd,
                     krzl=request.POST.get('krzl').upper()[:3]
                 )
-                new.save()
+                # new.save()
             if selected_date != '0':
                 selected_series = getDateSeries(buttondate, int(selected_date))
                 # Serie auf besetzte Termine testen
@@ -204,8 +212,10 @@ def home(request):
 
 
 def eintrag(request):
-    room = request.POST.get('room')
-    room_text = request.POST.get('room_text')
+    # room = request.POST.get('room')
+    # room_text = request.POST.get('room_text')
+    room = request.session.get('room')
+    room_text = request.session.get('room_text')
 
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
@@ -214,11 +224,18 @@ def eintrag(request):
     krzl = request.POST.get('buttonkrzl')
     std = request.POST.get('buttonstd')
 
+    request.session['buttontext'] = buttontext
+    request.session['krzl'] = krzl
+    request.session['std'] = std
+
     if buttontext == "frei":
         buttontext = ""
 
     isodate = request.POST.get('button_isodate')
     date = request.POST.get('button_date')
+    request.session['isodate'] = isodate
+    request.session['date'] = date
+
     date_series = getDateSeries(date)
     return render(
         request, 'buchungstoolEntry.html',
@@ -246,18 +263,22 @@ def getWeekCalendar(request, direction=None):
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
         offset = 0
+        print("currentdate")
     elif request.POST.get('currentdate_nav'):
         currentdate = request.POST.get('currentdate_nav')
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
+        print("nav")
     elif request.POST.get('date'):
         offset = 0
         currentdate = request.POST.get('date')
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
+        print("date")
     else:
         currentdate = datetime.date.today()
         offset = 0
+        print("today")
 
     # Starts with knowing the day of the week
     # .weekday statt [2] funktioniert erst ab Python 3.9
