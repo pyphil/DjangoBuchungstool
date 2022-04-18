@@ -31,6 +31,12 @@ def rooms(request):
 
 
 def home(request):
+    if not request.session.get('has_access'):
+        return render(request, 'buchungstoolNoAccess.html',)
+
+    if request.POST.get('reload'):
+        return eintrag(request, True)
+
     entrydate = request.session.get('isodate')
     buttondate = request.session.get('date')
     entrystd = request.session.get('std')
@@ -46,12 +52,6 @@ def home(request):
 
     if room is None:
         return redirect('/')
-
-    if not request.session.get('has_access'):
-        return render(request, 'buchungstoolNoAccess.html',)
-
-    if request.POST.get('reload'):
-        return eintrag(request, True)
 
     if request.POST.get('submit_student'):
         ipad_text = request.POST.get('submit_student')
@@ -357,8 +357,7 @@ def eintrag(request, accordion=None):
         request.session['date'] = date
     else:
         isodate = request.session.get('isodate')
-        date = request.session.get('date')
-        
+        date = request.session.get('date')      
 
     if buttontext == "frei":
         buttontext = ""
@@ -462,6 +461,7 @@ def getDateSeries(date, end=None):
         )
 
     return date_series
+
 
 def getUserlist(room, isodate, std):
     userlist = []
