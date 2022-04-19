@@ -504,11 +504,17 @@ def getUserlist(room, isodate, std):
     n = dbobject.iPad_16.split("|")
     userlist.append({'iPad': "iPad 16", 'pencil': n[0], 'student': n[1]})
 
+    # delete old entries
+    lists = Userlist.objects.all()
+    for i in lists:
+        if i.datum < datetime.datetime.now().date():
+            i.delete()
+
     activated = Userlist.objects.filter(
         short_name=dbobject.room,
         datum=isodate,
         stunde=std
-    ).first()
+    ).exists()
 
     if activated:
         return "on", userlist

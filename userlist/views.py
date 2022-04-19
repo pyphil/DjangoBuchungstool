@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect
 from buchungstool.models import Booking
 from buchungstool.models import Room
@@ -24,9 +25,18 @@ def select(request):
 
     lists = Userlist.objects.all()
 
+    lists_filtered = []
+    for i in lists:
+        print(i.datum)
+        if i.datum < datetime.now().date():
+            print("delete")
+        elif i.datum == datetime.now().date():
+            print("show")
+            lists_filtered.append(i)
+
     return render(
         request, 'userlistSelect.html',
-        {'lists': lists}
+        {'lists': lists_filtered}
     )
 
 
