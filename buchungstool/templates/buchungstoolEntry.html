@@ -106,7 +106,7 @@
                 <div class="row mb-4">
                   <div class="col">
                     Eintrag in die Nutzerliste für Schüler*innen freischalten: 
-                    <div class="btn-group" role="group" aria-label="Freischalten">
+                    <div class="btn-group" role="group" aria-label="Freischalten" title="Für die SuS ist der Eintrag nur am Tag der Buchung zu sehen. Der Eintrag sollte aber nur kurz während der Stunde frei- und wieder ausgeschaltet werden.">
                       {% if state == "on" %}
                       <button type="submit" name="freischalten" value="off" class="btn btn-outline-primary">OFF</button>
                       <button type="button" name="freischalten" value="on" class="btn btn-primary" style="background-color: #fd0d0d; border-color: #fd0d0d">ON</button>
@@ -117,7 +117,7 @@
                     </div>
                   </div>
                   <div class="col-auto text-end">
-                    <button type="submit" name="reload" value="reload" class="btn btn-success">Neu Laden</button>
+                    <button type="submit" name="reload" value="reload" class="btn btn-success" title="Die Seite neu laden, um Änderungen durch die SuS hier anzuzeigen">Neu Laden</button>
                   </div>
                 </div>
                 {% for user in userlist %}

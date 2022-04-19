@@ -23,20 +23,23 @@ def select(request):
     elif request.GET.get('access') and request.session.get('has_access'):
         return redirect('/')
 
-    lists = Userlist.objects.all()
+    # only show objects with today's date
+    lists = Userlist.objects.filter(
+        datum=datetime.now().date()
+    )
 
-    lists_filtered = []
-    for i in lists:
-        print(i.datum)
-        if i.datum < datetime.now().date():
-            print("delete")
-        elif i.datum == datetime.now().date():
-            print("show")
-            lists_filtered.append(i)
+    # lists_filtered = []
+    # for i in lists:
+    #     # delete old entries
+    #     if i.datum < datetime.now().date():
+    #         i.delete()
+    #     # make new list with today's objects
+    #     elif i.datum == datetime.now().date():
+    #         lists_filtered.append(i)
 
     return render(
         request, 'userlistSelect.html',
-        {'lists': lists_filtered}
+        {'lists': lists}
     )
 
 
