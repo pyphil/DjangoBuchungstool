@@ -8,20 +8,20 @@ from .models import Userlist
 # Create your views here.
 def select(request):
     # Zugriff nur mit access key in production
-    if not request.session.get('has_access'):
+    if not request.session.get('student_access'):
         try:
             from .production_access import ACCESSKEY
         except ImportError:
             # development
-            request.session['has_access'] = True
+            request.session['student_access'] = True
         else:
             if request.GET.get('access') != ACCESSKEY:
                 return render(request, 'buchungstoolNoAccess.html')
             else:
-                request.session['has_access'] = True
-                return redirect('/')
-    elif request.GET.get('access') and request.session.get('has_access'):
-        return redirect('/')
+                request.session['student_access'] = True
+                return redirect('/userlist/select/')
+    elif request.GET.get('access') and request.session.get('student_access'):
+        return redirect('/userlist/select/')
 
     # only show objects with today's date
     lists = Userlist.objects.filter(
@@ -45,22 +45,8 @@ def select(request):
 
 def entry(request):
     # Zugriff nur mit access key in production
-    if not request.session.get('has_access'):
-        try:
-            from .production_access import ACCESSKEY
-        except ImportError:
-            # development
-            request.session['has_access'] = True
-        else:
-            if request.GET.get('access') != ACCESSKEY:
-                return render(request, 'buchungstoolNoAccess.html')
-            else:
-                request.session['has_access'] = True
-                return redirect('/')
-    elif request.GET.get('access') and request.session.get('has_access'):
-        return redirect('/')
-
-    print(request.POST.get('selection'))
+    if not request.session.get('student_access'):
+        return render(request, 'buchungstoolNoAccess.html',)
 
     selection_query = Userlist.objects.get(
         id=request.POST.get('selection')
@@ -85,20 +71,8 @@ def entry(request):
 
 def success(request):
     # Zugriff nur mit access key in production
-    if not request.session.get('has_access'):
-        try:
-            from .production_access import ACCESSKEY
-        except ImportError:
-            # development
-            request.session['has_access'] = True
-        else:
-            if request.GET.get('access') != ACCESSKEY:
-                return render(request, 'buchungstoolNoAccess.html')
-            else:
-                request.session['has_access'] = True
-                return redirect('/')
-    elif request.GET.get('access') and request.session.get('has_access'):
-        return redirect('/')
+    if not request.session.get('student_access'):
+        return render(request, 'buchungstoolNoAccess.html',)
 
     ipad = request.POST.get('iPad')
     pencil = request.POST.get('pencil')
