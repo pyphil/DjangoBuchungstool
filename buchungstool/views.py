@@ -428,8 +428,8 @@ def getWeekCalendar(request, direction=None):
     start_date = start_date + datetime.timedelta(days=offset)
 
     # Prints the list of dates in a current week
-    weekdays = ["Mo, ", "Di, ", "Mi, ", "Do, ", "Fr, ", "Sa, ", "So, "]
-    # weekdays = ["Mo, ", "Di, ", "Mi, ", "Do, ", "Fr, "]
+    # weekdays = ["Mo, ", "Di, ", "Mi, ", "Do, ", "Fr, ", "Sa, ", "So, "]
+    weekdays = ["Mo, ", "Di, ", "Mi, ", "Do, ", "Fr, "]
     dates = []
     i = 1
     for day in weekdays:
