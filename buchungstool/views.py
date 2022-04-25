@@ -123,7 +123,8 @@ def home(request):
                     short_name=room,
                     datum=entrydate,
                     stunde=int(entrystd),
-                    lerngruppe=request.POST.get('lerngruppe')
+                    lerngruppe=request.POST.get('lerngruppe'),
+                    krzl=request.POST.get('krzl').upper()[:3]
                 )
             state = "on"
         elif request.POST.get('freischalten') == "off": 

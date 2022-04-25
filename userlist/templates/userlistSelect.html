@@ -21,7 +21,7 @@
     </div>
     <div class="row mb-4">
         <div class="col-auto mt-2">
-            Es wird Euch noch nichts angezeigt? Dann müsst Ihr eventuell hier 
+            Es wird Euch noch nichts Passendes angezeigt? Dann müsst Ihr eventuell hier
         </div>
         <div class="col">
             <form action="">
@@ -34,7 +34,7 @@
     {% for list in lists %}
         <div class="row mb-4">
             <div class="col text-center">
-                <button type="submit" class="btn btn-primary col-4" name="selection" value="{{list.id}}">{{list.short_name}}: {{list.stunde}}. Std. {{list.lerngruppe}}</button>
+                <button type="submit" class="btn btn-primary col-4" name="selection" value="{{list.id}}">{{list.short_name}}: {{list.stunde}}. Std. {{list.krzl}} - {{list.lerngruppe}}</button>
             </div>
         </div>
     {% endfor %}
