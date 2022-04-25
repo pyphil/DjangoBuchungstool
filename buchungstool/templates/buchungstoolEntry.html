@@ -11,7 +11,7 @@
 	}
 </style>
 
-{% extends 'base.html' %}  
+{% extends 'base.html' %}
 {% block content %}
 
 <div class="container">
@@ -78,14 +78,93 @@
             </div>
           </div>
         </div>
+      </div>
+      {% endif %}
+
+      {% if state == None %}
+      {% else %}
+      <div class="accordion mb-5" id="accordionUser"> 
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            {% if accordion == "open" %}
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            {% else %}
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            {% endif %}
+            Nutzerliste
+            </button>
+          </h2>
+        
+          {% if accordion == "open" %}
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionSerie">
+          {% else %}
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSerie">
+          {% endif %}
+              <div class="accordion-body">
+                <div class="row mb-4">
+                  <div class="col">
+                    Eintrag in die Nutzerliste für Schüler*innen freischalten: 
+                    <div class="btn-group" role="group" aria-label="Freischalten">
+                      {% if state == "on" %}
+                      <button type="submit" name="freischalten" value="off" class="btn btn-outline-primary">OFF</button>
+                      <button type="button" name="freischalten" value="on" class="btn btn-primary" style="background-color: #fd0d0d; border-color: #fd0d0d">ON</button>
+                      {% else %}
+                      <button type="button" name="freischalten" value="off" class="btn btn-primary">OFF</button>
+                      <button type="submit" name="freischalten" value="on" class="btn btn-outline-primary">ON</button>
+                      {% endif %}
+                    </div>
+                    <i class="bi bi-info-circle" data-bs-toggle="popover" data-bs-placement="right" title="Nutzerliste freischalten" data-bs-content="Für die Schüler*innen ist der Eintrag nur am Tag der Buchung zu sehen. Der Eintrag sollte aber nur kurz während der Stunde frei- und wieder ausgeschaltet werden."></i>  
+                    <script>
+                      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                      return new bootstrap.Tooltip(tooltipTriggerEl)
+                      })
+                    </script>
+                  </div>
+                  <div class="col-auto text-end">
+                    <button type="submit" name="reload" value="reload" class="btn btn-success"><i class="bi bi-arrow-clockwise"> </i>Neu Laden</button>
+                    <i class="bi bi-info-circle" data-bs-toggle="popover" data-bs-placement="bottom" title="Neu laden" data-bs-content="Neu laden, um aktuelle Einträge der Schüler*innen zu sehen."></i>
+                  </div>
+                  <script>
+                    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+                    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                      return new bootstrap.Popover(popoverTriggerEl)
+                    })
+                  </script>
+                </div>
+                {% for user in userlist %}
+                  <div class="row align-items-center mt-2">
+                    <div class="col-auto mb-4">
+                      <label for="date"><strong>{{user.iPad}}</strong></label>
+                    </div>
+                    <div class="col-2">
+                      <input type="text" class="form-control" name="pencil_{{user.iPad}}" value="{{user.pencil}}"><small>Stift</small>
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" name="student_{{user.iPad}}" value="{{user.student}}"><small>Schüler*innen (Vornamen mit Komma getrennt)</small>
+                    </div>
+                    <div class="col-auto mb-4">
+                      <button type="submit" class="btn btn-primary" name="submit_student" value="{{user.iPad}}">Speichern</button>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
       {% if alert %}
         <div class="alert alert-danger" role="alert">
           Das geht leider nicht. Folgende Termine sind bereits besetzt:
           {{ blocked_dates }} <br>
           Du kannst den ersten Termin buchen oder die Serie anpassen.
         </div>
-        {% endif %}
-        {% endif %}
+      {% endif %}
+        
         {% if warning_empty %}
           <div class="alert alert-danger" role="alert">
             Die Felder "Kürzel" und "Lerngruppe" müssen gefüllt sein.
