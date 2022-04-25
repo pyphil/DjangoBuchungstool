@@ -19,6 +19,16 @@
             bitte wählt hier den Tabletkoffer, zu dem Euer iPad gehört. Eure Lehrer*innen schalten euch hier die Eingabe in die iPad-Nutzerliste frei.
         </div>
     </div>
+    <div class="row mb-4">
+        <div class="col-auto mt-2">
+            Es wird Euch noch nichts angezeigt? Dann müsst Ihr eventuell hier 
+        </div>
+        <div class="col">
+            <form action="">
+                <button type="submit" class="btn btn-success">Neu laden</button>
+            </form>
+        </div>
+    </div>
     <form action="{% url 'userlistEntry' %}" method="POST">
     {% csrf_token %}
     {% for list in lists %}
