@@ -7,4 +7,4 @@ class Userlist(models.Model):
     lerngruppe = models.CharField(max_length=30)
     datum = models.DateField()
     stunde = models.IntegerField()
-    krzl = models.CharField(max_length=3)
+    krzl = models.CharField(blank=True, max_length=3)
