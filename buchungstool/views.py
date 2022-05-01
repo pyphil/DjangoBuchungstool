@@ -119,19 +119,21 @@ def home(request):
     if request.POST.get('freischalten'):
         state = "off"
         if request.POST.get('freischalten') == "on":
-            activate = Userlist.objects.get_or_create(
-                    short_name=room,
-                    datum=entrydate,
-                    stunde=int(entrystd),
-                    lerngruppe=request.POST.get('lerngruppe')
-                )
+            Userlist.objects.get_or_create(
+                short_name=room,
+                datum=entrydate,
+                stunde=int(entrystd),
+                lerngruppe=request.POST.get('lerngruppe'),
+                krzl=request.POST.get('krzl').upper()[:3],
+                created=datetime.datetime.now()
+            )
             state = "on"
-        elif request.POST.get('freischalten') == "off": 
+        elif request.POST.get('freischalten') == "off":
             delete = Userlist.objects.filter(
-                    short_name=room,
-                    datum=entrydate,
-                    stunde=int(entrystd),
-                ).first()
+                short_name=room,
+                datum=entrydate,
+                stunde=int(entrystd),
+            ).first()
             delete.delete()
 
         state, userlist = getUserlist(room, entrydate, int(entrystd))
@@ -357,7 +359,7 @@ def eintrag(request, accordion=None):
         request.session['date'] = date
     else:
         isodate = request.session.get('isodate')
-        date = request.session.get('date')      
+        date = request.session.get('date')
 
     if buttontext == "frei":
         buttontext = ""
@@ -467,9 +469,9 @@ def getUserlist(room, isodate, std):
     userlist = []
 
     dbobject = Booking.objects.filter(
-            room=room,
-            datum=isodate,
-            stunde=std
+        room=room,
+        datum=isodate,
+        stunde=std
     ).first()
     n = dbobject.iPad_01.split("|")
     userlist.append({'iPad': "iPad 01", 'pencil': n[0], 'student': n[1]})
@@ -504,10 +506,11 @@ def getUserlist(room, isodate, std):
     n = dbobject.iPad_16.split("|")
     userlist.append({'iPad': "iPad 16", 'pencil': n[0], 'student': n[1]})
 
-    # delete old entries
+    # delete objects that are more than 20 min old
     lists = Userlist.objects.all()
     for i in lists:
-        if i.datum < datetime.datetime.now().date():
+        diff = datetime.datetime.now() - i.created.replace(tzinfo=None)
+        if diff.total_seconds()/60 > 20:
             i.delete()
 
     activated = Userlist.objects.filter(
