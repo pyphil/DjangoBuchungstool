@@ -109,8 +109,15 @@
               {% endif %}
               <div class="accordion-body">
                 <div class="row mb-4">
+                  <div class="alert alert-info">
+                    <h5>Digitaler Eintrag in die Nutzerliste</h5> 
+                    Die Schüler*innen tragen sich auf dem iPad mit der App "Nutzerliste" ein. Lehrer*innen schalten diese Liste 
+                    vorher frei. Die Schüler*innen wählen den richtigen Koffer/Unterricht aus (nur falls mehrere parallele Freischaltungen offen sind) und tragen 
+                    sich mit den Vornamen (ggf. erster Buchstabe des Nachnamens) ein. In der unten stehenden Liste sieht man (evtl. "Neu laden") die Eintragungen 
+                    und kann ggf. selbst bei einzelnen Einträgen nachtragen und Speichern.
+                  </div>
                   <div class="col">
-                    Eintrag in die Nutzerliste für Schüler*innen freischalten:
+                    Eintrag in die Nutzerliste für Schüler*innen freischalten (20 min):
                     <div class="btn-group" role="group" aria-label="Freischalten">
                       {% if state == "on" %}
                       <button type="submit" name="freischalten" value="off" class="btn btn-outline-primary">OFF</button>
