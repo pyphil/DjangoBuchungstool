@@ -8,3 +8,4 @@ class Userlist(models.Model):
     datum = models.DateField()
     stunde = models.IntegerField()
     krzl = models.CharField(blank=True, max_length=3)
+    created = models.DateTimeField(blank=True, null=True)
