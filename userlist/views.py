@@ -53,7 +53,9 @@ def entry(request):
     selection = {
         'short_name': selection_query.short_name,
         'stunde': selection_query.stunde,
-        'lerngruppe': selection_query.lerngruppe
+        'lerngruppe': selection_query.lerngruppe,
+        'krzl': selection_query.krzl
+
     }
     request.session['id'] = request.POST.get('selection')
 
