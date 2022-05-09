@@ -28,6 +28,7 @@
                                         value="{{ room.room }} - {{ room.description }}">{{ room.description }}
                                         - {{ room.room }}</button><br>
                                 <input type="hidden" name="room" value="{{ room.short_name }}" />
+                                <input type="hidden" name="room_alert" value="{{ room.alert }}" />
                             </form>
                         {% endif %}
                     {% endfor %}
@@ -45,6 +46,8 @@
                                         value="{{ room.room }} - {{ room.description }}">{{ room.description }}
                                         - {{ room.room }}</button><br>
                                 <input type="hidden" name="room" value="{{ room.short_name }}" />
+                                
+                                <input type="hidden" name="room_alert" value="{{ room.alert }}" />
                             </form>
                         {% endif %}
                     {% endfor %}
@@ -64,6 +67,7 @@
                                         value="{{ room.room }} - {{ room.description }}">{{ room.description }}
                                         - {{ room.room }}</button><br>
                                 <input type="hidden" name="room" value="{{ room.short_name }}" />
+                                <input type="hidden" name="room_alert" value="{{ room.alert }}" />
                             </form>
                         {% endif %}
                     {% endfor %}
@@ -80,6 +84,7 @@
                                         value="{{ room.room }} - {{ room.description }}">{{ room.description }}
                                         - {{ room.room }}</button><br>
                                 <input type="hidden" name="room" value="{{ room.short_name }}" />
+                                <input type="hidden" name="room_alert" value="{{ room.alert }}" />
                             </form>
                         {% endif %}
                     {% endfor %}

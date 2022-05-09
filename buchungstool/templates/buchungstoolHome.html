@@ -17,9 +17,11 @@
 <div class="container">
 	<h2>{{room_text}}</h2>
 	<label for="save" class="form-label">Klicke auf das Element, das du ändern möchstest:</label>
-	{% if room_text == "N107 - Niederzier kleiner Computerraum" %}
+	
+	
+	{% if room_alert %}
 	  <div class="alert alert-danger" role="alert">
-		ACHTUNG: Der kleine Computeraum ist ab dem <strong>23.5. bis zu den Sommerferien</strong> für die Büchersammlung gesperrt. In diesem Zeitraum nicht buchen.
+		{{ room_alert|safe }}
 	  </div>
 	{% endif %}
 
