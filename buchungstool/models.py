@@ -1,4 +1,5 @@
 from django.db import models
+from tinymce.models import HTMLField
 
 # Create your models here.
 
@@ -32,3 +33,4 @@ class Room(models.Model):
     room = models.CharField(max_length=50)
     description = models.CharField(max_length=100)
     card = models.IntegerField()
+    alert = HTMLField(blank=True)

@@ -44,11 +44,14 @@ def home(request):
     if request.POST.get('room'):
         room = request.POST.get('room')
         room_text = request.POST.get('room_text')
+        room_alert = request.POST.get('room_alert')
         request.session['room'] = room
         request.session['room_text'] = room_text
+        request.session['room_alert'] = room_alert
     else:
         room = request.session.get('room')
         room_text = request.session.get('room_text')
+        room_alert = request.session.get('room_alert')
 
     if room is None:
         return redirect('/')
@@ -315,6 +318,7 @@ def home(request):
             {
                 'room': room,
                 'room_text': room_text,
+                'room_alert': room_alert,
                 'dates': dates,
                 'btncontent': btncontent,
                 'currentdate': currentdate
