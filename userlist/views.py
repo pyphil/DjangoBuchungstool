@@ -1,7 +1,6 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
 from buchungstool.models import Booking
-from buchungstool.models import Room
 from .models import Userlist
 
 
