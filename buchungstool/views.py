@@ -71,7 +71,7 @@ def home(request):
         obj = f.save(commit=False)
         # wenn Feld nicht leer, speichern
         # fields = []
-        obj.save(['iPad_02'])
+        obj.save()
 
         # if ipad == "iPad_01":
         #     entry.iPad_01 = pencil + "|" + student
@@ -380,6 +380,7 @@ def eintrag(request, accordion=None):
         state, userlist = getUserlist(room, isodate, std)
 
     date_series = getDateSeries(date)
+
     return render(
         request, 'buchungstoolEntry.html',
         {
