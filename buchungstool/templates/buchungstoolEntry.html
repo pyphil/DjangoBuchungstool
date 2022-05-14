@@ -145,25 +145,25 @@
                     })
                   </script>
                 </div>
-                {% for user in userlist %}
+                
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-4">
-                    <label for="date"><strong>{{user.iPad}}</strong></label>
+                    {{ userlist.as_p }}
+                    <!-- <label for="date"><strong>{{user.iPad}}</strong></label> -->
                   </div>
-                  <div class="col-2">
+                  <!-- <div class="col-2">
                     <input type="text" class="form-control" name="pencil_{{user.iPad}}"
                       value="{{user.pencil}}"><small>Stift</small>
                   </div>
                   <div class="col">
                     <input type="text" class="form-control" name="student_{{user.iPad}}"
                       value="{{user.student}}"><small>Schüler*innen (Vornamen mit Komma getrennt)</small>
-                  </div>
+                  </div> -->
                   <div class="col-auto mb-4">
-                    <button type="submit" class="btn btn-primary" name="submit_student"
-                      value="{{user.iPad}}">Speichern</button>
+                    <button type="submit" class="btn btn-primary" name="submit_student">Speichern</button>
                   </div>
                 </div>
-                {% endfor %}
+
               </div>
             </div>
           </div>

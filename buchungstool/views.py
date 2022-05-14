@@ -1,6 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Booking
-from .models import Room
+from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
 import datetime
 
@@ -31,6 +30,7 @@ def rooms(request):
 
 
 def home(request):
+    print(request.POST)
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
@@ -57,48 +57,55 @@ def home(request):
         return redirect('/')
 
     if request.POST.get('submit_student'):
-        ipad_text = request.POST.get('submit_student')
-        ipad = ipad_text.replace(" ", "_")
-        pencil = request.POST.get("pencil_"+ipad_text)
-        student = request.POST.get("student_"+ipad_text).replace("|", ",")
-        entry = Booking.objects.filter(
+        print('submit')
+        # ipad_text = request.POST.get('submit_student')
+        # ipad = ipad_text.replace(" ", "_")
+        # pencil = request.POST.get("pencil_"+ipad_text)
+        # student = request.POST.get("student_"+ipad_text).replace("|", ",")
+        entry = Booking.objects.get(
             room=room,
             datum=entrydate,
             stunde=int(entrystd)
-        ).first()
-        if ipad == "iPad_01":
-            entry.iPad_01 = pencil + "|" + student
-        if ipad == "iPad_02":
-            entry.iPad_02 = pencil + "|" + student
-        if ipad == "iPad_03":
-            entry.iPad_03 = pencil + "|" + student
-        if ipad == "iPad_04":
-            entry.iPad_04 = pencil + "|" + student
-        if ipad == "iPad_05":
-            entry.iPad_05 = pencil + "|" + student
-        if ipad == "iPad_06":
-            entry.iPad_06 = pencil + "|" + student
-        if ipad == "iPad_07":
-            entry.iPad_07 = pencil + "|" + student
-        if ipad == "iPad_08":
-            entry.iPad_08 = pencil + "|" + student
-        if ipad == "iPad_09":
-            entry.iPad_09 = pencil + "|" + student
-        if ipad == "iPad_10":
-            entry.iPad_10 = pencil + "|" + student
-        if ipad == "iPad_11":
-            entry.iPad_11 = pencil + "|" + student
-        if ipad == "iPad_12":
-            entry.iPad_12 = pencil + "|" + student
-        if ipad == "iPad_13":
-            entry.iPad_13 = pencil + "|" + student
-        if ipad == "iPad_14":
-            entry.iPad_14 = pencil + "|" + student
-        if ipad == "iPad_15":
-            entry.iPad_15 = pencil + "|" + student
-        if ipad == "iPad_16":
-            entry.iPad_16 = pencil + "|" + student
-        entry.save()
+        )
+        f = BookingFormIpad(request.POST, instance=entry)
+        obj = f.save(commit=False)
+        # wenn Feld nicht leer, speichern
+        # fields = []
+        obj.save(['iPad_02'])
+
+        # if ipad == "iPad_01":
+        #     entry.iPad_01 = pencil + "|" + student
+        # if ipad == "iPad_02":
+        #     entry.iPad_02 = pencil + "|" + student
+        # if ipad == "iPad_03":
+        #     entry.iPad_03 = pencil + "|" + student
+        # if ipad == "iPad_04":
+        #     entry.iPad_04 = pencil + "|" + student
+        # if ipad == "iPad_05":
+        #     entry.iPad_05 = pencil + "|" + student
+        # if ipad == "iPad_06":
+        #     entry.iPad_06 = pencil + "|" + student
+        # if ipad == "iPad_07":
+        #     entry.iPad_07 = pencil + "|" + student
+        # if ipad == "iPad_08":
+        #     entry.iPad_08 = pencil + "|" + student
+        # if ipad == "iPad_09":
+        #     entry.iPad_09 = pencil + "|" + student
+        # if ipad == "iPad_10":
+        #     entry.iPad_10 = pencil + "|" + student
+        # if ipad == "iPad_11":
+        #     entry.iPad_11 = pencil + "|" + student
+        # if ipad == "iPad_12":
+        #     entry.iPad_12 = pencil + "|" + student
+        # if ipad == "iPad_13":
+        #     entry.iPad_13 = pencil + "|" + student
+        # if ipad == "iPad_14":
+        #     entry.iPad_14 = pencil + "|" + student
+        # if ipad == "iPad_15":
+        #     entry.iPad_15 = pencil + "|" + student
+        # if ipad == "iPad_16":
+        #     entry.iPad_16 = pencil + "|" + student
+        # entry.save()
 
         state, userlist = getUserlist(room, entrydate, int(entrystd))
 
@@ -472,43 +479,46 @@ def getDateSeries(date, end=None):
 def getUserlist(room, isodate, std):
     userlist = []
 
-    dbobject = Booking.objects.filter(
+    dbobject = Booking.objects.get(
         room=room,
         datum=isodate,
         stunde=std
-    ).first()
-    n = dbobject.iPad_01.split("|")
-    userlist.append({'iPad': "iPad 01", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_02.split("|")
-    userlist.append({'iPad': "iPad 02", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_03.split("|")
-    userlist.append({'iPad': "iPad 03", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_04.split("|")
-    userlist.append({'iPad': "iPad 04", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_05.split("|")
-    userlist.append({'iPad': "iPad 05", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_06.split("|")
-    userlist.append({'iPad': "iPad 06", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_07.split("|")
-    userlist.append({'iPad': "iPad 07", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_08.split("|")
-    userlist.append({'iPad': "iPad 08", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_09.split("|")
-    userlist.append({'iPad': "iPad 09", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_10.split("|")
-    userlist.append({'iPad': "iPad 10", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_11.split("|")
-    userlist.append({'iPad': "iPad 11", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_12.split("|")
-    userlist.append({'iPad': "iPad 12", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_13.split("|")
-    userlist.append({'iPad': "iPad 13", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_14.split("|")
-    userlist.append({'iPad': "iPad 14", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_15.split("|")
-    userlist.append({'iPad': "iPad 15", 'pencil': n[0], 'student': n[1]})
-    n = dbobject.iPad_16.split("|")
-    userlist.append({'iPad': "iPad 16", 'pencil': n[0], 'student': n[1]})
+    )
+
+    f = BookingFormIpad(instance=dbobject)
+
+    # n = dbobject.iPad_01.split("|")
+    # userlist.append({'iPad': "iPad 01", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_02.split("|")
+    # userlist.append({'iPad': "iPad 02", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_03.split("|")
+    # userlist.append({'iPad': "iPad 03", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_04.split("|")
+    # userlist.append({'iPad': "iPad 04", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_05.split("|")
+    # userlist.append({'iPad': "iPad 05", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_06.split("|")
+    # userlist.append({'iPad': "iPad 06", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_07.split("|")
+    # userlist.append({'iPad': "iPad 07", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_08.split("|")
+    # userlist.append({'iPad': "iPad 08", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_09.split("|")
+    # userlist.append({'iPad': "iPad 09", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_10.split("|")
+    # userlist.append({'iPad': "iPad 10", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_11.split("|")
+    # userlist.append({'iPad': "iPad 11", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_12.split("|")
+    # userlist.append({'iPad': "iPad 12", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_13.split("|")
+    # userlist.append({'iPad': "iPad 13", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_14.split("|")
+    # userlist.append({'iPad': "iPad 14", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_15.split("|")
+    # userlist.append({'iPad': "iPad 15", 'pencil': n[0], 'student': n[1]})
+    # n = dbobject.iPad_16.split("|")
+    # userlist.append({'iPad': "iPad 16", 'pencil': n[0], 'student': n[1]})
 
     # delete objects that are more than 20 min old
     lists = Userlist.objects.all()
@@ -524,6 +534,6 @@ def getUserlist(room, isodate, std):
     ).exists()
 
     if activated:
-        return "on", userlist
+        return "on", f
     else:
-        return "off", userlist
+        return "off", f
