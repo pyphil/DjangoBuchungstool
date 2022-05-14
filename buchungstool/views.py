@@ -30,7 +30,6 @@ def rooms(request):
 
 
 def home(request):
-    print(request.POST)
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
@@ -62,16 +61,24 @@ def home(request):
         # ipad = ipad_text.replace(" ", "_")
         # pencil = request.POST.get("pencil_"+ipad_text)
         # student = request.POST.get("student_"+ipad_text).replace("|", ",")
+
         entry = Booking.objects.get(
             room=room,
             datum=entrydate,
             stunde=int(entrystd)
         )
         f = BookingFormIpad(request.POST, instance=entry)
+        # changed_fields = f.changed_data
+        # print(changed_fields)
+        z = 0
+        changed_fields = []
+        for i in f:
+            if i.value() != request.session.get('initial_list')[z]:
+                changed_fields.append(i.name)
+            z += 1
+        print(changed_fields)
         obj = f.save(commit=False)
-        # wenn Feld nicht leer, speichern
-        # fields = []
-        obj.save()
+        obj.save(update_fields=changed_fields)
 
         # if ipad == "iPad_01":
         #     entry.iPad_01 = pencil + "|" + student
@@ -380,7 +387,12 @@ def eintrag(request, accordion=None):
         state, userlist = getUserlist(room, isodate, std)
 
     date_series = getDateSeries(date)
+    initial_list = []
 
+    for i in userlist:
+        initial_list.append(i.value())
+    request.session['initial_list'] = initial_list
+    
     return render(
         request, 'buchungstoolEntry.html',
         {
@@ -478,7 +490,7 @@ def getDateSeries(date, end=None):
 
 
 def getUserlist(room, isodate, std):
-    userlist = []
+    # userlist = []
 
     dbobject = Booking.objects.get(
         room=room,
