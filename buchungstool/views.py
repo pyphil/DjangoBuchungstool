@@ -385,13 +385,12 @@ def eintrag(request, accordion=None):
         userlist = None
     else:
         state, userlist = getUserlist(room, isodate, std)
+        initial_list = []
+        for i in userlist:
+            initial_list.append(i.value())
+        request.session['initial_list'] = initial_list
 
     date_series = getDateSeries(date)
-    initial_list = []
-
-    for i in userlist:
-        initial_list.append(i.value())
-    request.session['initial_list'] = initial_list
     
     return render(
         request, 'buchungstoolEntry.html',
