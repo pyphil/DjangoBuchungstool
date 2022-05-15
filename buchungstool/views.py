@@ -1,3 +1,4 @@
+from black import EmptyLineTracker
 from django.shortcuts import redirect, render
 from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
@@ -116,8 +117,8 @@ def home(request):
         # entry.save()
 
         state, userlist = getUserlist(room, entrydate, int(entrystd))
-
-        return redirect(eintrag)
+        # return redirect('/buchungstool/entry/?accordion="open"')
+        return eintrag(request, True)
 
         # return render(
         #     request, 'buchungstoolEntry.html',
@@ -354,7 +355,7 @@ def eintrag(request, accordion=None):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
-    if accordion:
+    if accordion or request.GET.get('accordion'):
         accordion = "open"
     else:
         accordion = "closed"

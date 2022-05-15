@@ -3,6 +3,7 @@ from tinymce.models import HTMLField
 from django import forms
 from django.forms import ModelForm
 
+
 class Booking(models.Model):
     room = models.CharField(max_length=10)
     krzl = models.CharField(max_length=3)
