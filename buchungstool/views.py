@@ -76,6 +76,7 @@ def home(request):
             if i.value() != request.session.get('initial_list')[z]:
                 changed_fields.append(i.name)
             z += 1
+        del request.session['initial_list']
         print(changed_fields)
         obj = f.save(commit=False)
         obj.save(update_fields=changed_fields)
@@ -116,22 +117,24 @@ def home(request):
 
         state, userlist = getUserlist(room, entrydate, int(entrystd))
 
-        return render(
-            request, 'buchungstoolEntry.html',
-            {
-                'room': room,
-                'room_text': room_text,
-                'isodate': entrydate,
-                'date': buttondate,
-                'buttontext': request.POST.get('lerngruppe'),
-                'date_series': getDateSeries(buttondate),
-                'std': entrystd,
-                'krzl': request.POST.get('krzl').upper()[:3],
-                'userlist': userlist,
-                'state': state,
-                'accordion': "open"
-            }
-        )
+        return redirect(eintrag)
+
+        # return render(
+        #     request, 'buchungstoolEntry.html',
+        #     {
+        #         'room': room,
+        #         'room_text': room_text,
+        #         'isodate': entrydate,
+        #         'date': buttondate,
+        #         'buttontext': request.POST.get('lerngruppe'),
+        #         'date_series': getDateSeries(buttondate),
+        #         'std': entrystd,
+        #         'krzl': request.POST.get('krzl').upper()[:3],
+        #         'userlist': userlist,
+        #         'state': state,
+        #         'accordion': "open"
+        #     }
+        # )
 
     if request.POST.get('freischalten'):
         state = "off"
