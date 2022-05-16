@@ -1,7 +1,6 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
 from buchungstool.models import Booking
-from buchungstool.models import Room
 from .models import Userlist
 
 
@@ -89,37 +88,53 @@ def success(request):
     ).first()
 
     if ipad == "01":
-        save_users_query.iPad_01 = pencil + "|" + students
+        save_users_query.iPad_01 = students
+        save_users_query.pen_01 = pencil
     if ipad == "02":
-        save_users_query.iPad_02 = pencil + "|" + students
+        save_users_query.iPad_02 = students
+        save_users_query.pen_02 = pencil
     if ipad == "03":
-        save_users_query.iPad_03 = pencil + "|" + students
+        save_users_query.iPad_03 = students
+        save_users_query.pen_03 = pencil
     if ipad == "04":
-        save_users_query.iPad_04 = pencil + "|" + students
+        save_users_query.iPad_04 = students
+        save_users_query.pen_04 = pencil
     if ipad == "05":
-        save_users_query.iPad_05 = pencil + "|" + students
+        save_users_query.iPad_05 = students
+        save_users_query.pen_05 = pencil
     if ipad == "06":
-        save_users_query.iPad_06 = pencil + "|" + students
+        save_users_query.iPad_06 = students
+        save_users_query.pen_06 = pencil
     if ipad == "07":
-        save_users_query.iPad_07 = pencil + "|" + students
+        save_users_query.iPad_07 = students
+        save_users_query.pen_07 = pencil
     if ipad == "08":
-        save_users_query.iPad_08 = pencil + "|" + students
+        save_users_query.iPad_08 = students
+        save_users_query.pen_08 = pencil
     if ipad == "09":
-        save_users_query.iPad_09 = pencil + "|" + students
+        save_users_query.iPad_09 = students
+        save_users_query.pen_09 = pencil
     if ipad == "10":
-        save_users_query.iPad_10 = pencil + "|" + students
+        save_users_query.iPad_10 = students
+        save_users_query.pen_10 = pencil
     if ipad == "11":
-        save_users_query.iPad_11 = pencil + "|" + students
+        save_users_query.iPad_11 = students
+        save_users_query.pen_11 = pencil
     if ipad == "12":
-        save_users_query.iPad_12 = pencil + "|" + students
+        save_users_query.iPad_12 = students
+        save_users_query.pen_12 = pencil
     if ipad == "13":
-        save_users_query.iPad_13 = pencil + "|" + students
+        save_users_query.iPad_13 = students
+        save_users_query.pen_13 = pencil
     if ipad == "14":
-        save_users_query.iPad_14 = pencil + "|" + students
+        save_users_query.iPad_14 = students
+        save_users_query.pen_14 = pencil
     if ipad == "15":
-        save_users_query.iPad_15 = pencil + "|" + students
+        save_users_query.iPad_15 = students
+        save_users_query.pen_15 = pencil
     if ipad == "16":
-        save_users_query.iPad_16 = pencil + "|" + students
+        save_users_query.iPad_16 = students
+        save_users_query.pen_16 = pencil
 
     save_users_query.save()
 

@@ -9,3 +9,6 @@ class Userlist(models.Model):
     stunde = models.IntegerField()
     krzl = models.CharField(blank=True, max_length=3)
     created = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.lerngruppe + " - " + self.krzl
