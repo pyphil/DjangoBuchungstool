@@ -1,4 +1,3 @@
-from black import EmptyLineTracker
 from django.shortcuts import redirect, render
 from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
@@ -30,7 +29,8 @@ def rooms(request):
     )
 
 
-def home(request):
+def home(request, room=None):
+    print(room)
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 

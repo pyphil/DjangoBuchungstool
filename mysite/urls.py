@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', buchungstoolViews.rooms, name='buchungstoolRooms'),
     path('buchungstool/', buchungstoolViews.home, name='buchungstoolHome'),
+    path('buchungstool/<str:room>', buchungstoolViews.home, name='buchungstoolHome'),
     path('buchungstool/entry/', buchungstoolViews.eintrag, name='buchungstoolEntry'),
     path('userlist/select/', userlistViews.select, name='userlistSelect'),
     path('userlist/entry/', userlistViews.entry, name='userlistEntry'),

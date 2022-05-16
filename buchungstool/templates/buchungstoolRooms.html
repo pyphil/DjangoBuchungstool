@@ -22,7 +22,7 @@
                 <div class="card-body">
                     {% for room in rooms %}
                         {% if room.card == 1 %}
-                            <form action="{% url 'buchungstoolHome' %}" method="POST">
+                            <form action="{% url 'buchungstoolHome' room.short_name %}" method="POST">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;" name="room_text"
                                         value="{{ room.room }} - {{ room.description }}">{{ room.description }}
