@@ -1,4 +1,3 @@
-from black import EmptyLineTracker
 from django.shortcuts import redirect, render
 from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
