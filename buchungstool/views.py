@@ -30,12 +30,14 @@ def rooms(request):
 
 
 def home(request, room=None):
-    print(room)
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
     if request.POST.get('reload'):
         return eintrag(request, True)
+
+    if room:
+        print("room on url")
 
     entrydate = request.session.get('isodate')
     buttondate = request.session.get('date')
