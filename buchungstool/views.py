@@ -33,9 +33,6 @@ def home(request, room=None):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
-    if request.POST.get('reload'):
-        return eintrag(request, True)
-
     if room:
         print("room on url")
 
@@ -58,86 +55,34 @@ def home(request, room=None):
     if room is None:
         return redirect('/')
 
-    if request.POST.get('submit_student'):
-        print('submit')
-        # ipad_text = request.POST.get('submit_student')
-        # ipad = ipad_text.replace(" ", "_")
-        # pencil = request.POST.get("pencil_"+ipad_text)
-        # student = request.POST.get("student_"+ipad_text).replace("|", ",")
+    # if request.POST.get('submit_student'):
+    #     print('submit')
+    #     # ipad_text = request.POST.get('submit_student')
+    #     # ipad = ipad_text.replace(" ", "_")
+    #     # pencil = request.POST.get("pencil_"+ipad_text)
+    #     # student = request.POST.get("student_"+ipad_text).replace("|", ",")
 
-        entry = Booking.objects.get(
-            room=room,
-            datum=entrydate,
-            stunde=int(entrystd)
-        )
-        f = BookingFormIpad(request.POST, instance=entry)
-        # changed_fields = f.changed_data
-        # print(changed_fields)
-        z = 0
-        changed_fields = []
-        for i in f:
-            if i.value() != request.session.get('initial_list')[z]:
-                changed_fields.append(i.name)
-            z += 1
-        del request.session['initial_list']
-        print(changed_fields)
-        obj = f.save(commit=False)
-        obj.save(update_fields=changed_fields)
+    #     entry = Booking.objects.get(
+    #         room=room,
+    #         datum=entrydate,
+    #         stunde=int(entrystd)
+    #     )
+    #     f = BookingFormIpad(request.POST, instance=entry)
+    #     # changed_fields = f.changed_data
+    #     # print(changed_fields)
+    #     z = 0
+    #     changed_fields = []
+    #     for i in f:
+    #         if i.value() != request.session.get('initial_list')[z]:
+    #             changed_fields.append(i.name)
+    #         z += 1
+    #     del request.session['initial_list']
+    #     obj = f.save(commit=False)
+    #     obj.save(update_fields=changed_fields)
 
-        # if ipad == "iPad_01":
-        #     entry.iPad_01 = pencil + "|" + student
-        # if ipad == "iPad_02":
-        #     entry.iPad_02 = pencil + "|" + student
-        # if ipad == "iPad_03":
-        #     entry.iPad_03 = pencil + "|" + student
-        # if ipad == "iPad_04":
-        #     entry.iPad_04 = pencil + "|" + student
-        # if ipad == "iPad_05":
-        #     entry.iPad_05 = pencil + "|" + student
-        # if ipad == "iPad_06":
-        #     entry.iPad_06 = pencil + "|" + student
-        # if ipad == "iPad_07":
-        #     entry.iPad_07 = pencil + "|" + student
-        # if ipad == "iPad_08":
-        #     entry.iPad_08 = pencil + "|" + student
-        # if ipad == "iPad_09":
-        #     entry.iPad_09 = pencil + "|" + student
-        # if ipad == "iPad_10":
-        #     entry.iPad_10 = pencil + "|" + student
-        # if ipad == "iPad_11":
-        #     entry.iPad_11 = pencil + "|" + student
-        # if ipad == "iPad_12":
-        #     entry.iPad_12 = pencil + "|" + student
-        # if ipad == "iPad_13":
-        #     entry.iPad_13 = pencil + "|" + student
-        # if ipad == "iPad_14":
-        #     entry.iPad_14 = pencil + "|" + student
-        # if ipad == "iPad_15":
-        #     entry.iPad_15 = pencil + "|" + student
-        # if ipad == "iPad_16":
-        #     entry.iPad_16 = pencil + "|" + student
-        # entry.save()
+    #     state, userlist = getUserlist(room, entrydate, int(entrystd))
 
-        state, userlist = getUserlist(room, entrydate, int(entrystd))
-        # return redirect('/buchungstool/entry/?accordion="open"')
-        return eintrag(request, True)
-
-        # return render(
-        #     request, 'buchungstoolEntry.html',
-        #     {
-        #         'room': room,
-        #         'room_text': room_text,
-        #         'isodate': entrydate,
-        #         'date': buttondate,
-        #         'buttontext': request.POST.get('lerngruppe'),
-        #         'date_series': getDateSeries(buttondate),
-        #         'std': entrystd,
-        #         'krzl': request.POST.get('krzl').upper()[:3],
-        #         'userlist': userlist,
-        #         'state': state,
-        #         'accordion': "open"
-        #     }
-        # )
+    #     return eintrag(request, True)
 
     if request.POST.get('freischalten'):
         state = "off"
@@ -362,6 +307,58 @@ def eintrag(request, accordion=None):
     else:
         accordion = "closed"
 
+    if request.POST.get('reload'):
+        return redirect('/buchungstool/entry/?accordion="open"#userlist')
+
+    entrydate = request.session.get('isodate')
+    entrystd = request.session.get('std')
+
+    if request.POST.get('submit_student'):
+
+        entry = Booking.objects.get(
+            room=room,
+            datum=entrydate,
+            stunde=int(entrystd)
+        )
+
+        f = BookingFormIpad(request.POST, instance=entry)
+
+        z = 0
+        changed_fields = []
+        for i in f:
+            if i.value() != request.session.get('initial_list')[z]:
+                changed_fields.append(i.name)
+            z += 1
+        del request.session['initial_list']
+        obj = f.save(commit=False)
+        obj.save(update_fields=changed_fields)
+
+        #state, userlist = getUserlist(room, entrydate, int(entrystd))
+
+        return redirect('/buchungstool/entry/?accordion="open"#userlist')
+
+    if request.POST.get('freischalten'):
+        state = "off"
+        if request.POST.get('freischalten') == "on":
+            Userlist.objects.get_or_create(
+                short_name=room,
+                datum=entrydate,
+                stunde=int(entrystd),
+                lerngruppe=request.POST.get('lerngruppe'),
+                krzl=request.POST.get('krzl').upper()[:3],
+                created=datetime.datetime.now()
+            )
+            state = "on"
+        elif request.POST.get('freischalten') == "off":
+            delete = Userlist.objects.filter(
+                short_name=room,
+                datum=entrydate,
+                stunde=int(entrystd),
+            ).first()
+            delete.delete()
+
+        return redirect('/buchungstool/entry/?accordion="open"#userlist')
+
     if request.POST.get('buttontext'):
         buttontext = request.POST.get('buttontext')
         request.session['buttontext'] = buttontext
@@ -397,7 +394,7 @@ def eintrag(request, accordion=None):
         request.session['initial_list'] = initial_list
 
     date_series = getDateSeries(date)
-    
+
     return render(
         request, 'buchungstoolEntry.html',
         {
@@ -504,39 +501,6 @@ def getUserlist(room, isodate, std):
     )
 
     f = BookingFormIpad(instance=dbobject)
-
-    # n = dbobject.iPad_01.split("|")
-    # userlist.append({'iPad': "iPad 01", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_02.split("|")
-    # userlist.append({'iPad': "iPad 02", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_03.split("|")
-    # userlist.append({'iPad': "iPad 03", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_04.split("|")
-    # userlist.append({'iPad': "iPad 04", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_05.split("|")
-    # userlist.append({'iPad': "iPad 05", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_06.split("|")
-    # userlist.append({'iPad': "iPad 06", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_07.split("|")
-    # userlist.append({'iPad': "iPad 07", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_08.split("|")
-    # userlist.append({'iPad': "iPad 08", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_09.split("|")
-    # userlist.append({'iPad': "iPad 09", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_10.split("|")
-    # userlist.append({'iPad': "iPad 10", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_11.split("|")
-    # userlist.append({'iPad': "iPad 11", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_12.split("|")
-    # userlist.append({'iPad': "iPad 12", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_13.split("|")
-    # userlist.append({'iPad': "iPad 13", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_14.split("|")
-    # userlist.append({'iPad': "iPad 14", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_15.split("|")
-    # userlist.append({'iPad': "iPad 15", 'pencil': n[0], 'student': n[1]})
-    # n = dbobject.iPad_16.split("|")
-    # userlist.append({'iPad': "iPad 16", 'pencil': n[0], 'student': n[1]})
 
     # delete objects that are more than 20 min old
     lists = Userlist.objects.all()
