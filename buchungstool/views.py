@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
 import datetime
@@ -34,7 +34,9 @@ def home(request, room=None):
         return render(request, 'buchungstoolNoAccess.html',)
 
     if room:
-        print("room on url")
+        print(room)
+        room_obj = get_object_or_404(Room, short_name=room)
+        print(room_obj.room, room_obj.description)
 
     entrydate = request.session.get('isodate')
     buttondate = request.session.get('date')
@@ -84,44 +86,44 @@ def home(request, room=None):
 
     #     return eintrag(request, True)
 
-    if request.POST.get('freischalten'):
-        state = "off"
-        if request.POST.get('freischalten') == "on":
-            Userlist.objects.get_or_create(
-                short_name=room,
-                datum=entrydate,
-                stunde=int(entrystd),
-                lerngruppe=request.POST.get('lerngruppe'),
-                krzl=request.POST.get('krzl').upper()[:3],
-                created=datetime.datetime.now()
-            )
-            state = "on"
-        elif request.POST.get('freischalten') == "off":
-            delete = Userlist.objects.filter(
-                short_name=room,
-                datum=entrydate,
-                stunde=int(entrystd),
-            ).first()
-            delete.delete()
+    # if request.POST.get('freischalten'):
+    #     state = "off"
+    #     if request.POST.get('freischalten') == "on":
+    #         Userlist.objects.get_or_create(
+    #             short_name=room,
+    #             datum=entrydate,
+    #             stunde=int(entrystd),
+    #             lerngruppe=request.POST.get('lerngruppe'),
+    #             krzl=request.POST.get('krzl').upper()[:3],
+    #             created=datetime.datetime.now()
+    #         )
+    #         state = "on"
+    #     elif request.POST.get('freischalten') == "off":
+    #         delete = Userlist.objects.filter(
+    #             short_name=room,
+    #             datum=entrydate,
+    #             stunde=int(entrystd),
+    #         ).first()
+    #         delete.delete()
 
-        state, userlist = getUserlist(room, entrydate, int(entrystd))
+    #     state, userlist = getUserlist(room, entrydate, int(entrystd))
 
-        return render(
-            request, 'buchungstoolEntry.html',
-            {
-                'room': room,
-                'room_text': room_text,
-                'isodate': entrydate,
-                'date': buttondate,
-                'buttontext': request.POST.get('lerngruppe'),
-                'date_series': getDateSeries(buttondate),
-                'std': entrystd,
-                'krzl': request.POST.get('krzl').upper()[:3],
-                'userlist': userlist,
-                'state': state,
-                'accordion': "open"
-            }
-        )
+    #     return render(
+    #         request, 'buchungstoolEntry.html',
+    #         {
+    #             'room': room,
+    #             'room_text': room_text,
+    #             'isodate': entrydate,
+    #             'date': buttondate,
+    #             'buttontext': request.POST.get('lerngruppe'),
+    #             'date_series': getDateSeries(buttondate),
+    #             'std': entrystd,
+    #             'krzl': request.POST.get('krzl').upper()[:3],
+    #             'userlist': userlist,
+    #             'state': state,
+    #             'accordion': "open"
+    #         }
+    #     )
 
     if request.POST.get('save'):
         selected_date = request.POST.get('selection')
