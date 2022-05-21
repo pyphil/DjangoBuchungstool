@@ -42,88 +42,8 @@ def home(request, room=None):
     buttondate = request.session.get('date')
     entrystd = request.session.get('std')
 
-    if request.POST.get('room'):
-        room = request.POST.get('room')
-        room_text = request.POST.get('room_text')
-        room_alert = request.POST.get('room_alert')
-        request.session['room'] = room
-        request.session['room_text'] = room_text
-        request.session['room_alert'] = room_alert
-    else:
-        room = request.session.get('room')
-        room_text = request.session.get('room_text')
-        room_alert = request.session.get('room_alert')
-
     if room is None:
         return redirect('/')
-
-    # if request.POST.get('submit_student'):
-    #     print('submit')
-    #     # ipad_text = request.POST.get('submit_student')
-    #     # ipad = ipad_text.replace(" ", "_")
-    #     # pencil = request.POST.get("pencil_"+ipad_text)
-    #     # student = request.POST.get("student_"+ipad_text).replace("|", ",")
-
-    #     entry = Booking.objects.get(
-    #         room=room,
-    #         datum=entrydate,
-    #         stunde=int(entrystd)
-    #     )
-    #     f = BookingFormIpad(request.POST, instance=entry)
-    #     # changed_fields = f.changed_data
-    #     # print(changed_fields)
-    #     z = 0
-    #     changed_fields = []
-    #     for i in f:
-    #         if i.value() != request.session.get('initial_list')[z]:
-    #             changed_fields.append(i.name)
-    #         z += 1
-    #     del request.session['initial_list']
-    #     obj = f.save(commit=False)
-    #     obj.save(update_fields=changed_fields)
-
-    #     state, userlist = getUserlist(room, entrydate, int(entrystd))
-
-    #     return eintrag(request, True)
-
-    # if request.POST.get('freischalten'):
-    #     state = "off"
-    #     if request.POST.get('freischalten') == "on":
-    #         Userlist.objects.get_or_create(
-    #             short_name=room,
-    #             datum=entrydate,
-    #             stunde=int(entrystd),
-    #             lerngruppe=request.POST.get('lerngruppe'),
-    #             krzl=request.POST.get('krzl').upper()[:3],
-    #             created=datetime.datetime.now()
-    #         )
-    #         state = "on"
-    #     elif request.POST.get('freischalten') == "off":
-    #         delete = Userlist.objects.filter(
-    #             short_name=room,
-    #             datum=entrydate,
-    #             stunde=int(entrystd),
-    #         ).first()
-    #         delete.delete()
-
-    #     state, userlist = getUserlist(room, entrydate, int(entrystd))
-
-    #     return render(
-    #         request, 'buchungstoolEntry.html',
-    #         {
-    #             'room': room,
-    #             'room_text': room_text,
-    #             'isodate': entrydate,
-    #             'date': buttondate,
-    #             'buttontext': request.POST.get('lerngruppe'),
-    #             'date_series': getDateSeries(buttondate),
-    #             'std': entrystd,
-    #             'krzl': request.POST.get('krzl').upper()[:3],
-    #             'userlist': userlist,
-    #             'state': state,
-    #             'accordion': "open"
-    #         }
-    #     )
 
     if request.POST.get('save'):
         selected_date = request.POST.get('selection')
@@ -284,8 +204,8 @@ def home(request, room=None):
             request, 'buchungstoolHome.html',
             {
                 'room': room,
-                'room_text': room_text,
-                'room_alert': room_alert,
+                'room_text': room_obj.room + " - " + room_obj.description,
+                'room_alert': room_obj.alert,
                 'dates': dates,
                 'btncontent': btncontent,
                 'currentdate': currentdate
