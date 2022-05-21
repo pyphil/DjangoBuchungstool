@@ -228,18 +228,28 @@ def eintrag(request, accordion=None, room=None, id=None):
     if request.POST.get('reload'):
         return redirect('/buchungstool/entry/?accordion="open"#userlist')
 
+    room_obj = Room.objects.get(short_name=room)
+
     if id != 0:
         entry_obj = get_object_or_404(Booking, id=id)
+        isodate = str(entry_obj.datum)
+        date = entry_obj.datum.strftime('%d.%m.%Y')
+        lerngruppe = entry_obj.lerngruppe
+        std = entry_obj.stunde
+        krzl = entry_obj.krzl
 
-        room_obj = Room.objects.get(short_name=room)
-
-        state, userlist = getUserlist(room, entry_obj.datum, entry_obj.stunde)
+        state, userlist = getUserlist(room, isodate, std)
         initial_list = []
         for i in userlist:
             initial_list.append(i.value())
         request.session['initial_list'] = initial_list
     elif id == 0:
         print("neuer Eintrag")
+        isodate = request.GET.get('isodate')
+        date = datetime.datetime.strptime(isodate, '%Y-%m-%d').strftime('%d.%m.%Y')
+        std = request.GET.get('std')
+        lerngruppe = ""
+        krzl = ""
         state = None
         userlist = None
         
@@ -290,18 +300,18 @@ def eintrag(request, accordion=None, room=None, id=None):
 
         return redirect('/buchungstool/entry/?accordion="open"#userlist')
 
-    date_series = getDateSeries(entry_obj.datum)
+    date_series = getDateSeries(isodate)
 
     return render(
         request, 'buchungstoolEntry.html',
         {
             'room': room,
             'room_text': room_obj.room + " - " + room_obj.description,
-            'isodate': entry_obj.datum,
-            'date': entry_obj.datum.strftime('%d.%m.%Y'),
-            'buttontext': entry_obj.lerngruppe,
-            'std': entry_obj.stunde,
-            'krzl': entry_obj.krzl,
+            'isodate': isodate,
+            'date': date,
+            'buttontext': lerngruppe,
+            'std': std,
+            'krzl': krzl,
             'date_series': date_series,
             'userlist': userlist,
             'state': state,
@@ -375,7 +385,7 @@ def getDateSeries(date, end=None):
     if end is None:
         end = 24
 
-    # date = datetime.datetime.strptime(date, '%d.%m.%Y')
+    date = datetime.datetime.strptime(date, '%Y-%m-%d')
 
     date_series = []
     date_series.append({'date': date.strftime('%d.%m.%Y'), 'item': 0})
