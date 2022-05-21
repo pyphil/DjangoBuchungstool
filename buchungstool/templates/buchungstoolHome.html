@@ -100,7 +100,7 @@
 				<th>2.</th>
 				{% for text in btncontent %}
 				{% if text.std == 2 %}
-					<form action="{% url 'buchungstoolEntry' %}" method="POST">
+					<form action="{% url 'buchungstoolEntry' room text.id %}">
 						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
@@ -115,13 +115,6 @@
 								</div>
 							</td>
 						{% endif %}
-						<input type="hidden" name="button_isodate" value="{{ text.date.isodate }}" />
-						<input type="hidden" name="button_date" value="{{ text.date.date }}" />
-						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
-						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
-						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<!-- <input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -130,7 +123,7 @@
 				<th>3.</th>
 				{% for text in btncontent %}
 				{% if text.std == 3 %}
-					<form action="{% url 'buchungstoolEntry' %}" method="POST">
+					<form action="{% url 'buchungstoolEntry' room text.id %}">
 						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
@@ -145,13 +138,6 @@
 								</div>
 							</td>
 						{% endif %}
-						<input type="hidden" name="button_isodate" value="{{ text.date.isodate }}" />
-						<input type="hidden" name="button_date" value="{{ text.date.date }}" />
-						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
-						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
-						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<!-- <input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -160,7 +146,7 @@
 				<th>4.</th>
 				{% for text in btncontent %}
 				{% if text.std == 4 %}
-					<form action="{% url 'buchungstoolEntry' %}" method="POST">
+					<form action="{% url 'buchungstoolEntry' room text.id %}">
 						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
@@ -175,13 +161,6 @@
 								</div>
 							</td>
 						{% endif %}
-						<input type="hidden" name="button_isodate" value="{{ text.date.isodate }}" />
-						<input type="hidden" name="button_date" value="{{ text.date.date }}" />
-						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
-						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
-						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<!-- <input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -190,7 +169,7 @@
 				<th>5.</th>
 				{% for text in btncontent %}
 				{% if text.std == 5 %}
-					<form action="{% url 'buchungstoolEntry' %}" method="POST">
+					<form action="{% url 'buchungstoolEntry' room text.id %}">
 						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
@@ -205,13 +184,6 @@
 								</div>
 							</td>
 						{% endif %}
-						<input type="hidden" name="button_isodate" value="{{ text.date.isodate }}" />
-						<input type="hidden" name="button_date" value="{{ text.date.date }}" />
-						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
-						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
-						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<!-- <input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -220,7 +192,7 @@
 				<th>6.</th>
 				{% for text in btncontent %}
 				{% if text.std == 6 %}
-					<form action="{% url 'buchungstoolEntry' %}" method="POST">
+					<form action="{% url 'buchungstoolEntry' room text.id %}">
 						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
@@ -235,13 +207,6 @@
 								</div>
 							</td>
 						{% endif %}
-						<input type="hidden" name="button_isodate" value="{{ text.date.isodate }}" />
-						<input type="hidden" name="button_date" value="{{ text.date.date }}" />
-						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
-						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
-						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<!-- <input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
@@ -250,7 +215,7 @@
 				<th>7.</th>
 				{% for text in btncontent %}
 				{% if text.std == 7 %}
-					<form action="{% url 'buchungstoolEntry' %}" method="POST">
+					<form action="{% url 'buchungstoolEntry' room text.id %}">
 						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
@@ -265,13 +230,6 @@
 								</div>
 							</td>
 						{% endif %}
-						<input type="hidden" name="button_isodate" value="{{ text.date.isodate }}" />
-						<input type="hidden" name="button_date" value="{{ text.date.date }}" />
-						<input type="hidden" name="buttontext" value="{{ text.lerngruppe }}" />
-						<input type="hidden" name="buttonstd" value="{{ text.std }}" />
-						<input type="hidden" name="buttonkrzl" value="{{ text.krzl }}" />
-						<!-- <input type="hidden" name="room" value="{{ room }}">
-						<input type="hidden" name="room_text" value="{{ room_text }}"> -->
 					</form>
 				{% endif %}
 				{% endfor %}
