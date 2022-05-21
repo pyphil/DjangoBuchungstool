@@ -181,6 +181,7 @@ def home(request, room=None):
             if dbobject:
                 btncontent.append(
                     {
+                        'id': dbobject.id,
                         'lerngruppe': dbobject.lerngruppe,
                         'date': date,
                         'std': std,
@@ -190,7 +191,7 @@ def home(request, room=None):
             else:
                 btncontent.append(["frei", date, std])
                 btncontent.append(
-                    {'lerngruppe': "frei", 'date': date, 'std': std})
+                    {'id': 0, 'lerngruppe': "frei", 'date': date, 'std': std})
 
     if request.POST.get('delete'):
         return render(
@@ -215,17 +216,10 @@ def home(request, room=None):
         return response
 
 
-def eintrag(request, accordion=None, id=None):
-    # room = request.POST.get('room')
-    # room_text = request.POST.get('room_text')
-    room = request.session.get('room')
-    room_text = request.session.get('room_text')
-
-    print(id)
-
+def eintrag(request, accordion=None, room=None, id=None):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
-
+    print(room, id)
     if accordion or request.GET.get('accordion'):
         accordion = "open"
     else:
@@ -234,8 +228,21 @@ def eintrag(request, accordion=None, id=None):
     if request.POST.get('reload'):
         return redirect('/buchungstool/entry/?accordion="open"#userlist')
 
-    entrydate = request.session.get('isodate')
-    entrystd = request.session.get('std')
+    if id != 0:
+        entry_obj = get_object_or_404(Booking, id=id)
+
+        room_obj = Room.objects.get(short_name=room)
+
+        state, userlist = getUserlist(room, entry_obj.datum, entry_obj.stunde)
+        initial_list = []
+        for i in userlist:
+            initial_list.append(i.value())
+        request.session['initial_list'] = initial_list
+    elif id == 0:
+        print("neuer Eintrag")
+        state = None
+        userlist = None
+        
 
     if request.POST.get('submit_student'):
 
@@ -283,52 +290,18 @@ def eintrag(request, accordion=None, id=None):
 
         return redirect('/buchungstool/entry/?accordion="open"#userlist')
 
-    if request.POST.get('buttontext'):
-        buttontext = request.POST.get('buttontext')
-        request.session['buttontext'] = buttontext
-        krzl = request.POST.get('buttonkrzl')
-        request.session['krzl'] = krzl
-    else:
-        buttontext = request.session.get('buttontext')
-        krzl = request.session.get('krzl')
-    if request.POST.get('buttonstd'):
-        std = request.POST.get('buttonstd')
-        request.session['std'] = std
-    else:
-        std = request.session.get('std')
-
-    if request.POST.get('button_isodate'):
-        isodate = request.POST.get('button_isodate')
-        date = request.POST.get('button_date')
-        request.session['isodate'] = isodate
-        request.session['date'] = date
-    else:
-        isodate = request.session.get('isodate')
-        date = request.session.get('date')
-
-    if buttontext == "frei":
-        buttontext = ""
-        state = None
-        userlist = None
-    else:
-        state, userlist = getUserlist(room, isodate, std)
-        initial_list = []
-        for i in userlist:
-            initial_list.append(i.value())
-        request.session['initial_list'] = initial_list
-
-    date_series = getDateSeries(date)
+    date_series = getDateSeries(entry_obj.datum)
 
     return render(
         request, 'buchungstoolEntry.html',
         {
             'room': room,
-            'room_text': room_text,
-            'isodate': isodate,
-            'date': date,
-            'buttontext': buttontext,
-            'std': std,
-            'krzl': krzl,
+            'room_text': room_obj.room + " - " + room_obj.description,
+            'isodate': entry_obj.datum,
+            'date': entry_obj.datum.strftime('%d.%m.%Y'),
+            'buttontext': entry_obj.lerngruppe,
+            'std': entry_obj.stunde,
+            'krzl': entry_obj.krzl,
             'date_series': date_series,
             'userlist': userlist,
             'state': state,
@@ -402,7 +375,7 @@ def getDateSeries(date, end=None):
     if end is None:
         end = 24
 
-    date = datetime.datetime.strptime(date, '%d.%m.%Y')
+    # date = datetime.datetime.strptime(date, '%d.%m.%Y')
 
     date_series = []
     date_series.append({'date': date.strftime('%d.%m.%Y'), 'item': 0})
