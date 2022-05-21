@@ -38,9 +38,9 @@ def home(request, room=None):
         room_obj = get_object_or_404(Room, short_name=room)
         print(room_obj.room, room_obj.description)
 
-    entrydate = request.session.get('isodate')
-    buttondate = request.session.get('date')
-    entrystd = request.session.get('std')
+    # entrydate = request.session.get('isodate')
+    # buttondate = request.session.get('date')
+    # entrystd = request.session.get('std')
 
     if room is None:
         return redirect('/')
@@ -203,7 +203,7 @@ def home(request, room=None):
         response = render(
             request, 'buchungstoolHome.html',
             {
-                'room': room,
+                'room': room_obj.short_name,
                 'room_text': room_obj.room + " - " + room_obj.description,
                 'room_alert': room_obj.alert,
                 'dates': dates,
@@ -215,11 +215,13 @@ def home(request, room=None):
         return response
 
 
-def eintrag(request, accordion=None):
+def eintrag(request, accordion=None, id=None):
     # room = request.POST.get('room')
     # room_text = request.POST.get('room_text')
     room = request.session.get('room')
     room_text = request.session.get('room_text')
+
+    print(id)
 
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
