@@ -45,6 +45,133 @@ def home(request, room=None):
     if room is None:
         return redirect('/')
 
+    direction = None
+    if request.POST.get('direction'):
+        direction = request.POST.get('direction')
+    dates, offset, currentdate = getWeekCalendar(request, direction)
+    currentdate = currentdate.strftime('%Y-%m-%d')
+
+    btncontent = []
+
+    for std in [1, 2, 3, 4, 5, 6, 7]:
+        for date in dates:
+            dbobject = Booking.objects.filter(
+                room=room,
+                datum=date['isodate'],
+                stunde=std
+            ).first()
+            if dbobject:
+                btncontent.append(
+                    {
+                        'id': dbobject.id,
+                        'lerngruppe': dbobject.lerngruppe,
+                        'date': date,
+                        'std': std,
+                        'krzl': dbobject.krzl
+                    }
+                )
+            else:
+                btncontent.append(["frei", date, std])
+                btncontent.append(
+                    {'id': 0, 'lerngruppe': "frei", 'date': date, 'std': std})
+
+    if request.POST.get('delete'):
+        return render(
+            request, 'buchungstoolConfirmation.html',
+            {'date': entrydate, 'lerngruppe': request.POST.get('lerngruppe'),
+                'std': entrystd, 'room': room, 'room_text': room_text,
+                'buttondate': buttondate, 'krzl': request.POST.get('krzl').upper()[:3]}
+        )
+    else:
+        response = render(
+            request, 'buchungstoolHome.html',
+            {
+                'room': room_obj.short_name,
+                'room_text': room_obj.room + " - " + room_obj.description,
+                'room_alert': room_obj.alert,
+                'dates': dates,
+                'btncontent': btncontent,
+                'currentdate': currentdate
+            }
+        )
+        response.set_cookie('offset', offset)
+        return response
+
+
+def eintrag(request, accordion=None, room=None, id=None):
+    if not request.session.get('has_access'):
+        return render(request, 'buchungstoolNoAccess.html',)
+    print(room, id)
+    if accordion or request.GET.get('accordion'):
+        accordion = "open"
+    else:
+        accordion = "closed"
+
+    if request.POST.get('reload'):
+        return redirect('/buchungstool/' + room + "/" + str(id) + '/?accordion="open"#userlist')
+
+    room_obj = Room.objects.get(short_name=room)
+
+    if id != 0:
+        entry_obj = get_object_or_404(Booking, id=id)
+        isodate = str(entry_obj.datum)
+        date = entry_obj.datum.strftime('%d.%m.%Y')
+        lerngruppe = entry_obj.lerngruppe
+        std = entry_obj.stunde
+        krzl = entry_obj.krzl
+
+        state, userlist = getUserlist(room, isodate, std)
+        initial_list = []
+        for i in userlist:
+            initial_list.append(i.value())
+        request.session['initial_list'] = initial_list
+    elif id == 0:
+        print("neuer Eintrag")
+        isodate = request.GET.get('isodate')
+        date = datetime.datetime.strptime(isodate, '%Y-%m-%d').strftime('%d.%m.%Y')
+        std = request.GET.get('std')
+        lerngruppe = ""
+        krzl = ""
+        state = None
+        userlist = None
+
+    if request.POST.get('submit_student'):
+        f = BookingFormIpad(request.POST, instance=entry_obj)
+
+        z = 0
+        changed_fields = []
+        for i in f:
+            if i.value() != request.session.get('initial_list')[z]:
+                changed_fields.append(i.name)
+            z += 1
+        del request.session['initial_list']
+        obj = f.save(commit=False)
+        obj.save(update_fields=changed_fields)
+
+        return redirect('/buchungstool/' + room + "/" + str(id) + '/?accordion="open"#userlist')
+
+    if request.POST.get('freischalten'):
+        state = "off"
+        if request.POST.get('freischalten') == "on":
+            Userlist.objects.get_or_create(
+                short_name=room,
+                datum=isodate,
+                stunde=std,
+                lerngruppe=lerngruppe,
+                krzl=krzl,
+                created=datetime.datetime.now()
+            )
+            state = "on"
+        elif request.POST.get('freischalten') == "off":
+            delete = Userlist.objects.get(
+                short_name=room,
+                datum=isodate,
+                stunde=std,
+            )
+            delete.delete()
+
+        return redirect('/buchungstool/' + room + "/" + str(id) + '/?accordion="open"#userlist')
+
     if request.POST.get('save'):
         selected_date = request.POST.get('selection')
         # Prüfen ob Felder leer sind
@@ -119,8 +246,8 @@ def home(request, room=None):
                     )
 
     if request.POST.get('cancel'):
-        # render home as usual
-        pass
+        # redirect to home
+        return redirect('/buchungstool/' + room)
     elif request.POST.get('deleteconfirmed'):
         entry = Booking.objects.filter(
             room=room,
@@ -162,143 +289,6 @@ def home(request, room=None):
                         'update': True
                     }
                 )
-
-    direction = None
-    if request.POST.get('direction'):
-        direction = request.POST.get('direction')
-    dates, offset, currentdate = getWeekCalendar(request, direction)
-    currentdate = currentdate.strftime('%Y-%m-%d')
-
-    btncontent = []
-
-    for std in [1, 2, 3, 4, 5, 6, 7]:
-        for date in dates:
-            dbobject = Booking.objects.filter(
-                room=room,
-                datum=date['isodate'],
-                stunde=std
-            ).first()
-            if dbobject:
-                btncontent.append(
-                    {
-                        'id': dbobject.id,
-                        'lerngruppe': dbobject.lerngruppe,
-                        'date': date,
-                        'std': std,
-                        'krzl': dbobject.krzl
-                    }
-                )
-            else:
-                btncontent.append(["frei", date, std])
-                btncontent.append(
-                    {'id': 0, 'lerngruppe': "frei", 'date': date, 'std': std})
-
-    if request.POST.get('delete'):
-        return render(
-            request, 'buchungstoolConfirmation.html',
-            {'date': entrydate, 'lerngruppe': request.POST.get('lerngruppe'),
-                'std': entrystd, 'room': room, 'room_text': room_text,
-                'buttondate': buttondate, 'krzl': request.POST.get('krzl').upper()[:3]}
-        )
-    else:
-        response = render(
-            request, 'buchungstoolHome.html',
-            {
-                'room': room_obj.short_name,
-                'room_text': room_obj.room + " - " + room_obj.description,
-                'room_alert': room_obj.alert,
-                'dates': dates,
-                'btncontent': btncontent,
-                'currentdate': currentdate
-            }
-        )
-        response.set_cookie('offset', offset)
-        return response
-
-
-def eintrag(request, accordion=None, room=None, id=None):
-    if not request.session.get('has_access'):
-        return render(request, 'buchungstoolNoAccess.html',)
-    print(room, id)
-    if accordion or request.GET.get('accordion'):
-        accordion = "open"
-    else:
-        accordion = "closed"
-
-    if request.POST.get('reload'):
-        return redirect('/buchungstool/entry/?accordion="open"#userlist')
-
-    room_obj = Room.objects.get(short_name=room)
-
-    if id != 0:
-        entry_obj = get_object_or_404(Booking, id=id)
-        isodate = str(entry_obj.datum)
-        date = entry_obj.datum.strftime('%d.%m.%Y')
-        lerngruppe = entry_obj.lerngruppe
-        std = entry_obj.stunde
-        krzl = entry_obj.krzl
-
-        state, userlist = getUserlist(room, isodate, std)
-        initial_list = []
-        for i in userlist:
-            initial_list.append(i.value())
-        request.session['initial_list'] = initial_list
-    elif id == 0:
-        print("neuer Eintrag")
-        isodate = request.GET.get('isodate')
-        date = datetime.datetime.strptime(isodate, '%Y-%m-%d').strftime('%d.%m.%Y')
-        std = request.GET.get('std')
-        lerngruppe = ""
-        krzl = ""
-        state = None
-        userlist = None
-        
-
-    if request.POST.get('submit_student'):
-
-        entry = Booking.objects.get(
-            room=room,
-            datum=entrydate,
-            stunde=int(entrystd)
-        )
-
-        f = BookingFormIpad(request.POST, instance=entry)
-
-        z = 0
-        changed_fields = []
-        for i in f:
-            if i.value() != request.session.get('initial_list')[z]:
-                changed_fields.append(i.name)
-            z += 1
-        del request.session['initial_list']
-        obj = f.save(commit=False)
-        obj.save(update_fields=changed_fields)
-
-        #state, userlist = getUserlist(room, entrydate, int(entrystd))
-
-        return redirect('/buchungstool/entry/?accordion="open"#userlist')
-
-    if request.POST.get('freischalten'):
-        state = "off"
-        if request.POST.get('freischalten') == "on":
-            Userlist.objects.get_or_create(
-                short_name=room,
-                datum=entrydate,
-                stunde=int(entrystd),
-                lerngruppe=request.POST.get('lerngruppe'),
-                krzl=request.POST.get('krzl').upper()[:3],
-                created=datetime.datetime.now()
-            )
-            state = "on"
-        elif request.POST.get('freischalten') == "off":
-            delete = Userlist.objects.filter(
-                short_name=room,
-                datum=entrydate,
-                stunde=int(entrystd),
-            ).first()
-            delete.delete()
-
-        return redirect('/buchungstool/entry/?accordion="open"#userlist')
 
     date_series = getDateSeries(isodate)
 

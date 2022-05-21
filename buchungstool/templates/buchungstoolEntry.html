@@ -22,7 +22,7 @@
   {% endif %}
   <h5 class="mt-3"><strong>Datum: </strong>{{ date }}, {{ std }}. Stunde</h5>
   <h5 class="mt-3"><strong>Raum/Gerät:</strong> {{room_text}}</h5>
-  <form action="{% url 'buchungstoolHome' %}" method="POST">
+  <form method="POST">
     {% csrf_token %}
     <div class="mb-3">
       <label class="mt-3" for="saveKrzl" class="form-label">Kürzel:</label>
