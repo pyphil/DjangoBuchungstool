@@ -237,33 +237,56 @@ def eintrag(request, accordion=None, room=None, id=None):
                         }
                     )
 
-    if request.POST.get('cancel'):
-        # redirect to home
-        return redirect('/buchungstool/' + room + '/?date=' + isodate)
-    
     if request.POST.get('delete'):
-        return render(
-            request, 'buchungstoolConfirmation.html',
-            {'date': entrydate, 'lerngruppe': request.POST.get('lerngruppe'),
-                'std': entrystd, 'room': room, 'room_text': room_text,
-                'buttondate': buttondate, 'krzl': request.POST.get('krzl').upper()[:3]}
-        )
-    
+        context = {
+            'date': isodate,
+            'lerngruppe': lerngruppe,
+            'std': std,
+            'room': room,
+            # 'room_text': room_text,
+            'buttondate': date,
+            'krzl': krzl,
+            'id': id
+        }
+        return render(request, 'buchungstoolConfirmation.html', context)
+
     if request.POST.get('deleteconfirmed'):
-        entry = Booking.objects.filter(
-            room=room,
-            datum=entrydate,
-            stunde=int(entrystd)
-        ).first()
-        entry.delete()
+        entry_obj.delete()
         delete_userlist_entry = Userlist.objects.filter(
             short_name=room,
-            datum=entrydate,
-            stunde=int(entrystd),
+            datum=isodate,
+            stunde=std,
         ).first()
         if delete_userlist_entry:
             delete_userlist_entry.delete()
-    elif request.POST.get('update'):
+        return redirect('/buchungstool/' + room + '/?date=' + isodate)
+
+    if request.POST.get('cancel'):
+        # redirect to home
+        return redirect('/buchungstool/' + room + '/?date=' + isodate)
+
+    date_series = getDateSeries(isodate)
+
+    return render(
+        request, 'buchungstoolEntry.html',
+        {
+            'room': room,
+            'room_text': room_obj.room + " - " + room_obj.description,
+            'isodate': isodate,
+            'date': date,
+            'buttontext': lerngruppe,
+            'std': std,
+            'krzl': krzl,
+            'date_series': date_series,
+            'userlist': userlist,
+            'state': state,
+            'accordion': accordion
+        }
+    )
+
+    
+def update(request):
+    if request.POST.get('update'):
         entry = Booking.objects.filter(
             room=room,
             datum=entrydate,
@@ -290,25 +313,6 @@ def eintrag(request, accordion=None, room=None, id=None):
                         'update': True
                     }
                 )
-
-    date_series = getDateSeries(isodate)
-
-    return render(
-        request, 'buchungstoolEntry.html',
-        {
-            'room': room,
-            'room_text': room_obj.room + " - " + room_obj.description,
-            'isodate': isodate,
-            'date': date,
-            'buttontext': lerngruppe,
-            'std': std,
-            'krzl': krzl,
-            'date_series': date_series,
-            'userlist': userlist,
-            'state': state,
-            'accordion': accordion
-        }
-    )
 
 
 def getWeekCalendar(request, direction=None):
