@@ -75,27 +75,19 @@ def home(request, room=None):
                 btncontent.append(
                     {'id': 0, 'lerngruppe': "frei", 'date': date, 'std': std})
 
-    if request.POST.get('delete'):
-        return render(
-            request, 'buchungstoolConfirmation.html',
-            {'date': entrydate, 'lerngruppe': request.POST.get('lerngruppe'),
-                'std': entrystd, 'room': room, 'room_text': room_text,
-                'buttondate': buttondate, 'krzl': request.POST.get('krzl').upper()[:3]}
-        )
-    else:
-        response = render(
-            request, 'buchungstoolHome.html',
-            {
-                'room': room_obj.short_name,
-                'room_text': room_obj.room + " - " + room_obj.description,
-                'room_alert': room_obj.alert,
-                'dates': dates,
-                'btncontent': btncontent,
-                'currentdate': currentdate
-            }
-        )
-        response.set_cookie('offset', offset)
-        return response
+    response = render(
+        request, 'buchungstoolHome.html',
+        {
+            'room': room_obj.short_name,
+            'room_text': room_obj.room + " - " + room_obj.description,
+            'room_alert': room_obj.alert,
+            'dates': dates,
+            'btncontent': btncontent,
+            'currentdate': currentdate
+        }
+    )
+    response.set_cookie('offset', offset)
+    return response
 
 
 def eintrag(request, accordion=None, room=None, id=None):
@@ -289,6 +281,13 @@ def eintrag(request, accordion=None, room=None, id=None):
                         'update': True
                     }
                 )
+    if request.POST.get('delete'):
+        return render(
+            request, 'buchungstoolConfirmation.html',
+            {'date': entrydate, 'lerngruppe': request.POST.get('lerngruppe'),
+                'std': entrystd, 'room': room, 'room_text': room_text,
+                'buttondate': buttondate, 'krzl': request.POST.get('krzl').upper()[:3]}
+        )
 
     date_series = getDateSeries(isodate)
 
