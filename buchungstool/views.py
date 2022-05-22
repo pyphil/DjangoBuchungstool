@@ -46,8 +46,8 @@ def home(request, room=None):
         return redirect('/')
 
     direction = None
-    if request.POST.get('direction'):
-        direction = request.POST.get('direction')
+    if request.GET.get('direction'):
+        direction = request.GET.get('direction')
     dates, offset, currentdate = getWeekCalendar(request, direction)
     currentdate = currentdate.strftime('%Y-%m-%d')
 
@@ -247,7 +247,7 @@ def eintrag(request, accordion=None, room=None, id=None):
 
     if request.POST.get('cancel'):
         # redirect to home
-        return redirect('/buchungstool/' + room)
+        return redirect('/buchungstool/' + room + '?date=' + isodate)
     elif request.POST.get('deleteconfirmed'):
         entry = Booking.objects.filter(
             room=room,
@@ -316,20 +316,20 @@ def getWeekCalendar(request, direction=None):
     except Exception:
         pass
 
-    if request.POST.get('currentdate'):
-        currentdate = request.POST.get('currentdate')
+    if request.GET.get('currentdate'):
+        currentdate = request.GET.get('currentdate')
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
         offset = 0
         print("currentdate")
-    elif request.POST.get('currentdate_nav'):
-        currentdate = request.POST.get('currentdate_nav')
+    elif request.GET.get('currentdate_nav'):
+        currentdate = request.GET.get('currentdate_nav')
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
         print("nav")
-    elif request.POST.get('date'):
+    elif request.GET.get('date'):
         offset = 0
-        currentdate = request.POST.get('date')
+        currentdate = request.GET.get('date')
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
         print("date")

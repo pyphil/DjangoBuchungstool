@@ -29,7 +29,7 @@
 		<div class="card-header">
 			<div class="row align-items-center">
 				<div class="col text-center">
-					<form class="mb-2 mt-2" action="" method="POST">
+					<form class="mb-2 mt-2">
 						{% csrf_token %}
 						<button type="submit" class="btn btn-secondary text-dark" style="background-color: #ffffff;"><i class="bi bi-calendar2-minus">&ensp;</i>Vorherige Woche</button>
 						<input type="hidden" name="direction" value="back" />
@@ -39,7 +39,7 @@
 					</form>
 				</div>
 				<div class="col-6 text-center">
-					<form class="mb-2 mt-2" action="" method="post">
+					<form class="mb-2 mt-2">
 						{% csrf_token %}
 						<label for="start">Springe zu:</label>
 						<input type="date" id="start" name="currentdate" class="btn btn-secondary text-dark custom-width" style="background-color: #ffffff;" value="{{ currentdate }}">
@@ -49,7 +49,7 @@
 					</form>
 				</div>
 				<div class="col text-center">
-					<form class="mb-2 mt-2" action="" method="POST">
+					<form class="mb-2 mt-2">
 						{% csrf_token %}
 						<button type="submit" class="btn btn-secondary text-dark" style="background-color: #ffffff;">Nächste Woche&ensp;<i class="bi bi-calendar2-plus"></i></button>
 						<input type="hidden" name="direction" value="forward" />
