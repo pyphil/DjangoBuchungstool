@@ -30,7 +30,6 @@
 			<div class="row align-items-center">
 				<div class="col text-center">
 					<form class="mb-2 mt-2">
-						{% csrf_token %}
 						<button type="submit" class="btn btn-secondary text-dark" style="background-color: #ffffff;"><i class="bi bi-calendar2-minus">&ensp;</i>Vorherige Woche</button>
 						<input type="hidden" name="direction" value="back" />
 						<input type="hidden" name="currentdate_nav" value="{{ currentdate }}">
@@ -40,7 +39,6 @@
 				</div>
 				<div class="col-6 text-center">
 					<form class="mb-2 mt-2">
-						{% csrf_token %}
 						<label for="start">Springe zu:</label>
 						<input type="date" id="start" name="currentdate" class="btn btn-secondary text-dark custom-width" style="background-color: #ffffff;" value="{{ currentdate }}">
 						<input type="submit" value="OK" class="btn btn-secondary text-dark" style="background-color: #ffffff;">
@@ -50,7 +48,6 @@
 				</div>
 				<div class="col text-center">
 					<form class="mb-2 mt-2">
-						{% csrf_token %}
 						<button type="submit" class="btn btn-secondary text-dark" style="background-color: #ffffff;">Nächste Woche&ensp;<i class="bi bi-calendar2-plus"></i></button>
 						<input type="hidden" name="direction" value="forward" />
 						<input type="hidden" name="currentdate_nav" value="{{ currentdate }}">
@@ -78,7 +75,6 @@
 				{% for text in btncontent %}
 				{% if text.std == 1 %}
 					<form action="{% url 'buchungstoolEntry' room text.id %}">
-						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
 								<div class="d-grid gap-2">
@@ -103,7 +99,6 @@
 				{% for text in btncontent %}
 				{% if text.std == 2 %}
 					<form action="{% url 'buchungstoolEntry' room text.id %}">
-						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
 								<div class="d-grid gap-2">
@@ -128,7 +123,6 @@
 				{% for text in btncontent %}
 				{% if text.std == 3 %}
 					<form action="{% url 'buchungstoolEntry' room text.id %}">
-						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
 								<div class="d-grid gap-2">
@@ -153,7 +147,6 @@
 				{% for text in btncontent %}
 				{% if text.std == 4 %}
 					<form action="{% url 'buchungstoolEntry' room text.id %}">
-						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
 								<div class="d-grid gap-2">
@@ -178,7 +171,6 @@
 				{% for text in btncontent %}
 				{% if text.std == 5 %}
 					<form action="{% url 'buchungstoolEntry' room text.id %}">
-						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
 								<div class="d-grid gap-2">
@@ -203,7 +195,6 @@
 				{% for text in btncontent %}
 				{% if text.std == 6 %}
 					<form action="{% url 'buchungstoolEntry' room text.id %}">
-						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
 								<div class="d-grid gap-2">
@@ -228,7 +219,6 @@
 				{% for text in btncontent %}
 				{% if text.std == 7 %}
 					<form action="{% url 'buchungstoolEntry' room text.id %}">
-						{% csrf_token %}
 						{% if text.lerngruppe == "frei" %}
 							<td>
 								<div class="d-grid gap-2">
