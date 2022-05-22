@@ -1,3 +1,4 @@
+from distutils.log import warn
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
@@ -260,12 +261,24 @@ def eintrag(request, accordion=None, room=None, id=None):
         if delete_userlist_entry:
             delete_userlist_entry.delete()
         return redirect('/buchungstool/' + room + '/?date=' + isodate)
+    
+    warning = False
+
+    if request.POST.get('update'):
+        if request.POST.get('lerngruppe') != "" and request.POST.get('krzl') != "" and request.POST.get('lerngruppe') != "" and request.POST.get('krzl') != "":
+            entry_obj.lerngruppe = request.POST.get('lerngruppe')
+            entry_obj.krzl = request.POST.get('krzl').upper()[:3]
+            entry_obj.save()
+
+        else:
+            warning = True
 
     if request.POST.get('cancel'):
         # redirect to home
         return redirect('/buchungstool/' + room + '/?date=' + isodate)
 
     date_series = getDateSeries(isodate)
+
 
     return render(
         request, 'buchungstoolEntry.html',
@@ -280,39 +293,10 @@ def eintrag(request, accordion=None, room=None, id=None):
             'date_series': date_series,
             'userlist': userlist,
             'state': state,
-            'accordion': accordion
+            'accordion': accordion,
+            'warning_empty': warning
         }
     )
-
-    
-def update(request):
-    if request.POST.get('update'):
-        entry = Booking.objects.filter(
-            room=room,
-            datum=entrydate,
-            stunde=int(entrystd)
-        ).first()
-        if entry:
-            # Update
-            if request.POST.get('lerngruppe') != "" and request.POST.get('krzl') != "" and request.POST.get('lerngruppe') != " " and request.POST.get('krzl') != " ":
-                entry.lerngruppe = request.POST.get('lerngruppe')
-                entry.krzl = request.POST.get('krzl').upper()[:3]
-                entry.save()
-            else:
-                return render(
-                    request, 'buchungstoolEntry.html',
-                    {
-                        'room': room,
-                        'room_text': room_text,
-                        'isodate': entrydate,
-                        'date': buttondate,
-                        'buttontext': request.POST.get('lerngruppe'),
-                        'std': entrystd,
-                        'krzl': request.POST.get('krzl').upper()[:3],
-                        'warning_empty': True,
-                        'update': True
-                    }
-                )
 
 
 def getWeekCalendar(request, direction=None):
