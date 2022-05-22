@@ -240,7 +240,16 @@ def eintrag(request, accordion=None, room=None, id=None):
     if request.POST.get('cancel'):
         # redirect to home
         return redirect('/buchungstool/' + room + '?date=' + isodate)
-    elif request.POST.get('deleteconfirmed'):
+    
+    if request.POST.get('delete'):
+        return render(
+            request, 'buchungstoolConfirmation.html',
+            {'date': entrydate, 'lerngruppe': request.POST.get('lerngruppe'),
+                'std': entrystd, 'room': room, 'room_text': room_text,
+                'buttondate': buttondate, 'krzl': request.POST.get('krzl').upper()[:3]}
+        )
+    
+    if request.POST.get('deleteconfirmed'):
         entry = Booking.objects.filter(
             room=room,
             datum=entrydate,
@@ -281,13 +290,6 @@ def eintrag(request, accordion=None, room=None, id=None):
                         'update': True
                     }
                 )
-    if request.POST.get('delete'):
-        return render(
-            request, 'buchungstoolConfirmation.html',
-            {'date': entrydate, 'lerngruppe': request.POST.get('lerngruppe'),
-                'std': entrystd, 'room': room, 'room_text': room_text,
-                'buttondate': buttondate, 'krzl': request.POST.get('krzl').upper()[:3]}
-        )
 
     date_series = getDateSeries(isodate)
 
