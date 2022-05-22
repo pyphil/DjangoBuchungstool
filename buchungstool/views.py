@@ -239,7 +239,7 @@ def eintrag(request, accordion=None, room=None, id=None):
 
     if request.POST.get('cancel'):
         # redirect to home
-        return redirect('/buchungstool/' + room + '?date=' + isodate)
+        return redirect('/buchungstool/' + room + '/?date=' + isodate)
     
     if request.POST.get('delete'):
         return render(
