@@ -165,38 +165,27 @@ def eintrag(request, accordion=None, room=None, id=None):
 
         return redirect('/buchungstool/' + room + "/" + str(id) + '/?accordion="open"#userlist')
 
+    warning = False
+    alert = False
+
     if request.POST.get('save'):
         selected_date = request.POST.get('selection')
         # Prüfen ob Felder leer sind
         if request.POST.get('lerngruppe') == "" or request.POST.get('krzl') == "" or request.POST.get('lerngruppe') == " " or request.POST.get('krzl') == " ":
-            return render(
-                request, 'buchungstoolEntry.html',
-                {
-                    'room': room,
-                    'room_text': room_text,
-                    'isodate': entrydate,
-                    'date': buttondate,
-                    'buttontext': request.POST.get('lerngruppe'),
-                    'date_series': getDateSeries(buttondate),
-                    'std': entrystd,
-                    'krzl': request.POST.get('krzl').upper()[:3],
-                    'warning_empty': True,
-                }
-            )
+           warning = True
         else:
             if selected_date == '0':
                 # Neue Buchung für einen Termin
                 new = Booking.objects.get_or_create(
                     room=room,
                     lerngruppe=request.POST.get('lerngruppe'),
-                    # datum=request.POST.get('date'),
-                    datum=request.session.get('isodate'),
-                    stunde=entrystd,
+                    datum=isodate,
+                    stunde=std,
                     krzl=request.POST.get('krzl').upper()[:3]
                 )
-                # new.save()
+                return redirect('/buchungstool/' + room + '/?date=' + isodate)
             if selected_date != '0':
-                selected_series = getDateSeries(buttondate, int(selected_date))
+                selected_series = getDateSeries(isodate, int(selected_date))
                 # Serie auf besetzte Termine testen
                 # Booking.objects.filter(datum="2022-02-23").filter(stunde='6').exists()
                 # .datum.isoformat().split('-')
@@ -204,10 +193,10 @@ def eintrag(request, accordion=None, room=None, id=None):
                 for i in selected_series:
                     d = i['date'].split('.')
                     d = d[2] + "-" + d[1] + "-" + d[0]
-                    if Booking.objects.filter(room=room).filter(datum=d).filter(stunde=int(entrystd)).exists():
+                    if Booking.objects.filter(room=room).filter(datum=d).filter(stunde=std).exists():
                         blocked_dates.append(d)
 
-                # wenn alle frei: buchen
+                # wenn alle frei: einen oder alle buchen
                 if blocked_dates == []:
                     for i in selected_series:
                         d = i['date'].split('.')
@@ -216,27 +205,31 @@ def eintrag(request, accordion=None, room=None, id=None):
                             room=room,
                             lerngruppe=request.POST.get('lerngruppe'),
                             datum=d,
-                            stunde=entrystd,
+                            stunde=std,
                             krzl=request.POST.get('krzl').upper()[:3]
                         )
                         new.save()
+                        return redirect('/buchungstool/' + room + '/?date=' + isodate)
                 # sonst: render entry mit alert in template
                 else:
-                    return render(
-                        request, 'buchungstoolEntry.html',
-                        {
-                            'room': room,
-                            'room_text': room_text,
-                            'isodate': entrydate,
-                            'date': buttondate,
-                            'buttontext': request.POST.get('lerngruppe'),
-                            'std': entrystd,
-                            'krzl': request.POST.get('krzl').upper()[:3],
-                            'date_series': getDateSeries(buttondate),
-                            'alert': True,
-                            'blocked_dates': ", ".join(blocked_dates)
-                        }
-                    )
+                    alert = True
+
+    update = False
+
+    if request.POST.get('update'):
+        if request.POST.get('lerngruppe') == "" or request.POST.get('krzl') == "" or request.POST.get('lerngruppe') == " " or request.POST.get('krzl') == " ":
+            warning = True
+            update = True
+        else:
+            entry_obj.lerngruppe = request.POST.get('lerngruppe')
+            entry_obj.krzl = request.POST.get('krzl').upper()[:3]
+            entry_obj.save()
+            print('update')
+            return redirect('/buchungstool/' + room + '/?date=' + isodate)
+
+    if request.POST.get('cancel'):
+        # redirect to home
+        return redirect('/buchungstool/' + room + '/?date=' + isodate)
 
     if request.POST.get('delete'):
         context = {
@@ -244,7 +237,6 @@ def eintrag(request, accordion=None, room=None, id=None):
             'lerngruppe': lerngruppe,
             'std': std,
             'room': room,
-            # 'room_text': room_text,
             'buttondate': date,
             'krzl': krzl,
             'id': id
@@ -261,27 +253,8 @@ def eintrag(request, accordion=None, room=None, id=None):
         if delete_userlist_entry:
             delete_userlist_entry.delete()
         return redirect('/buchungstool/' + room + '/?date=' + isodate)
-    
-    warning = False
-    update = False
-
-    if request.POST.get('update'):
-        if request.POST.get('lerngruppe') != "" and request.POST.get('krzl') != "" and request.POST.get('lerngruppe') != "" and request.POST.get('krzl') != "":
-            entry_obj.lerngruppe = request.POST.get('lerngruppe')
-            entry_obj.krzl = request.POST.get('krzl').upper()[:3]
-            entry_obj.save()
-            print('update')
-            return redirect('/buchungstool/' + room + '/?date=' + isodate)
-        else:
-            warning = True
-            update = True
-
-    if request.POST.get('cancel'):
-        # redirect to home
-        return redirect('/buchungstool/' + room + '/?date=' + isodate)
 
     date_series = getDateSeries(isodate)
-
 
     return render(
         request, 'buchungstoolEntry.html',
@@ -298,7 +271,8 @@ def eintrag(request, accordion=None, room=None, id=None):
             'state': state,
             'accordion': accordion,
             'warning_empty': warning,
-            'update': update
+            'update': update,
+            'alert': alert
         }
     )
 
