@@ -263,15 +263,18 @@ def eintrag(request, accordion=None, room=None, id=None):
         return redirect('/buchungstool/' + room + '/?date=' + isodate)
     
     warning = False
+    update = False
 
     if request.POST.get('update'):
         if request.POST.get('lerngruppe') != "" and request.POST.get('krzl') != "" and request.POST.get('lerngruppe') != "" and request.POST.get('krzl') != "":
             entry_obj.lerngruppe = request.POST.get('lerngruppe')
             entry_obj.krzl = request.POST.get('krzl').upper()[:3]
             entry_obj.save()
-
+            print('update')
+            return redirect('/buchungstool/' + room + '/?date=' + isodate)
         else:
             warning = True
+            update = True
 
     if request.POST.get('cancel'):
         # redirect to home
@@ -294,7 +297,8 @@ def eintrag(request, accordion=None, room=None, id=None):
             'userlist': userlist,
             'state': state,
             'accordion': accordion,
-            'warning_empty': warning
+            'warning_empty': warning,
+            'update': update
         }
     )
 
