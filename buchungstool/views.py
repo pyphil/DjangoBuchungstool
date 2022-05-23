@@ -94,7 +94,7 @@ def home(request, room=None):
 def eintrag(request, accordion=None, room=None, id=None):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
-    print(room, id)
+
     if accordion or request.GET.get('accordion'):
         accordion = "open"
     else:
@@ -119,7 +119,7 @@ def eintrag(request, accordion=None, room=None, id=None):
             initial_list.append(i.value())
         request.session['initial_list'] = initial_list
     elif id == 0:
-        print("neuer Eintrag")
+        # neuer Eintrag Variablen vorbereiten
         isodate = request.GET.get('isodate')
         date = datetime.datetime.strptime(isodate, '%Y-%m-%d').strftime('%d.%m.%Y')
         std = request.GET.get('std')
@@ -167,12 +167,13 @@ def eintrag(request, accordion=None, room=None, id=None):
 
     warning = False
     alert = False
+    blocked_dates = None
 
     if request.POST.get('save'):
         selected_date = request.POST.get('selection')
         # Prüfen ob Felder leer sind
         if request.POST.get('lerngruppe') == "" or request.POST.get('krzl') == "" or request.POST.get('lerngruppe') == " " or request.POST.get('krzl') == " ":
-           warning = True
+            warning = True
         else:
             if selected_date == '0':
                 # Neue Buchung für einen Termin
@@ -209,7 +210,7 @@ def eintrag(request, accordion=None, room=None, id=None):
                             krzl=request.POST.get('krzl').upper()[:3]
                         )
                         new.save()
-                        return redirect('/buchungstool/' + room + '/?date=' + isodate)
+                    return redirect('/buchungstool/' + room + '/?date=' + isodate)
                 # sonst: render entry mit alert in template
                 else:
                     alert = True
@@ -272,7 +273,8 @@ def eintrag(request, accordion=None, room=None, id=None):
             'accordion': accordion,
             'warning_empty': warning,
             'update': update,
-            'alert': alert
+            'alert': alert,
+            'blocked_dates': blocked_dates
         }
     )
 
