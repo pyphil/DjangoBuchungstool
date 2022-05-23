@@ -17,7 +17,7 @@
 
     <div class="row">
         <div class="col">
-            <div class="card mb-3 shadow">
+            <div class="card mb-3 shadow" style="background-color: #cee3f583;">
                 <h5 class="card-header">iPad-Koffer Niederzier</h5>
                 <div class="card-body">
                     {% for room in rooms %}
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div class="card shadow">
+            <div class="card shadow" style="background-color: #e8d4d470;">
                 <h5 class="card-header">Computer- und Besprechungsräume</h5>
                 <div class="card-body">
                     {% for room in rooms %}
@@ -47,7 +47,7 @@
         </div>
 
         <div class="col">
-            <div class="card mb-3 shadow">
+            <div class="card mb-3 shadow" style="background-color: #d5e9ce7d;">
                 <h5 class="card-header">iPad-Koffer Merzenich</h5>
                 <div class="card-body">
                     {% for room in rooms %}
@@ -55,11 +55,12 @@
                             <form action="{% url 'buchungstoolHome' room.short_name %}">
                                 <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
                                     {{ room.description }} - {{ room.room }}</button><br>
+                            </form>
                         {% endif %}
                     {% endfor %}
                 </div>
             </div>
-            <div class="card shadow">
+            <div class="card shadow" style="background-color: #dddddd9f;">
                 <h5 class="card-header">FS Mathematik</h5>
                 <div class="card-body">
                     {% for room in rooms %}
@@ -67,6 +68,7 @@
                             <form action="{% url 'buchungstoolHome' room.short_name %}">
                                 <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
                                     {{ room.description }} - {{ room.room }}</button><br>
+                            </form>
                         {% endif %}
                     {% endfor %}
                 </div>
