@@ -21,15 +21,18 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', buchungstoolViews.rooms, name='buchungstoolRooms'),
-    path('buchungstool/', buchungstoolViews.home, name='buchungstoolHome'),
-    path('buchungstool/entry/', buchungstoolViews.eintrag, name='buchungstoolEntry'),
+    # path('buchungstool/', buchungstoolViews.home, name='buchungstoolHome'),
+    path('buchungstool/<str:room>/', buchungstoolViews.home, name='buchungstoolHome'),
+    # path('buchungstool/entry/', buchungstoolViews.eintrag, name='buchungstoolEntry'),
+    path('buchungstool/<str:room>/<int:id>/', buchungstoolViews.eintrag, name='buchungstoolEntry'),
     path('userlist/select/', userlistViews.select, name='userlistSelect'),
     path('userlist/entry/', userlistViews.entry, name='userlistEntry'),
     path('userlist/success/', userlistViews.success, name='userlistSuccess'),
     path('tinymce/', include('tinymce.urls')),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
