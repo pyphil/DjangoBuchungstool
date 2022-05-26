@@ -1,0 +1,39 @@
+{% extends 'base_userlist.html' %}
+{% block content %}
+
+<div class="container">
+    <h2 class="mb-3">Geräteliste</h2>
+    <h5 class="mb-3">Die letzten 10 Benutzer von Gerät iPad_01</h5>
+
+    <div class="row mb-4">
+        <div class="col">
+       
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Datum</th>
+                    <th scope="col">Stunde</th>
+                    <th scope="col">Krzl.</th>
+                    <th scope="col">iPad_01-Nutzer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for device in devices %}
+                
+                <tr>
+                    <td>{{ device.datum }}</td>
+                    <td>{{ device.stunde }}</td>
+                    <td>{{ device.krzl }}</td>
+                    <td>{{ device.iPad_01 }}</td>
+                </tr>
+                
+                {% endfor %}
+                  
+                </tbody>
+              </table>
+        
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
