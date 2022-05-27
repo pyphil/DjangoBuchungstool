@@ -33,7 +33,8 @@ urlpatterns = [
     path('userlist/select/', userlistViews.select, name='userlistSelect'),
     path('userlist/entry/', userlistViews.entry, name='userlistEntry'),
     path('userlist/success/', userlistViews.success, name='userlistSuccess'),
-    path('devices/list/', devicelistViews.devicelist, name='devicelist'),
+    # path('devices/list/', devicelistViews.devicelist, name='devicelist'),
+    path('devices/', include('devicelist.urls')),
     path('tinymce/', include('tinymce.urls')),
 ]
 

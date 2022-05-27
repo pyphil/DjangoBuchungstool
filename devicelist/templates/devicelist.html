@@ -3,7 +3,7 @@
 
 <div class="container">
     <h2 class="mb-3">Geräteliste</h2>
-    <h5 class="mb-3">Die letzten 10 Benutzer von Gerät iPad_01</h5>
+    <h5 class="mb-3">Die letzten 10 Benutzer von Gerät {{ dev }}</h5>
 
     <div class="row mb-4">
         <div class="col">
@@ -14,17 +14,17 @@
                     <th scope="col">Datum</th>
                     <th scope="col">Stunde</th>
                     <th scope="col">Krzl.</th>
-                    <th scope="col">iPad_01-Nutzer</th>
+                    <th scope="col">{{ dev }}</th>
                   </tr>
                 </thead>
                 <tbody>
-                {% for device in devices %}
+                {% for i in devlist %}
                 
                 <tr>
-                    <td>{{ device.datum }}</td>
-                    <td>{{ device.stunde }}</td>
-                    <td>{{ device.krzl }}</td>
-                    <td>{{ device.iPad_01 }}</td>
+                    <td>{{ i.datum }}</td>
+                    <td>{{ i.stunde }}</td>
+                    <td>{{ i.krzl }}</td>
+                    <td>{{ i.dev }}</td>
                 </tr>
                 
                 {% endfor %}
