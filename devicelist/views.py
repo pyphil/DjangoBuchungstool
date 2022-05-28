@@ -1,8 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from buchungstool.models import Booking
+from .models import Device, DeviceForm
 
 
-def devicelist(request, room, date, dev):
+def devicelist(request, room):
+    print(room)
+    obj = get_object_or_404(Device)
+    f = DeviceForm(instance=obj)
+    return render(request, 'devicelist.html', {'room': room, 'devicelist': f})
+
+
+def lastDeviceUsers(request, room, date, dev):
     print(dev)
     devices = Booking.objects.filter(room=room, datum__lte=date).order_by('-datum', '-stunde')[:50]
     devlist = []
@@ -19,4 +27,4 @@ def devicelist(request, room, date, dev):
             'dev': getattr(i, dev),
         })
 
-    return render(request, 'devicelist.html', {'devlist': devlist, 'dev': dev})
+    return render(request, 'deviceusers.html', {'devlist': devlist, 'dev': dev})

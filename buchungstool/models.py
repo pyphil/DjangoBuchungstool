@@ -97,3 +97,6 @@ class Room(models.Model):
     description = models.CharField(max_length=100)
     card = models.IntegerField()
     alert = HTMLField(blank=True)
+
+    def __str__(self):
+        return self.short_name
