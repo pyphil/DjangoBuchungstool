@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from buchungstool import views as buchungstoolViews
 from userlist import views as userlistViews
+from devicelist import views as devicelistViews
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -32,6 +33,8 @@ urlpatterns = [
     path('userlist/select/', userlistViews.select, name='userlistSelect'),
     path('userlist/entry/', userlistViews.entry, name='userlistEntry'),
     path('userlist/success/', userlistViews.success, name='userlistSuccess'),
+    # path('devices/list/', devicelistViews.devicelist, name='devicelist'),
+    path('devices/', include('devicelist.urls')),
     path('tinymce/', include('tinymce.urls')),
 ]
 
