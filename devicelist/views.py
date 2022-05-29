@@ -20,7 +20,7 @@ def devicelist(request, room):
 
 
 def devicelistEntry(request, room, date, dev):
-    obj = Device.objects.get(room__short_name=room, krzl="MSP")
+    obj = Device.objects.get(room__short_name=room, datum=date, device=dev)
     f = DeviceForm(instance=obj)
     return render(request, 'devicelistEntry.html', {'room': room, 'devicelist': f})
 
