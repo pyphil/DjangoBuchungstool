@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking, iPads, pens
 from .models import Device, DeviceForm
 
@@ -20,8 +20,20 @@ def devicelist(request, room):
 
 
 def devicelistEntry(request, room, date, dev):
-    obj = Device.objects.get(room__short_name=room, datum=date, device=dev)
-    f = DeviceForm(instance=obj)
+    if request.method == "GET":
+        if request.GET.get('new'):
+            # new empty form
+            # TODO: Pass in the id of room
+            f = DeviceForm(initial={'room': 7})
+        else:
+            # Update
+            obj = Device.objects.get(room__short_name=room, datum=date, device=dev)
+            f = DeviceForm(instance=obj)
+    if request.method == "POST":
+        f = DeviceForm(request.POST)
+        if f.is_valid():
+            f.save()
+            return redirect('/devices/' + room + "/")
     dev = dev.replace("_", " ")
     return render(request, 'devicelistEntry.html', {'room': room, 'dev': dev, 'devicelist': f})
 
