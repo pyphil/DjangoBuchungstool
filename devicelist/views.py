@@ -22,7 +22,8 @@ def devicelist(request, room):
 def devicelistEntry(request, room, date, dev):
     obj = Device.objects.get(room__short_name=room, datum=date, device=dev)
     f = DeviceForm(instance=obj)
-    return render(request, 'devicelistEntry.html', {'room': room, 'devicelist': f})
+    dev = dev.replace("_", " ")
+    return render(request, 'devicelistEntry.html', {'room': room, 'dev': dev, 'devicelist': f})
 
 
 def lastDeviceUsers(request, room, date, dev):
