@@ -16,11 +16,12 @@ class Device(models.Model):
 class DeviceForm(ModelForm):
     class Meta:
         model = Device
-        fields = [
+        fields = (
+            'room',
             'device',
             'datum',
             'stunde',
             'beschreibung',
             'krzl',
             'behoben'
-        ]
+        )

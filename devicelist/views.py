@@ -1,13 +1,28 @@
 from django.shortcuts import get_object_or_404, render
-from buchungstool.models import Booking
+from buchungstool.models import Booking, iPads, pens
 from .models import Device, DeviceForm
 
 
 def devicelist(request, room):
     print(room)
-    obj = get_object_or_404(Device)
+    obj = Device.objects.filter(room__short_name=room)
+    iPads_with_entry = []
+    for i in obj:
+        iPads_with_entry.append(i.device)
+    context = {
+        'room': room,
+        'iPads': iPads,
+        'pens': pens,
+        'iPads_with_entry': iPads_with_entry,
+        'devicelist': obj,
+    }
+    return render(request, 'devicelist.html', context)
+
+
+def devicelistEntry(request, room, date, dev):
+    obj = Device.objects.get(room__short_name=room, krzl="MSP")
     f = DeviceForm(instance=obj)
-    return render(request, 'devicelist.html', {'room': room, 'devicelist': f})
+    return render(request, 'devicelistEntry.html', {'room': room, 'devicelist': f})
 
 
 def lastDeviceUsers(request, room, date, dev):

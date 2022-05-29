@@ -5,40 +5,40 @@
     <h2 class="mb-3">Geräteliste iPad-Koffer {{ room }}</h2>
     
     
-    
-    <h5 class="mb-1">Schaden- und Problemliste für iPad {{ dev }}</h5>
-    <div class="row mb-4">
-        <div class="col">
-        <form method="POST">
-          {% csrf_token %}
-          {{ devicelist.as_p }}
-        </form>
-            <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">Datum</th>
-                    <th scope="col">Stunde</th>
-                    <th scope="col">Beschreibung</th>
-                    <th scope="col">Krzl.</th>
-                    <th scope="col">Behoben durch</th>
-                  </tr>
-                </thead>
-                <tbody>
+    {% for iPad in iPads %}
+    {% if iPad.dbname in iPads_with_entry %}
+      <h5 class="mt-4">Schaden- und Problemliste für {{ iPad.name }}</h5>
+      <div class="row mb-4">
+          <div class="col">
 
-                
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Datum</th>
+                      <th scope="col">Stunde</th>
+                      <th scope="col">Beschreibung</th>
+                      <th scope="col">Krzl.</th>
+                      <th scope="col">Behoben durch</th>
+                    </tr>
+                  </thead>
+                  <tbody>
 
-                  
-                </tbody>
-              </table>
-        
+                  {% for device in devicelist %}
+                    {% if device.device == iPad.dbname %}
+                    <tr>
+                        <td>{{ device.datum }}</td>
+                        <td>{{ device.stunde }}</td>
+                        <td>{{ device.beschreibung }}</td>
+                        <td>{{ device.krzl }}</td>
+                        <td>{{ device.behoben }}</td>
+                    </tr>
+                    {% endif %}
+                  {% endfor %}
+         
+                  </tbody>
+                </table>
+      {% endif %}
+      {% endfor %}
         </div>
     </div>
 </div>

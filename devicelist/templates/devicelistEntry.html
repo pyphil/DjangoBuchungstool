@@ -1,0 +1,18 @@
+{% extends 'base_userlist.html' %}
+{% block content %}
+
+<div class="container">
+    <h2 class="mb-3">Eintrag für Schaden- und Problemliste bearbeiten</h2>
+
+    <div class="row mb-4">
+        <div class="col">
+        <form method="POST">
+          {% csrf_token %}
+          {{ devicelist.as_p }}
+        </form>
+        
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
