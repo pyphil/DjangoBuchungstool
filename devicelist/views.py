@@ -1,11 +1,11 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking, iPads, pens
-from .models import Device, DeviceForm
+from .models import DevicelistEntry, DevicelistEntryForm
 
 
 def devicelist(request, room):
     print(room)
-    obj = Device.objects.filter(room__short_name=room)
+    obj = DevicelistEntry.objects.filter(room__short_name=room)
     iPads_with_entry = []
     for i in obj:
         iPads_with_entry.append(i.device)
@@ -24,13 +24,13 @@ def devicelistEntry(request, room, date, dev):
         if request.GET.get('new'):
             # new empty form
             # TODO: Pass in the id of room
-            f = DeviceForm(initial={'room': 7})
+            f = DevicelistEntryForm(initial={'room': 7})
         else:
             # Update
-            obj = Device.objects.get(room__short_name=room, datum=date, device=dev)
-            f = DeviceForm(instance=obj)
+            obj = DevicelistEntry.objects.get(room__short_name=room, datum=date, device=dev)
+            f = DevicelistEntryForm(instance=obj)
     if request.method == "POST":
-        f = DeviceForm(request.POST)
+        f = DevicelistEntryForm(request.POST)
         if f.is_valid():
             f.save()
             return redirect('/devices/' + room + "/")

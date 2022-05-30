@@ -4,7 +4,7 @@ from django import forms
 from buchungstool.models import Room
 
 
-class Device(models.Model):
+class DevicelistEntry(models.Model):
     room = models.ForeignKey(Room, blank=True, on_delete=models.DO_NOTHING)
     device = models.CharField(max_length=10)
     datum = models.DateField()
@@ -14,9 +14,9 @@ class Device(models.Model):
     behoben = models.CharField(max_length=10, blank=True)
 
 
-class DeviceForm(ModelForm):
+class DevicelistEntryForm(ModelForm):
     class Meta:
-        model = Device
+        model = DevicelistEntry
         fields = (
             'room',
             'device',

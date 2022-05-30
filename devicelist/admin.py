@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Device
+from .models import DevicelistEntry
 
 
 class DeviceCustomAdmin(admin.ModelAdmin):
@@ -11,4 +11,4 @@ class DeviceCustomAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(Device, DeviceCustomAdmin)
+admin.site.register(DevicelistEntry, DeviceCustomAdmin)
