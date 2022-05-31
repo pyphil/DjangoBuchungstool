@@ -21,7 +21,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            {% if request.path != "/" %}
+            {% if request.path != "/" and request.path != "/buchungstool/userlistInfo/"%}
             <div class="navbar-nav ms-auto"> <a class="nav-link active" href="{% url 'buchungstoolRooms' %}"><i
                         class="bi bi-arrow-left-square"> </i>zur Auswahl der Räume und Geräte</a>
             </div>
