@@ -385,3 +385,7 @@ def getUserlist(room, isodate, std):
         return "on", f
     else:
         return "off", f
+
+
+def userlistInfo(request):
+    return render(request, 'buchungstoolUserlistInfo.html', {})

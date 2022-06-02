@@ -4,6 +4,45 @@ from django import forms
 from django.forms import ModelForm
 
 
+iPads = [
+    {'dbname': 'iPad_01', 'name': 'iPad 01'},
+    {'dbname': 'iPad_02', 'name': 'iPad 02'},
+    {'dbname': 'iPad_03', 'name': 'iPad 03'},
+    {'dbname': 'iPad_04', 'name': 'iPad 04'},
+    {'dbname': 'iPad_05', 'name': 'iPad 05'},
+    {'dbname': 'iPad_06', 'name': 'iPad 06'},
+    {'dbname': 'iPad_07', 'name': 'iPad 07'},
+    {'dbname': 'iPad_08', 'name': 'iPad 08'},
+    {'dbname': 'iPad_09', 'name': 'iPad 09'},
+    {'dbname': 'iPad_10', 'name': 'iPad 10'},
+    {'dbname': 'iPad_11', 'name': 'iPad 11'},
+    {'dbname': 'iPad_12', 'name': 'iPad 12'},
+    {'dbname': 'iPad_13', 'name': 'iPad 13'},
+    {'dbname': 'iPad_14', 'name': 'iPad 14'},
+    {'dbname': 'iPad_15', 'name': 'iPad 15'},
+    {'dbname': 'iPad_16', 'name': 'iPad 16'},
+]
+
+pens = [
+    {'dbname': 'pen_01', 'name': 'pen 01', },
+    {'dbname': 'pen_02', 'name': 'pen 02', },
+    {'dbname': 'pen_03', 'name': 'pen 03', },
+    {'dbname': 'pen_04', 'name': 'pen 04', },
+    {'dbname': 'pen_05', 'name': 'pen 05', },
+    {'dbname': 'pen_06', 'name': 'pen 06', },
+    {'dbname': 'pen_07', 'name': 'pen 07', },
+    {'dbname': 'pen_08', 'name': 'pen 08', },
+    {'dbname': 'pen_09', 'name': 'pen 09', },
+    {'dbname': 'pen_10', 'name': 'pen 10', },
+    {'dbname': 'pen_11', 'name': 'pen 11', },
+    {'dbname': 'pen_12', 'name': 'pen 12', },
+    {'dbname': 'pen_13', 'name': 'pen 13', },
+    {'dbname': 'pen_14', 'name': 'pen 14', },
+    {'dbname': 'pen_15', 'name': 'pen 15', },
+    {'dbname': 'pen_16', 'name': 'pen 16', },
+]
+
+
 class Booking(models.Model):
     room = models.CharField(max_length=10)
     krzl = models.CharField(max_length=3)
@@ -97,3 +136,6 @@ class Room(models.Model):
     description = models.CharField(max_length=100)
     card = models.IntegerField()
     alert = HTMLField(blank=True)
+
+    def __str__(self):
+        return self.short_name

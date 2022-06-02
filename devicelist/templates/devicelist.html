@@ -1,0 +1,46 @@
+{% extends 'base_userlist.html' %}
+{% block content %}
+
+<div class="container">
+    <h2 class="mb-3">Geräteliste iPad-Koffer {{ room }}</h2>
+    
+    
+    {% for iPad in iPads %}
+    {% if iPad.dbname in iPads_with_entry %}
+      <h5 class="mt-4">Schaden- und Problemliste für <strong>{{ iPad.name }}</strong></h5>
+      <div class="row mb-4">
+          <div class="col">
+
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Datum</th>
+                      <th scope="col">Stunde</th>
+                      <th scope="col">Beschreibung</th>
+                      <th scope="col">Krzl.</th>
+                      <th scope="col">Behoben durch</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                  {% for device in devicelist %}
+                    {% if device.device == iPad.dbname %}
+                    <tr>
+                        <td>{{ device.datum }}</td>
+                        <td>{{ device.stunde }}</td>
+                        <td>{{ device.beschreibung }}</td>
+                        <td>{{ device.krzl }}</td>
+                        <td>{{ device.behoben }}</td>
+                    </tr>
+                    {% endif %}
+                  {% endfor %}
+         
+                  </tbody>
+                </table>
+      {% endif %}
+      {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

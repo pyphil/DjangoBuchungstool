@@ -111,6 +111,11 @@
   </form>
 
   {% if state == None %}
+    <div class="alert alert-info mt-5">
+      <h5>-- NEU -- Digitaler Eintrag in die Nutzerliste jetzt möglich</h5> 
+      Klickst du erneut auf deinen Termin im Kalender, taucht hier die digitale Nutzerliste auf und du kannst sie für die Schüler*innen freischalten.
+      <strong><a href="{% url 'userlistInfo' %}">mehr Informationen</a></strong>
+  </div>
   {% else %}
   <form method="POST">
     {% csrf_token %}
@@ -119,7 +124,7 @@
       Die Schüler*innen tragen sich auf dem iPad mit der App "Nutzerliste" ein. Lehrer*innen schalten diese Liste 
       vorher frei. Die Schüler*innen wählen den richtigen Koffer/Unterricht aus (nur falls mehrere parallele Freischaltungen offen sind) und tragen 
       sich mit den Vornamen (ggf. erster Buchstabe des Nachnamens) ein. In der unten stehenden Liste sieht man (evtl. "Neu laden") die Eintragungen 
-      und kann ggf. selbst bei einzelnen Einträgen nachtragen und Speichern.
+      und kann ggf. selbst bei einzelnen Einträgen nachtragen und Speichern. <strong><a href="{% url 'userlistInfo' %}">mehr Informationen</a></strong>
     </div>
     <div class="col">
       <a name="userlist">Eintrag in die Nutzerliste für Schüler*innen freischalten (20 min):</a>
