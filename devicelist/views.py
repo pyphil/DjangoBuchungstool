@@ -19,15 +19,10 @@ def devicelist(request, room):
     return render(request, 'devicelist.html', context)
 
 
-def devicelistEntry(request, room, date, dev):
+def devicelistEntry(request, room, date, std, dev):
     if request.method == "GET":
-        if request.GET.get('new'):
-            # new empty form
-            # TODO: Pass in the id of room
-            f = DevicelistEntryForm(initial={'room': 7})
-        else:
-            # Update
-            obj = DevicelistEntry.objects.get(room__short_name=room, datum=date, device=dev)
+            # Update -> load instance
+            obj = DevicelistEntry.objects.get(room__short_name=room, datum=date, stunde=std, device=dev)
             f = DevicelistEntryForm(instance=obj)
     if request.method == "POST":
         f = DevicelistEntryForm(request.POST)
@@ -36,6 +31,19 @@ def devicelistEntry(request, room, date, dev):
             return redirect('/devices/' + room + "/")
     dev = dev.replace("_", " ")
     return render(request, 'devicelistEntry.html', {'room': room, 'dev': dev, 'devicelist': f})
+
+
+def devicelistEntryNew(request, room, date, std):
+    if request.method == "GET":
+        # new empty form
+        # TODO: Pass in the id of room
+        f = DevicelistEntryForm(initial={'room': room, 'datum': date, 'stunde': std})
+    if request.method == "POST":
+        f = DevicelistEntryForm(request.POST)
+        if f.is_valid():
+            f.save()
+            return redirect('/devices/' + room + "/")
+    return render(request, 'devicelistEntry.html', {'room': room, 'devicelist': f})
 
 
 def lastDeviceUsers(request, room, date, dev):
