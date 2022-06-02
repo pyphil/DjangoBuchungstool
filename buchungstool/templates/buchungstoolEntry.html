@@ -111,6 +111,11 @@
   </form>
 
   {% if state == None %}
+    <div class="alert alert-info mt-5">
+      <h5>-- NEU -- Digitaler Eintrag in die Nutzerliste jetzt möglich</h5> 
+      Klickst du erneut auf deinen Termin im Kalender, taucht hier die digitale Nutzerliste auf und du kannst sie für die Schüler*innen freischalten.
+      <strong><a href="{% url 'userlistInfo' %}">mehr Informationen</a></strong>
+  </div>
   {% else %}
   <form method="POST">
     {% csrf_token %}
