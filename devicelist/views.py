@@ -21,9 +21,9 @@ def devicelist(request, room):
 
 def devicelistEntry(request, room, date, std, dev):
     if request.method == "GET":
-            # Update -> load instance
-            obj = DevicelistEntry.objects.get(room__short_name=room, datum=date, stunde=std, device=dev)
-            f = DevicelistEntryForm(instance=obj)
+        # Update -> load instance
+        obj = DevicelistEntry.objects.get(room__short_name=room, datum=date, stunde=std, device=dev)
+        f = DevicelistEntryForm(instance=obj)
     if request.method == "POST":
         f = DevicelistEntryForm(request.POST)
         if f.is_valid():
@@ -48,7 +48,7 @@ def devicelistEntryNew(request, room, date, std):
 
 def lastDeviceUsers(request, room, date, dev):
     print(dev)
-    devices = Booking.objects.filter(room=room, datum__lte=date).order_by('-datum', '-stunde')[:50]
+    devices = Booking.objects.filter(room=room, datum__lte=date).order_by('-datum', '-stunde')[:10]
     devlist = []
     for i in devices:
         print(i.datum)
@@ -62,5 +62,6 @@ def lastDeviceUsers(request, room, date, dev):
             'krzl': i.krzl,
             'dev': getattr(i, dev),
         })
-
-    return render(request, 'deviceusers.html', {'devlist': devlist, 'dev': dev})
+    seit_datum = date.split("-")
+    seit_datum = seit_datum[2] + "." + seit_datum[1] + "." + seit_datum[0]
+    return render(request, 'deviceusers.html', {'devlist': devlist, 'dev': dev, 'seit_datum': seit_datum})
