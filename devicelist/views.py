@@ -4,7 +4,6 @@ from .models import DevicelistEntry, DevicelistEntryForm, Room
 
 
 def devicelist(request, room, date, std):
-    print(room)
     obj = DevicelistEntry.objects.filter(room__short_name=room)
     iPads_with_entry = []
     for i in obj:
@@ -47,7 +46,8 @@ def devicelistEntryNew(request, room, date, std):
         f = DevicelistEntryForm(request.POST)
         if f.is_valid():
             f.save()
-            return redirect('/devices/' + room + "/")
+            # return redirect('/devices/' + room + "/" + date + "/" + str(std) + "/")
+            return redirect('devicelist', room=room, date=date, std=std)
     return render(request, 'devicelistEntry.html', {'room': room, 'devicelist': f})
 
 
