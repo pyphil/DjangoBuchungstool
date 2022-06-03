@@ -10,40 +10,40 @@
       <h5 class="mt-4">Schaden- und Problemliste für <strong>{{ iPad.name }}</strong></h5>
       <div class="row mb-4">
           <div class="col">
-
-              <table class="table table-striped">
-                  <thead>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Datum</th>
+                    <th scope="col">Stunde</th>
+                    <th scope="col">Beschreibung</th>
+                    <th scope="col">Krzl.</th>
+                    <th scope="col">Behoben durch</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for device in devicelist %}
+                  {% if device.device == iPad.dbname %}
+                  <form action="{% url 'deviceEntry' device.id %}">
                     <tr>
-                      <th scope="col">Datum</th>
-                      <th scope="col">Stunde</th>
-                      <th scope="col">Beschreibung</th>
-                      <th scope="col">Krzl.</th>
-                      <th scope="col">Behoben durch</th>
+                        <td>{{ device.datum }}</td>
+                        <td>{{ device.stunde }}</td>
+                        <td>{{ device.beschreibung }}</td>
+                        <td>{{ device.krzl }}</td>
+                        <td>{{ device.behoben }}</td>
+                        <td><button type="submit" class="btn btn-secondary btn-sm">Ändern</button></td>
                     </tr>
-                  </thead>
-                  <tbody>
-
-                  {% for device in devicelist %}
-                    {% if device.device == iPad.dbname %}
-                    <form action="{% url 'deviceEntry' device.room device.datum device.stunde device.device %}">
-                      <tr>
-                          <td>{{ device.datum }}</td>
-                          <td>{{ device.stunde }}</td>
-                          <td>{{ device.beschreibung }}</td>
-                          <td>{{ device.krzl }}</td>
-                          <td>{{ device.behoben }}</td>
-                          <td><button type="submit" class="btn btn-secondary btn-sm">Ändern</button></td>
-                      </tr>
-                    </form>
-                    {% endif %}
-                  {% endfor %}
-         
-                  </tbody>
-                </table>
-      {% endif %}
-      {% endfor %}
-        </div>
-    </div>
+                  </form>
+                  {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>  
+          </div>
+      </div>
+    {% endif %}
+    {% endfor %}
+    <form action="{% url 'deviceEntryNew' room datum stunde %}">
+      <button type="submit" class="btn btn-primary">+ neuer Eintrag</button>
+    </form>
 </div>
 
 {% endblock content %}

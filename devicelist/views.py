@@ -3,7 +3,7 @@ from buchungstool.models import Booking, iPads, pens
 from .models import DevicelistEntry, DevicelistEntryForm, Room
 
 
-def devicelist(request, room):
+def devicelist(request, room, date, std):
     print(room)
     obj = DevicelistEntry.objects.filter(room__short_name=room)
     iPads_with_entry = []
@@ -11,6 +11,8 @@ def devicelist(request, room):
         iPads_with_entry.append(i.device)
     context = {
         'room': room,
+        'datum': date,
+        'stunde': std,
         'iPads': iPads,
         'pens': pens,
         'iPads_with_entry': iPads_with_entry,
@@ -19,18 +21,19 @@ def devicelist(request, room):
     return render(request, 'devicelist.html', context)
 
 
-def devicelistEntry(request, room, date, std, dev):
+def devicelistEntry(request, id):
+    obj = get_object_or_404(DevicelistEntry, id=id)
     if request.method == "GET":
         # Update -> load instance
-        obj = DevicelistEntry.objects.get(room__short_name=room, datum=date, stunde=std, device=dev)
         f = DevicelistEntryForm(instance=obj)
     if request.method == "POST":
-        f = DevicelistEntryForm(request.POST)
+        f = DevicelistEntryForm(request.POST, instance=obj)
         if f.is_valid():
             f.save()
-            return redirect('/devices/' + room + "/")
+            return redirect('/devices/' + str(obj.room) + "/")
+    dev = obj.device
     dev = dev.replace("_", " ")
-    return render(request, 'devicelistEntry.html', {'room': room, 'dev': dev, 'devicelist': f})
+    return render(request, 'devicelistEntry.html', {'room': obj.room, 'dev': dev, 'devicelist': f})
 
 
 def devicelistEntryNew(request, room, date, std):
