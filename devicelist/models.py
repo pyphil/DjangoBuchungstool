@@ -5,7 +5,7 @@ from buchungstool.models import Room
 
 
 class DevicelistEntry(models.Model):
-    room = models.ForeignKey(Room, blank=True, on_delete=models.DO_NOTHING)
+    room = models.ForeignKey(Room, on_delete=models.DO_NOTHING)
     device = models.CharField(max_length=10)
     datum = models.DateField()
     stunde = models.IntegerField()

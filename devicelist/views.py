@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking, iPads, pens
-from .models import DevicelistEntry, DevicelistEntryForm
+from .models import DevicelistEntry, DevicelistEntryForm, Room
 
 
 def devicelist(request, room):
@@ -34,10 +34,12 @@ def devicelistEntry(request, room, date, std, dev):
 
 
 def devicelistEntryNew(request, room, date, std):
+    # get room id to pass in for initial data
+    room_id = get_object_or_404(Room, short_name=room).id
+    print(room_id)
     if request.method == "GET":
         # new empty form
-        # TODO: Pass in the id of room
-        f = DevicelistEntryForm(initial={'room': room, 'datum': date, 'stunde': std})
+        f = DevicelistEntryForm(initial={'room': room_id, 'datum': date, 'stunde': std})
     if request.method == "POST":
         f = DevicelistEntryForm(request.POST)
         if f.is_valid():

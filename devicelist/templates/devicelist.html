@@ -25,13 +25,16 @@
 
                   {% for device in devicelist %}
                     {% if device.device == iPad.dbname %}
-                    <tr>
-                        <td>{{ device.datum }}</td>
-                        <td>{{ device.stunde }}</td>
-                        <td>{{ device.beschreibung }}</td>
-                        <td>{{ device.krzl }}</td>
-                        <td>{{ device.behoben }}</td>
-                    </tr>
+                    <form action="{% url 'deviceEntry' device.room device.datum device.stunde device.device %}">
+                      <tr>
+                          <td>{{ device.datum }}</td>
+                          <td>{{ device.stunde }}</td>
+                          <td>{{ device.beschreibung }}</td>
+                          <td>{{ device.krzl }}</td>
+                          <td>{{ device.behoben }}</td>
+                          <td><button type="submit" class="btn btn-secondary btn-sm">Ändern</button></td>
+                      </tr>
+                    </form>
                     {% endif %}
                   {% endfor %}
          
