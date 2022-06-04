@@ -3,8 +3,7 @@
 
 <div class="container">
     <h2 class="mb-3">Eintrag für Schaden- und Problemliste bearbeiten</h2>
-    <h5 class="mb-3">Koffer: {{ room }}</h5>
-    <h5 class="mb-3">Gerät: {{ dev }}</h5>
+    <h5 class="mb-3">Koffer: {{ devicelist.room }}</h5>
 
     <div class="row mb-4">
         <div class="col">
@@ -47,7 +46,7 @@
           {% else %}
             <button type="submit" name="delete" value="delete" class="btn btn-danger mt-5">Löschen</button>
           {% endif %}
-          <button onclick="history.back()" class="btn btn-secondary mt-5">Abbrechen</button>
+          <a href="{% url 'devicelist' room date std %}" class="btn btn-secondary mt-5">Abbrechen</a>
         </form>
       </div>
     </div>
