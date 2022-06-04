@@ -3,7 +3,7 @@ from buchungstool.models import Booking, iPads, pens
 from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn
 
 
-def devicelist(request, room, date, std):
+def devicelist(request, room, date=None, std=None):
     obj = DevicelistEntry.objects.filter(room__short_name=room)
     iPads_with_entry = []
     for i in obj:
@@ -50,18 +50,22 @@ def devicelistEntry(request, id):
 
 def devicelistEntryNew(request, room, date, std):
     # get room id to pass in for initial data
+    print('cancel')
     room_id = get_object_or_404(Room, short_name=room).id
-    print(room_id)
     if request.method == "GET":
         # new empty form
         f = DevicelistEntryForm(initial={'room': room_id, 'datum': date, 'stunde': std})
     if request.method == "POST":
-        f = DevicelistEntryForm(request.POST)
-        if f.is_valid():
-            f.save()
-            # return redirect('/devices/' + room + "/" + date + "/" + str(std) + "/")
+        if request.POST.get('save'):
+            print('save')
+            f = DevicelistEntryForm(request.POST)
+            if f.is_valid():
+                f.save()
+                # return redirect('/devices/' + room + "/" + date + "/" + str(std) + "/")
+                return redirect('devicelist', room=room, date=date, std=std)
+        else:
             return redirect('devicelist', room=room, date=date, std=std)
-    return render(request, 'devicelistEntry.html', {'room': room, 'devicelist': f})
+    return render(request, 'devicelistEntry.html', {'room': room, 'devicelist': f, 'nodelete': True})
 
 
 def lastDeviceUsers(request, room, date, dev):

@@ -2,9 +2,12 @@
 {% block content %}
 
 <div class="container">
-    <h2 class="mb-3">Geräteliste iPad-Koffer {{ room }}</h2>
-    
-    
+  <h2 class="mb-3">Geräteliste iPad-Koffer {{ room }}</h2>
+ 
+  <form action="{% url 'deviceEntryNew' room datum stunde %}">
+    <button type="submit" class="btn btn-primary"><strong>+</strong> neuer Eintrag</button>
+  </form>
+
     {% for iPad in iPads %}
     {% if iPad.dbname in iPads_with_entry %}
       <h5 class="mt-4">Schaden- und Problemliste für <strong>{{ iPad.name }}</strong></h5>
@@ -30,7 +33,7 @@
                         <td>{{ device.beschreibung }}</td>
                         <td>{{ device.krzl }}</td>
                         <td>{{ device.behoben }}</td>
-                        <td><button type="submit" class="btn btn-secondary btn-sm">Ändern</button></td>
+                        <td><div class="text-end"><button type="submit" class="btn btn-secondary btn-sm">Ändern</button></div></td>
                     </tr>
                   </form>
                   {% endif %}
@@ -41,9 +44,6 @@
       </div>
     {% endif %}
     {% endfor %}
-    <form action="{% url 'deviceEntryNew' room datum stunde %}">
-      <button type="submit" class="btn btn-primary">+ neuer Eintrag</button>
-    </form>
 </div>
 
 {% endblock content %}
