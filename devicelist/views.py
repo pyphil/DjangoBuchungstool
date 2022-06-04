@@ -8,6 +8,7 @@ def devicelist(request, room, date, std):
     iPads_with_entry = []
     for i in obj:
         iPads_with_entry.append(i.device)
+        print(iPads_with_entry)
     context = {
         'room': room,
         'date': date,
