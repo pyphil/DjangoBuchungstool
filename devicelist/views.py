@@ -29,7 +29,8 @@ def devicelistEntry(request, id):
         f = DevicelistEntryForm(request.POST, instance=obj)
         if f.is_valid():
             f.save()
-            return redirect('/devices/' + str(obj.room) + "/")
+            # return redirect('/devices/' + str(obj.room) + "/")
+            return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde)
     dev = obj.device
     dev = dev.replace("_", " ")
     return render(request, 'devicelistEntry.html', {'room': obj.room, 'dev': dev, 'devicelist': f})

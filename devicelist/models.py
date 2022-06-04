@@ -33,5 +33,5 @@ class DevicelistEntryForm(ModelForm):
             'stunde': forms.NumberInput(attrs={'class': 'form-control'}),
             'beschreibung': forms.TextInput(attrs={'class': 'form-control'}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'}),
-            'behoben': forms.TextInput(attrs={'class': 'form-control'}),
+            'behoben': forms.TextInput(attrs={'class': 'form-control', 'disabled': 'disabled'}),
         }
