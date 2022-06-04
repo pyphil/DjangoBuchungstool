@@ -24,6 +24,29 @@ class DevicelistEntryForm(ModelForm):
             'stunde',
             'beschreibung',
             'krzl',
+           # 'behoben'
+        )
+        widgets = {
+            'room': forms.Select(attrs={'class': 'form-select'}),
+            'device': forms.TextInput(attrs={'class': 'form-control'}),
+            'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'stunde': forms.NumberInput(attrs={'class': 'form-control'}),
+            'beschreibung': forms.TextInput(attrs={'class': 'form-control'}),
+            'krzl': forms.TextInput(attrs={'class': 'form-control'}),
+           # 'behoben': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class DevicelistEntryFormLoggedIn(ModelForm):
+    class Meta:
+        model = DevicelistEntry
+        fields = (
+            'room',
+            'device',
+            'datum',
+            'stunde',
+            'beschreibung',
+            'krzl',
             'behoben'
         )
         widgets = {
@@ -33,5 +56,5 @@ class DevicelistEntryForm(ModelForm):
             'stunde': forms.NumberInput(attrs={'class': 'form-control'}),
             'beschreibung': forms.TextInput(attrs={'class': 'form-control'}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'}),
-            'behoben': forms.TextInput(attrs={'class': 'form-control', 'disabled': 'disabled'}),
+            'behoben': forms.TextInput(attrs={'class': 'form-control'}),
         }

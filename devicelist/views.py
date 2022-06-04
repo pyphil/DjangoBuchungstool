@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking, iPads, pens
-from .models import DevicelistEntry, DevicelistEntryForm, Room
+from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn
 
 
 def devicelist(request, room, date, std):
@@ -24,12 +24,24 @@ def devicelistEntry(request, id):
     obj = get_object_or_404(DevicelistEntry, id=id)
     if request.method == "GET":
         # Update -> load instance
-        f = DevicelistEntryForm(instance=obj)
+        if request.user.is_authenticated:
+            f = DevicelistEntryFormLoggedIn(instance=obj)
+        else:
+            f = DevicelistEntryForm(instance=obj)
     if request.method == "POST":
-        f = DevicelistEntryForm(request.POST, instance=obj)
-        if f.is_valid():
-            f.save()
-            # return redirect('/devices/' + str(obj.room) + "/")
+        if request.POST.get('save'):
+            if request.user.is_authenticated:
+                f = DevicelistEntryFormLoggedIn(request.POST, instance=obj)
+            else:
+                f = DevicelistEntryForm(request.POST, instance=obj)
+            if f.is_valid():
+                f.save()
+                # return redirect('/devices/' + str(obj.room) + "/")
+                return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde)
+        elif request.POST.get('delete'):
+            obj.delete()
+            return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde)
+        else:
             return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde)
     dev = obj.device
     dev = dev.replace("_", " ")
