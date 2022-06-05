@@ -1,20 +1,20 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from buchungstool.models import Booking, iPads, pens
-from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn
+from buchungstool.models import Booking
+from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device
 
 
 def devicelist(request, room, date, std):
+    devices = Device.objects.all()
     obj = DevicelistEntry.objects.filter(room__short_name=room)
     iPads_with_entry = []
     for i in obj:
         iPads_with_entry.append(i.device)
-        print(iPads_with_entry)
+        print(i.device)
     context = {
         'room': room,
         'date': date,
         'std': std,
-        'iPads': iPads,
-        'pens': pens,
+        'devices': devices,
         'iPads_with_entry': iPads_with_entry,
         'devicelist': obj,
     }
@@ -43,8 +43,6 @@ def devicelistEntry(request, id, room, date, std):
             return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde)
         else:
             return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde)
-    dev = obj.device
-    dev = dev.replace("_", " ")
 
     context = {
         'room': room,
@@ -90,15 +88,11 @@ def devicelistEntryNew(request, room, date, std):
 
 
 def lastDeviceUsers(request, room, date, dev):
-    print(dev)
+    # lte: less than equals
     devices = Booking.objects.filter(room=room, datum__lte=date).order_by('-datum', '-stunde')[:10]
     devlist = []
     for i in devices:
-        print(i.datum)
-        print(i.stunde)
-        print(i.krzl)
-        # gettattr is equivalent to i.iPad_...
-        print(getattr(i, dev))
+        # gettattr is equivalent to i.iPad_... and enables us to loop trough
         devlist.append({
             'datum': i.datum,
             'stunde': i.stunde,

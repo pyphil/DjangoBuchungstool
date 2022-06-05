@@ -8,9 +8,9 @@
     <button type="submit" class="btn btn-primary"><strong>+</strong> neuer Eintrag</button>
   </form>
 
-    {% for iPad in iPads %}
-    {% if iPad.dbname in iPads_with_entry %}
-      <h5 class="mt-4">Schaden- und Problemliste für <strong>{{ iPad.name }}</strong></h5>
+    {% for device in devices %}
+    {% if device in iPads_with_entry %}
+      <h5 class="mt-4">Schaden- und Problemliste für <strong>{{ device }}</strong></h5>
       <div class="row mb-4">
           <div class="col">
             <table class="table table-striped">
@@ -24,15 +24,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                {% for device in devicelist %}
-                  {% if device.device == iPad.dbname %}
+                {% for devicelist_entry in devicelist %}
+                  {% if devicelist_entry.device == device %}
                   <form action="{% url 'deviceEntry' device.id room date std %}">
                     <tr>
-                        <td>{{ device.datum }}</td>
-                        <td>{{ device.stunde }}</td>
-                        <td>{{ device.beschreibung }}</td>
-                        <td>{{ device.krzl }}</td>
-                        <td>{{ device.behoben }}</td>
+                        <td>{{ devicelist_entry.datum }}</td>
+                        <td>{{ devicelist_entry.stunde }}</td>
+                        <td>{{ devicelist_entry.beschreibung }}</td>
+                        <td>{{ devicelist_entry.krzl }}</td>
+                        <td>{{ devicelist_entry.behoben }}</td>
                         <td><div class="text-end"><button type="submit" class="btn btn-secondary btn-sm">Ändern</button></div></td>
                     </tr>
                   </form>
