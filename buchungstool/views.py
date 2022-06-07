@@ -1,4 +1,3 @@
-from distutils.log import warn
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
