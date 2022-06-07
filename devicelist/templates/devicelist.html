@@ -26,7 +26,7 @@
                 <tbody>
                 {% for devicelist_entry in devicelist %}
                   {% if devicelist_entry.device == device %}
-                  <form action="{% url 'deviceEntry' device.id room date std %}">
+                  <form action="{% url 'deviceEntry' devicelist_entry.id room date std %}">
                     <tr>
                         <td>{{ devicelist_entry.datum }}</td>
                         <td>{{ devicelist_entry.stunde }}</td>
