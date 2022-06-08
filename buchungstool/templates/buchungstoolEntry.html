@@ -105,15 +105,15 @@
       <button type="submit" class="btn btn-danger" name="delete" value="delete">Buchung löschen</button>
       {% endif %}
       <button type="submit" class="btn btn-secondary" value="cancel" name="cancel">Abbrechen</button>
+      
+      {% if state == None %}
+      <div class="alert alert-info mt-5">
+        <h5>-- NEU -- Digitaler Eintrag in die Nutzerliste jetzt möglich</h5> 
+        Klickst du erneut auf deinen Termin im Kalender, taucht hier die digitale Nutzerliste auf und du kannst sie für die Schüler*innen freischalten.
+        <strong><a href="{% url 'userlistInfo' %}">mehr Informationen</a></strong>
+      </div>
     </div>
   </form>
-
-  {% if state == None %}
-    <div class="alert alert-info mt-5">
-      <h5>-- NEU -- Digitaler Eintrag in die Nutzerliste jetzt möglich</h5> 
-      Klickst du erneut auf deinen Termin im Kalender, taucht hier die digitale Nutzerliste auf und du kannst sie für die Schüler*innen freischalten.
-      <strong><a href="{% url 'userlistInfo' %}">mehr Informationen</a></strong>
-    </div>
   {% else %}
   <form method="POST">
     {% csrf_token %}
@@ -140,7 +140,7 @@
         title="Nutzerliste freischalten"
         data-bs-content="Die Freischaltung wird nach 20 Minuten wieder zurückgesetzt. Für die Schüler*innen ist der Eintrag nur am Tag der Buchung zu sehen. Der Eintrag sollte idealerweise nur während der Stunde frei- und wieder ausgeschaltet werden."></i>
     </div>
-    <div class="accordion mt-2 mb-5" id="accordionUser">
+    <div class="accordion mt-2" id="accordionUser">
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">
           {% if accordion == "open" %}
@@ -401,7 +401,6 @@
                     <i class="bi bi-save"> </i>Speichern</button>
                 </div>
               </div>  
-
             </div>
           </div>
         </div>
@@ -412,5 +411,4 @@
 </div>
 </div>
 </div>
-
 {% endblock content %}
