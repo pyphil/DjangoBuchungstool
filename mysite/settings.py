@@ -137,7 +137,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # MEDIA_ROOT = ''
 # MEDIA_URL = '/media/'
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_PASSWORD = ''
-EMAIL_HOST_USER = ''
-EMAIL_PORT = 25
