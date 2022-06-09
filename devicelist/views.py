@@ -75,15 +75,15 @@ def devicelistEntryNew(request, room, date, std):
                 return redirect('devicelist', room=room, date=date, std=std)
         else:
             return redirect('devicelist', room=room, date=date, std=std)
-    
+
     context = {
         'room': room,
-        'devicelist': f, 
+        'devicelist': f,
         'nodelete': True,
         'date': date,
         'std': std
     }
-    
+
     return render(request, 'devicelistEntry.html', context)
 
 
