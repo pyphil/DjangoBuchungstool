@@ -388,4 +388,13 @@ def getUserlist(room, isodate, std):
 
 
 def userlistInfo(request):
+    from django.core.mail import send_mail
+
+    send_mail(
+        'Subject here',
+        'Here is the message.',
+        'noreply@gesamtschule-niederzier-merzenich.net',
+        ['philipp.lobe@genm.info'],
+        fail_silently=True,
+    )
     return render(request, 'buchungstoolUserlistInfo.html', {})
