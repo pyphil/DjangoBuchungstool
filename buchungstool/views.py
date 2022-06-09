@@ -273,7 +273,8 @@ def eintrag(request, accordion=None, room=None, id=None):
             'warning_empty': warning,
             'update': update,
             'alert': alert,
-            'blocked_dates': blocked_dates
+            'blocked_dates': blocked_dates,
+            'entry_id': id
         }
     )
 

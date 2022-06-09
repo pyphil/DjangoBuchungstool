@@ -4,7 +4,7 @@
 <div class="container">
   <h2 class="mb-3">Geräteliste iPad-Koffer {{ room }}</h2>
  
-  <form action="{% url 'deviceEntryNew' room date std %}">
+  <form action="{% url 'deviceEntryNew' room date std entry_id %}">
     <button type="submit" class="btn btn-primary"><strong>+</strong> neuer Eintrag</button>
   </form>
 
@@ -26,7 +26,7 @@
                 <tbody>
                 {% for devicelist_entry in devicelist %}
                   {% if devicelist_entry.device == device %}
-                  <form action="{% url 'deviceEntry' devicelist_entry.id room date std %}">
+                  <form action="{% url 'deviceEntry' devicelist_entry.id room date std entry_id %}">
                     <tr>
                         <td>{{ devicelist_entry.datum }}</td>
                         <td>{{ devicelist_entry.stunde }}</td>

@@ -3,7 +3,7 @@ from buchungstool.models import Booking
 from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device
 
 
-def devicelist(request, room, date, std):
+def devicelist(request, room, date, std, entry_id):
     devices = Device.objects.all()
     obj = DevicelistEntry.objects.filter(room__short_name=room)
     iPads_with_entry = []
@@ -17,11 +17,12 @@ def devicelist(request, room, date, std):
         'devices': devices,
         'iPads_with_entry': iPads_with_entry,
         'devicelist': obj,
+        'entry_id': entry_id,
     }
     return render(request, 'devicelist.html', context)
 
 
-def devicelistEntry(request, id, room, date, std):
+def devicelistEntry(request, id, room, date, std, entry_id):
     obj = get_object_or_404(DevicelistEntry, id=id)
     if request.method == "GET":
         # Update -> load instance
@@ -54,7 +55,7 @@ def devicelistEntry(request, id, room, date, std):
     return render(request, 'devicelistEntry.html', context)
 
 
-def devicelistEntryNew(request, room, date, std):
+def devicelistEntryNew(request, room, date, std, entry_id):
     # get room id to pass in for initial data
     print('cancel')
     room_id = get_object_or_404(Room, short_name=room).id
