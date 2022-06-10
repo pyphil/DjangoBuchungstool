@@ -34,7 +34,7 @@
               {% if user.is_authenticated %}
                 {{ devicelist.behoben }}
               {% else %}
-                <input type="text" class="form-control" name="krzl" value="{{ devicelist.instance.behoben }}" readonly>
+                <input type="text" class="form-control" value="{{ devicelist.instance.behoben }}" readonly>
               {% endif %}
               </div>
           </div>
