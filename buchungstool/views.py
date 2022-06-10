@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
 import datetime
+from django.core.mail import send_mail
 
 
 def rooms(request):
@@ -388,4 +389,13 @@ def getUserlist(room, isodate, std):
 
 
 def userlistInfo(request):
+
+    send_mail(
+        'Subject here',
+        'Here is the message.',
+        'ltest2@genm.info',
+        ['philipp.lobe@genm.info'],
+        fail_silently=True,
+    )
+
     return render(request, 'buchungstoolUserlistInfo.html', {})
