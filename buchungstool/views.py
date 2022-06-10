@@ -393,7 +393,7 @@ def userlistInfo(request):
     send_mail(
         'Subject here',
         'Here is the message.',
-        'ltest2@genm.info',
+        'ltests2@genm.info',
         ['philipp.lobe@genm.info'],
         fail_silently=True,
     )
