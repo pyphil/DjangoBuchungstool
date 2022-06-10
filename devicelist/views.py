@@ -38,18 +38,19 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                 f = DevicelistEntryForm(request.POST, instance=obj)
             if f.is_valid():
                 f.save()
-                return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde)
+                return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
         elif request.POST.get('delete'):
             obj.delete()
-            return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde)
+            return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
         else:
-            return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde)
+            return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
 
     context = {
         'room': room,
         'devicelist': f,
         'date': date,
-        'std': std
+        'std': std,
+        'entry_id': entry_id
     }
 
     return render(request, 'devicelistEntry.html', context)
@@ -57,7 +58,6 @@ def devicelistEntry(request, id, room, date, std, entry_id):
 
 def devicelistEntryNew(request, room, date, std, entry_id):
     # get room id to pass in for initial data
-    print('cancel')
     room_id = get_object_or_404(Room, short_name=room).id
     if request.method == "GET":
         # new empty form
@@ -72,17 +72,19 @@ def devicelistEntryNew(request, room, date, std, entry_id):
             else:
                 f = DevicelistEntryForm(request.POST)
             if f.is_valid():
+                print('save')
                 f.save()
-                return redirect('devicelist', room=room, date=date, std=std)
+                return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
         else:
-            return redirect('devicelist', room=room, date=date, std=std)
+            return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
 
     context = {
         'room': room,
         'devicelist': f,
         'nodelete': True,
         'date': date,
-        'std': std
+        'std': std,
+        'entry_id': entry_id
     }
 
     return render(request, 'devicelistEntry.html', context)
