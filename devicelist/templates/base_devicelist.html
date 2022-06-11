@@ -21,7 +21,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             {% if request.path != "/" and request.path != "/buchungstool/userlistInfo/"%}
-            <div class="navbar-nav ms-auto"> <a class="nav-link active" href="{% url 'buchungstoolEntry' room entry_id %}"><i
+            </div><div class="navbar-nav ms-auto"> <a class="nav-link active" href="/buchungstool/{{ room }}/{{ entry_id }}/?isodate={{ date }}&std={{ std }}"><i
                         class="bi bi-arrow-left-square"> </i>zurück zum Buchungstermin</a>
             </div>
             {% endif %}
