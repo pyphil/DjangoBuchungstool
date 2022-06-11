@@ -12,6 +12,14 @@ class Device(models.Model):
         return self.device
 
 
+class Status(models.Model):
+    status = models.CharField(max_length=20)
+    color = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.status
+
+
 class DevicelistEntry(models.Model):
     room = models.ForeignKey(Room, on_delete=models.DO_NOTHING)
     # device = models.CharField(max_length=10)
@@ -20,6 +28,7 @@ class DevicelistEntry(models.Model):
     stunde = models.IntegerField()
     beschreibung = models.CharField(max_length=300)
     krzl = models.CharField(max_length=10)
+    status = models.ForeignKey(Status, on_delete=models.DO_NOTHING, default=1)
     behoben = models.CharField(max_length=10, blank=True)
 
 
@@ -32,6 +41,7 @@ class DevicelistEntryForm(ModelForm):
             'datum',
             'stunde',
             'beschreibung',
+            'status',
             'krzl'
         )
         widgets = {
@@ -40,6 +50,7 @@ class DevicelistEntryForm(ModelForm):
             'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
             'stunde': forms.NumberInput(attrs={'class': 'form-control'}),
             'beschreibung': forms.TextInput(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-select'}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'})
         }
 
@@ -54,6 +65,7 @@ class DevicelistEntryFormLoggedIn(ModelForm):
             'stunde',
             'beschreibung',
             'krzl',
+            'status',
             'behoben'
         )
         widgets = {
@@ -63,5 +75,6 @@ class DevicelistEntryFormLoggedIn(ModelForm):
             'stunde': forms.NumberInput(attrs={'class': 'form-control'}),
             'beschreibung': forms.TextInput(attrs={'class': 'form-control'}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-select'}),
             'behoben': forms.TextInput(attrs={'class': 'form-control'}),
         }

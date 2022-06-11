@@ -20,6 +20,7 @@
                     <th scope="col">Stunde</th>
                     <th scope="col">Beschreibung</th>
                     <th scope="col">Krzl.</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Behoben durch</th>
                   </tr>
                 </thead>
@@ -32,6 +33,7 @@
                         <td>{{ devicelist_entry.stunde }}</td>
                         <td>{{ devicelist_entry.beschreibung }}</td>
                         <td>{{ devicelist_entry.krzl }}</td>
+                        <td class="{{devicelist_entry.status.color}}">{{ devicelist_entry.status }}</td>
                         <td>{{ devicelist_entry.behoben }}</td>
                         <td><div class="text-end"><button type="submit" class="btn btn-secondary btn-sm">Ändern</button></div></td>
                     </tr>
