@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking
 from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device
+from django.core.mail import send_mail
 
 
 def devicelist(request, room, date, std, entry_id):
@@ -72,7 +73,21 @@ def devicelistEntryNew(request, room, date, std, entry_id):
             else:
                 f = DevicelistEntryForm(request.POST)
             if f.is_valid():
-                print('save')
+                koffer = get_object_or_404(Room, id=int(request.POST.get('room')))
+                mail_text = (
+                    "Datum: " + request.POST.get('datum') + "\n" +
+                    "Stunde: " + request.POST.get('stunde') + "\n" +
+                    "Koffer: " + koffer.short_name + "\n" +
+                    "Kürzel: " + request.POST.get('krzl') + "\n" +
+                    "Beschreibung: " + request.POST.get('beschreibung')
+                )
+                send_mail(
+                    'DjangoBuchungstool Schadenmeldung',
+                    mail_text,
+                    'ltests2@genm.info',
+                    ['philipp.lobe@genm.info'],
+                    fail_silently=True,
+                )
                 f.save()
                 return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
         else:
@@ -95,7 +110,7 @@ def lastDeviceUsers(request, room, date, dev):
     devices = Booking.objects.filter(room=room, datum__lte=date).order_by('-datum', '-stunde')[:10]
     devlist = []
     for i in devices:
-        # gettattr is equivalent to i.iPad_... and enables us to loop trough
+        # gettattr is equivalent to i.iPad_... and enables us to loop through
         devlist.append({
             'datum': i.datum,
             'stunde': i.stunde,
