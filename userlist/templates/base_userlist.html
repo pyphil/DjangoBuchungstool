@@ -14,18 +14,19 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">  
     <div class="container">
-        <a class="navbar-brand mb-0 h1" href="">GENM Buchungstool - iPad-Nutzerlisten</a>
+        {% load static %}
+        <img src="{% static 'images/GNM.png' %}" width="40" class="ms-3"> <a class="navbar-brand ps-3 mb-0 h1" href="">GENM Buchungstool - iPad-Nutzerlisten</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        {% if request.path != "/userlist/select/" %}
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            {% if request.path != "/userlist/select/" %}
             <div class="navbar-nav ms-auto"> <a class="nav-link active" href="{% url 'userlistSelect' %}"><i
                         class="bi bi-arrow-left-square"> </i>Zurück</a>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 </nav>
 
