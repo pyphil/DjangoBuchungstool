@@ -24,7 +24,7 @@
   {% endif %}
   <h5 class="mt-3"><strong>Datum: </strong>{{ date }}, {{ std }}. Stunde</h5>
   <h5 class="mt-3"><strong>Raum/Gerät:</strong> {{room_text}}</h5> 
-  <small><small>(Betatest: <a href="{% url 'devicelist' room isodate std entry_id %}">Geräteliste</a>)</small></small>
+  <!-- <small><small>(Betatest: <a href="{% url 'devicelist' room isodate std entry_id %}">Geräteliste</a>)</small></small> -->
   <form method="POST">
     {% csrf_token %}
     <div class="mb-3">
