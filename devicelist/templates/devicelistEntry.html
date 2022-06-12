@@ -1,10 +1,8 @@
-{% extends 'base_userlist.html' %}
+{% extends 'base_devicelist.html' %}
 {% block content %}
 
 <div class="container">
     <h2 class="mb-3">Eintrag für Schaden- und Problemliste bearbeiten</h2>
-    <h5 class="mb-3">Koffer: {{ room }}</h5>
-    <h5 class="mb-3">Gerät: {{ dev }}</h5>
 
     <div class="row mb-4">
         <div class="col">
@@ -16,10 +14,6 @@
               {{ devicelist.room }}
             </div>
             <div class="col">
-              <label class="mt-3" for="Gerät" class="form-label">Gerät:</label>
-              {{ devicelist.device }}
-            </div>
-            <div class="col">
               <label class="mt-3" for="Datum" class="form-label">Datum:</label>
               {{ devicelist.datum }}
             </div>
@@ -28,21 +22,36 @@
               {{ devicelist.stunde }}
             </div>
             <div class="col">
-              <label class="mt-3" for="Krzl" class="form-label">Krzl:</label>
-              {{ devicelist.krzl }}
+              <label class="mt-3" for="Gerät" class="form-label">Gerät:</label>
+              {{ devicelist.device }}
             </div>
             <div class="col">
-              <label class="mt-3" for="Behoben" class="form-label">Behoben:</label>
-              {{ devicelist.behoben }}
+              <label class="mt-3" for="Krzl" class="form-label">Krzl:</label>
+              {{ devicelist.krzl }}
+            </div> 
+            <div class="col">
+              <label class="mt-3" for="Status" class="form-label">Status:</label>
+              {{ devicelist.status }}
             </div>
+            <div class="col">
+              <label class="mt-3" for="Behoben" class="form-label">Behoben durch:</label>
+              {% if user.is_authenticated %}
+                {{ devicelist.behoben }}
+              {% else %}
+                <input type="text" class="form-control" value="{{ devicelist.instance.behoben }}" readonly>
+              {% endif %}
+              </div>
           </div>
           <label class="mt-3" for="Beschreibung" class="form-label">Beschreibung:</label>
           {{ devicelist.beschreibung }}
-          <button type="submit" class="btn btn-primary mt-5">Speichern</button>
-          <button type="submit" class="btn btn-secondary mt-5">Abbrechen</button>
+          <button type="submit" name="save" value="save" class="btn btn-primary mt-5">Speichern</button>
+          {% if nodelete %}
+          {% else %}
+            <button type="submit" name="delete" value="delete" class="btn btn-danger mt-5">Löschen</button>
+          {% endif %}
+          <a href="{% url 'devicelist' room date std entry_id %}" class="btn btn-secondary mt-5">Abbrechen</a>
         </form>
-        
-        </div>
+      </div>
     </div>
 </div>
 

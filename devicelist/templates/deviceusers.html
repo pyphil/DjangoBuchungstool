@@ -1,9 +1,9 @@
-{% extends 'base_userlist.html' %}
+{% extends 'base_devicelist.html' %}
 {% block content %}
 
 <div class="container">
     <h2 class="mb-3">Geräteliste</h2>
-    <h5 class="mb-3">Die letzten 10 Benutzer von Gerät {{ dev }}</h5>
+    <h5 class="mb-3">Die letzten 10 Benutzer von Gerät <strong>{{ dev }}</strong> seit dem <strong>{{ seit_datum }}</strong>:</h5>
 
     <div class="row mb-4">
         <div class="col">

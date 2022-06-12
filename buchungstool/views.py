@@ -1,4 +1,3 @@
-from distutils.log import warn
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
@@ -275,7 +274,8 @@ def eintrag(request, accordion=None, room=None, id=None):
             'warning_empty': warning,
             'update': update,
             'alert': alert,
-            'blocked_dates': blocked_dates
+            'blocked_dates': blocked_dates,
+            'entry_id': id
         }
     )
 
@@ -389,10 +389,10 @@ def getUserlist(room, isodate, std):
 
 
 def userlistInfo(request):
-
+    
     send_mail(
-        'Subject here',
-        'Here is the message.',
+        'DjangoBuchungstool Message',
+        'Info has been clicked.',
         'ltests2@genm.info',
         ['philipp.lobe@genm.info'],
         fail_silently=True,
