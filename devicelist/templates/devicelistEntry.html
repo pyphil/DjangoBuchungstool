@@ -31,7 +31,11 @@
             </div> 
             <div class="col">
               <label class="mt-3" for="Status" class="form-label">Status:</label>
-              {{ devicelist.status }}
+              {% if user.is_authenticated %}
+                {{ devicelist.status }}
+              {% else %}
+                <input type="text" class="form-control" value="{{ devicelist.instance.status }}" readonly>
+              {% endif %}
             </div>
             <div class="col">
               <label class="mt-3" for="Behoben" class="form-label">Behoben durch:</label>

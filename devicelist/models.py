@@ -46,7 +46,6 @@ class DevicelistEntryForm(ModelForm):
             'datum',
             'stunde',
             'beschreibung',
-            'status',
             'krzl'
         )
         widgets = {
@@ -55,7 +54,6 @@ class DevicelistEntryForm(ModelForm):
             'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
             'stunde': forms.NumberInput(attrs={'class': 'form-control'}),
             'beschreibung': forms.TextInput(attrs={'class': 'form-control'}),
-            'status': forms.Select(attrs={'class': 'form-select'}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'})
         }
 
