@@ -19,6 +19,9 @@ class Status(models.Model):
     def __str__(self):
         return self.status
 
+    class Meta:
+        verbose_name_plural = "Status"
+
 
 class DevicelistEntry(models.Model):
     room = models.ForeignKey(Room, on_delete=models.DO_NOTHING)
@@ -31,6 +34,9 @@ class DevicelistEntry(models.Model):
     status = models.ForeignKey(Status, on_delete=models.DO_NOTHING, default=1)
     behoben = models.CharField(max_length=10, blank=True)
 
+    class Meta:
+        verbose_name_plural = "DevicelistEntries"
+
 
 class DevicelistEntryForm(ModelForm):
     class Meta:
@@ -41,7 +47,6 @@ class DevicelistEntryForm(ModelForm):
             'datum',
             'stunde',
             'beschreibung',
-            'status',
             'krzl'
         )
         widgets = {
@@ -50,7 +55,6 @@ class DevicelistEntryForm(ModelForm):
             'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
             'stunde': forms.NumberInput(attrs={'class': 'form-control'}),
             'beschreibung': forms.TextInput(attrs={'class': 'form-control'}),
-            'status': forms.Select(attrs={'class': 'form-select'}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'})
         }
 

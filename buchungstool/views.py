@@ -39,10 +39,6 @@ def home(request, room=None):
         room_obj = get_object_or_404(Room, short_name=room)
         print(room_obj.room, room_obj.description)
 
-    # entrydate = request.session.get('isodate')
-    # buttondate = request.session.get('date')
-    # entrystd = request.session.get('std')
-
     if room is None:
         return redirect('/')
 
@@ -389,7 +385,7 @@ def getUserlist(room, isodate, std):
 
 
 def userlistInfo(request):
-    
+
     send_mail(
         'DjangoBuchungstool Message',
         'Info has been clicked.',
