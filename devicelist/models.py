@@ -22,6 +22,7 @@ class Status(models.Model):
     class Meta:
         verbose_name_plural = "Status"
 
+
 class DevicelistEntry(models.Model):
     room = models.ForeignKey(Room, on_delete=models.DO_NOTHING)
     # device = models.CharField(max_length=10)
