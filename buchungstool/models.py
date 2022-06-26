@@ -87,11 +87,11 @@ class BookingFormIpad(ModelForm):
     class Meta:
         model = Booking
         fields = [
-            'iPad_01', 'iPad_02', 'iPad_03', 'iPad_04', 'iPad_05', 
-            'iPad_06', 'iPad_07', 'iPad_08', 'iPad_09', 'iPad_10', 
+            'iPad_01', 'iPad_02', 'iPad_03', 'iPad_04', 'iPad_05',
+            'iPad_06', 'iPad_07', 'iPad_08', 'iPad_09', 'iPad_10',
             'iPad_11', 'iPad_12', 'iPad_13', 'iPad_14', 'iPad_15', 'iPad_16',
-            'pen_01', 'pen_02', 'pen_03', 'pen_04', 'pen_05', 
-            'pen_06', 'pen_07', 'pen_08', 'pen_09', 'pen_10', 
+            'pen_01', 'pen_02', 'pen_03', 'pen_04', 'pen_05',
+            'pen_06', 'pen_07', 'pen_08', 'pen_09', 'pen_10',
             'pen_11', 'pen_12', 'pen_13', 'pen_14', 'pen_15', 'pen_16'
         ]
         widgets = {

@@ -4,7 +4,6 @@ from buchungstool.models import Booking
 from .models import Userlist
 
 
-# Create your views here.
 def select(request):
     # Zugriff nur mit access key in production
     if not request.session.get('student_access'):
