@@ -5,6 +5,9 @@ from django.core.mail import send_mail
 
 
 def devicelist(request, room, date, std, entry_id):
+    if not request.session.get('has_access'):
+        return render(request, 'buchungstoolNoAccess.html',)
+
     devices = Device.objects.all()
     obj = DevicelistEntry.objects.filter(room__short_name=room)
     iPads_with_entry = []
@@ -24,6 +27,9 @@ def devicelist(request, room, date, std, entry_id):
 
 
 def devicelistEntry(request, id, room, date, std, entry_id):
+    if not request.session.get('has_access'):
+        return render(request, 'buchungstoolNoAccess.html',)
+
     obj = get_object_or_404(DevicelistEntry, id=id)
     if request.method == "GET":
         # Update -> load instance
@@ -58,6 +64,9 @@ def devicelistEntry(request, id, room, date, std, entry_id):
 
 
 def devicelistEntryNew(request, room, date, std, entry_id):
+    if not request.session.get('has_access'):
+        return render(request, 'buchungstoolNoAccess.html',)
+
     # get room id to pass in for initial data
     room_id = get_object_or_404(Room, short_name=room).id
     if request.method == "GET":
@@ -106,6 +115,9 @@ def devicelistEntryNew(request, room, date, std, entry_id):
 
 
 def lastDeviceUsers(request, room, date, dev):
+    if not request.session.get('has_access'):
+        return render(request, 'buchungstoolNoAccess.html',)
+
     # lte: less than equals
     devices = Booking.objects.filter(room=room, datum__lte=date).order_by('-datum', '-stunde')[:10]
     devlist = []
