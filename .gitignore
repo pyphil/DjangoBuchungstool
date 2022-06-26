@@ -58,6 +58,8 @@ local_settings.py
 db.sqlite3
 production_settings.py
 production_access.py
+passenger_wsgi.py
+passenger_wsgi.pyc
 
 # Flask stuff:
 instance/
