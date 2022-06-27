@@ -139,4 +139,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+
+try:
+    from .production_settings import *
+except ImportError:
+    LOGOUT_REDIRECT_URL = "/"
