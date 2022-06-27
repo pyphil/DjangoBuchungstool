@@ -1,9 +1,6 @@
 {% extends 'base.html' %}  
 {% block content %}
 
-{% if form.errors %}
-  <p>Benutzername oder Passwort falsch.</p>
-{% endif %}
 <form method="post">
   {% csrf_token %}
   <div class="row justify-content-md-center">
@@ -22,6 +19,11 @@
           <button type="submit" class="btn btn-primary mt-3 mb-2">Anmelden</button>
           <a href="{{ next }}" class="btn btn-secondary mt-3 mb-2">Abbrechen</a>
           <input type="hidden" name="next" value="{{ next }}">
+          {% if form.errors %}
+            <div class="alert alert-danger mt-3">
+              Benutzername oder Passwort falsch.
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>
