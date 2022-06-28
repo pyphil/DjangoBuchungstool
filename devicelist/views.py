@@ -122,13 +122,17 @@ def lastDeviceUsers(request, room, date, dev):
     devices = Booking.objects.filter(room=room, datum__lte=date).order_by('-datum', '-stunde')[:10]
     devlist = []
     for i in devices:
-        # gettattr is equivalent to i.iPad_... and enables us to loop through
-        devlist.append({
-            'datum': i.datum,
-            'stunde': i.stunde,
-            'krzl': i.krzl,
-            'dev': getattr(i, dev),
-        })
+        print(i.datum, date)
+        print(i.stunde, 1)
+        # filter out current date lessons greater than current lesson
+        if not (str(i.datum) == str(date) and int(i.stunde) > 1):
+            # gettattr is equivalent to i.iPad_... and enables us to loop through
+            devlist.append({
+                'datum': i.datum,
+                'stunde': i.stunde,
+                'krzl': i.krzl,
+                'dev': getattr(i, dev),
+            })
     seit_datum = date.split("-")
     seit_datum = seit_datum[2] + "." + seit_datum[1] + "." + seit_datum[0]
     return render(request, 'deviceusers.html', {'devlist': devlist, 'dev': dev, 'seit_datum': seit_datum})

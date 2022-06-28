@@ -29,25 +29,30 @@
             <label class="mt-3" for="Krzl" class="form-label">Krzl:</label>
             {{ devicelist.krzl }}
           </div>
-          <div class="col">
-            <label class="mt-3" for="Status" class="form-label">Status:</label>
-            {% if user.is_authenticated %}
-              {{ devicelist.status }}
-            {% else %}
-              <input type="text" class="form-control" value="{{ devicelist.instance.status }}" readonly>
-            {% endif %}
-          </div>
-          <div class="col">
-            <label class="mt-3" for="Behoben" class="form-label">Behoben durch:</label>
-            {% if user.is_authenticated %}
-              {{ devicelist.behoben }}
-            {% else %}
-              <input type="text" class="form-control" value="{{ devicelist.instance.behoben }}" readonly>
-            {% endif %}
-            </div>
+
+          
         </div>
         <label class="mt-3" for="Beschreibung" class="form-label">Beschreibung:</label>
         {{ devicelist.beschreibung }}
+        
+        <div class="col">
+          <label class="mt-3" for="Status" class="form-label">Status (Admin):</label>
+          {% if user.is_authenticated %}
+            {{ devicelist.status }}
+          {% else %}
+            <input type="text" class="form-control" value="{{ devicelist.instance.status }}" readonly>
+          {% endif %}
+        </div>
+        <div class="col">
+          <label class="mt-3" for="Behoben" class="form-label">Bearbeitet durch (Admin):</label>
+          {% if user.is_authenticated %}
+            {{ devicelist.behoben }}
+          {% else %}
+            <input type="text" class="form-control" value="{{ devicelist.instance.behoben }}" readonly>
+          {% endif %}
+        </div>
+        
+        
         <button type="submit" name="save" value="save" class="btn btn-primary mt-5">Speichern</button>
         {% if nodelete %}
         {% else %}
