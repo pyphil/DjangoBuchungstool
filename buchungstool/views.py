@@ -389,7 +389,7 @@ def userlistInfo(request):
     send_mail(
         'DjangoBuchungstool Message',
         'Info has been clicked.',
-        'ltests2@genm.info',
+        'noreply@genm.info',
         ['philipp.lobe@genm.info'],
         fail_silently=True,
     )
