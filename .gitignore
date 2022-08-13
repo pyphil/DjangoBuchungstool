@@ -60,6 +60,8 @@ production_settings.py
 production_access.py
 passenger_wsgi.py
 passenger_wsgi.pyc
+public
+media
 
 # Flask stuff:
 instance/
