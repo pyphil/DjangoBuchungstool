@@ -3,7 +3,6 @@ from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
 import datetime
 from django.core.mail import send_mail
-from threading import Thread
 
 
 def rooms(request):
@@ -386,19 +385,13 @@ def getUserlist(room, isodate, std):
 
 
 def userlistInfo(request):
-    # run mail sending in thread
-    thread = mail_thread()
-    thread.start()
+
+    send_mail(
+        'DjangoBuchungstool Message',
+        'Info has been clicked.',
+        'noreply@genm.info',
+        ['philipp.lobe@genm.info'],
+        fail_silently=True,
+    )
+
     return render(request, 'buchungstoolUserlistInfo.html', {})
-
-
-class mail_thread(Thread):
-    # run method automatically executed
-    def run(self):
-        send_mail(
-            'DjangoBuchungstool Message',
-            'Info has been clicked.',
-            'noreply@genm.info',
-            ['philipp.lobe@genm.info'],
-            fail_silently=True,
-        )
