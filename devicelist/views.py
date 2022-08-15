@@ -93,7 +93,7 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                 send_mail(
                     'DjangoBuchungstool Schadenmeldung',
                     mail_text,
-                    'ltests2@genm.info',
+                    'noreply@genm.info',
                     ['philipp.lobe@genm.info'],
                     fail_silently=True,
                 )
