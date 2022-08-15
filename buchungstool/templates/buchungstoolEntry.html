@@ -105,9 +105,9 @@
         <button type="submit" class="btn btn-secondary" value="cancel" name="cancel">Abbrechen</button>
 
         {% if state == None %}
-        <div class="alert alert-info mt-5">
-          <h5>-- NEU -- Digitaler Eintrag in die Nutzerliste jetzt möglich</h5>
-          Klickst du erneut auf deinen Termin im Kalender, taucht hier die digitale Nutzerliste auf und du kannst sie für die Schüler*innen freischalten.
+        <div class="alert alert-warning mt-5">
+          <h5>-- NEU -- Ab sofort: Digitaler Eintrag in die Nutzerliste</h5>
+          Klickst du erneut auf deinen Termin im Kalender, taucht hier die digitale Nutzerliste auf und du kannst sie für die Schüler*innen freischalten. Papierlisten gibt es nicht mehr.
           <strong><a href="{% url 'userlistInfo' %}">mehr Informationen</a></strong>
         </div>
       </div>
@@ -115,7 +115,7 @@
     {% else %}
     <form method="POST">
       {% csrf_token %}
-      <div class="alert alert-info mt-5">
+      <div class="alert alert-warning mt-5">
         <h5>Digitaler Eintrag in die Nutzerliste</h5>
         Die Schüler*innen tragen sich auf dem iPad mit der App "Nutzerliste" ein. Lehrer*innen schalten diese Liste
         vorher frei. Die Schüler*innen wählen den richtigen Koffer/Unterricht aus (nur falls mehrere parallele Freischaltungen offen sind) und tragen
@@ -148,7 +148,7 @@
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
             {% endif %}
-            Nutzerliste anzeigen
+            Nutzerliste anzeigen (hier klicken)
             </button>
           </h2>
 
