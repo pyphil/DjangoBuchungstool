@@ -13,7 +13,6 @@ def devicelist(request, room, date, std, entry_id):
     iPads_with_entry = []
     for i in obj:
         iPads_with_entry.append(i.device)
-        print(i.device)
     context = {
         'room': room,
         'date': date,
@@ -83,10 +82,12 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                 f = DevicelistEntryForm(request.POST)
             if f.is_valid():
                 koffer = get_object_or_404(Room, id=int(request.POST.get('room')))
+                device = Device.objects.get(id=int(request.POST.get('device')))
                 mail_text = (
                     "Datum: " + request.POST.get('datum') + "\n" +
                     "Stunde: " + request.POST.get('stunde') + "\n" +
                     "Koffer: " + koffer.short_name + "\n" +
+                    "Gerät: " + str(device) + "\n" +
                     "Kürzel: " + request.POST.get('krzl') + "\n" +
                     "Beschreibung: " + request.POST.get('beschreibung')
                 )
