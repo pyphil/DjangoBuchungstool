@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking
-from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device
+from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device, Status
 from django.core.mail import send_mail
 
 
@@ -43,6 +43,25 @@ def devicelistEntry(request, id, room, date, std, entry_id):
             else:
                 f = DevicelistEntryForm(request.POST, instance=obj)
             if f.is_valid():
+                koffer = get_object_or_404(Room, id=int(request.POST.get('room')))
+                device = Device.objects.get(id=int(request.POST.get('device')))
+                status = Status.objects.get(id=int(request.POST.get('status')))
+                mail_text = (
+                    "Datum: " + request.POST.get('datum') + "\n" +
+                    "Stunde: " + request.POST.get('stunde') + "\n" +
+                    "Koffer: " + koffer.short_name + "\n" +
+                    "Gerät: " + str(device) + "\n" +
+                    "Kürzel: " + request.POST.get('krzl') + "\n" +
+                    "Beschreibung: " + request.POST.get('beschreibung') + "\n" +
+                    "Status: " + str(status)
+                )
+                send_mail(
+                    'DjangoBuchungstool Schadenmeldung',
+                    mail_text,
+                    'noreply@genm.info',
+                    ['it@genm.info'],
+                    fail_silently=True,
+                )
                 f.save()
                 return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
         elif request.POST.get('delete'):
@@ -83,13 +102,15 @@ def devicelistEntryNew(request, room, date, std, entry_id):
             if f.is_valid():
                 koffer = get_object_or_404(Room, id=int(request.POST.get('room')))
                 device = Device.objects.get(id=int(request.POST.get('device')))
+                status = Status.objects.get(id=int(request.POST.get('status')))
                 mail_text = (
                     "Datum: " + request.POST.get('datum') + "\n" +
                     "Stunde: " + request.POST.get('stunde') + "\n" +
                     "Koffer: " + koffer.short_name + "\n" +
                     "Gerät: " + str(device) + "\n" +
                     "Kürzel: " + request.POST.get('krzl') + "\n" +
-                    "Beschreibung: " + request.POST.get('beschreibung')
+                    "Beschreibung: " + request.POST.get('beschreibung') + "\n" +
+                    "Status: " + str(status)
                 )
                 send_mail(
                     'DjangoBuchungstool Schadenmeldung',
