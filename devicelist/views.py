@@ -62,7 +62,7 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     'DjangoBuchungstool Schadenmeldung',
                     mail_text,
                     'noreply@genm.info',
-                    ['philipp.lobe@genm.info'],
+                    ['it@genm.info'],
                     fail_silently=True,
                 )
                 f.save()
@@ -122,7 +122,7 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                     'DjangoBuchungstool Schadenmeldung',
                     mail_text,
                     'noreply@genm.info',
-                    ['philipp.lobe@genm.info'],
+                    ['it@genm.info'],
                     fail_silently=True,
                 )
                 f.save()
