@@ -40,7 +40,7 @@
           {% if user.is_authenticated %}
             {{ devicelist.status }}
           {% else %}
-            <input type="text" class="form-control" value="{{ devicelist.instance.status }}" readonly>
+            <input type="text" name="status" class="form-control" value="{{ devicelist.instance.status }}" readonly>
           {% endif %}
         </div>
         <div class="col">

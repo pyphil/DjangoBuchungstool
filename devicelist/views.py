@@ -45,7 +45,10 @@ def devicelistEntry(request, id, room, date, std, entry_id):
             if f.is_valid():
                 koffer = get_object_or_404(Room, id=int(request.POST.get('room')))
                 device = Device.objects.get(id=int(request.POST.get('device')))
-                status = Status.objects.get(id=int(request.POST.get('status')))
+                if request.user.is_authenticated:
+                    status = Status.objects.get(id=int(request.POST.get('status')))
+                else:
+                    status = request.POST.get('status')
                 mail_text = (
                     "Datum: " + request.POST.get('datum') + "\n" +
                     "Stunde: " + request.POST.get('stunde') + "\n" +
@@ -59,7 +62,7 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     'DjangoBuchungstool Schadenmeldung',
                     mail_text,
                     'noreply@genm.info',
-                    ['it@genm.info'],
+                    ['philipp.lobe@genm.info'],
                     fail_silently=True,
                 )
                 f.save()
@@ -102,7 +105,10 @@ def devicelistEntryNew(request, room, date, std, entry_id):
             if f.is_valid():
                 koffer = get_object_or_404(Room, id=int(request.POST.get('room')))
                 device = Device.objects.get(id=int(request.POST.get('device')))
-                status = Status.objects.get(id=int(request.POST.get('status')))
+                if request.user.is_authenticated:
+                    status = Status.objects.get(id=int(request.POST.get('status')))
+                else:
+                    status = request.POST.get('status')
                 mail_text = (
                     "Datum: " + request.POST.get('datum') + "\n" +
                     "Stunde: " + request.POST.get('stunde') + "\n" +
@@ -116,7 +122,7 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                     'DjangoBuchungstool Schadenmeldung',
                     mail_text,
                     'noreply@genm.info',
-                    ['it@genm.info'],
+                    ['philipp.lobe@genm.info'],
                     fail_silently=True,
                 )
                 f.save()
