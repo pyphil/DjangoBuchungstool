@@ -61,11 +61,11 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                 )
                 try:
                     email = Setting.objects.get(name="E-Mail")
-                except:
+                except Setting.DoesNotExist:
                     email = ""
                 try:
                     noreply = Setting.objects.get(name="noreply-mail")
-                except:
+                except Setting.DoesNotExist:
                     noreply = ""
                 send_mail(
                     'DjangoBuchungstool Schadenmeldung',
@@ -129,11 +129,11 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                 )
                 try:
                     email = Setting.objects.get(name="E-Mail")
-                except:
+                except Setting.DoesNotExist:
                     email = ""
                 try:
                     noreply = Setting.objects.get(name="noreply-mail")
-                except:
+                except Setting.DoesNotExist:
                     noreply = ""
                 send_mail(
                     'DjangoBuchungstool Schadenmeldung',
