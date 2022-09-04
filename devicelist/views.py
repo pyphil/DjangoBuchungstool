@@ -1,7 +1,7 @@
-from logging import exception
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking
-from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device, Status, Setting
+from buchungstool_settings.models import Config
+from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device, Status
 from django.core.mail import send_mail
 
 
@@ -60,12 +60,12 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     "Status: " + str(status)
                 )
                 try:
-                    email = Setting.objects.get(name="E-Mail")
-                except Setting.DoesNotExist:
+                    email = Config.objects.get(name="E-Mail")
+                except Config.DoesNotExist:
                     email = ""
                 try:
-                    noreply = Setting.objects.get(name="noreply-mail")
-                except Setting.DoesNotExist:
+                    noreply = Config.objects.get(name="noreply-mail")
+                except Config.DoesNotExist:
                     noreply = ""
                 send_mail(
                     'DjangoBuchungstool Schadenmeldung',
@@ -128,12 +128,12 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                     "Status: " + str(status)
                 )
                 try:
-                    email = Setting.objects.get(name="E-Mail")
-                except Setting.DoesNotExist:
+                    email = Config.objects.get(name="E-Mail")
+                except Config.DoesNotExist:
                     email = ""
                 try:
-                    noreply = Setting.objects.get(name="noreply-mail")
-                except Setting.DoesNotExist:
+                    noreply = Config.objects.get(name="noreply-mail")
+                except Config.DoesNotExist:
                     noreply = ""
                 send_mail(
                     'DjangoBuchungstool Schadenmeldung',

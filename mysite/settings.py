@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'userlist',
     'devicelist',
     'tinymce',
+    'buchungstool_settings',
 ]
 
 MIDDLEWARE = [
