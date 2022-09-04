@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'userlist',
     'devicelist',
     'tinymce',
-    'settings',
 ]
 
 MIDDLEWARE = [

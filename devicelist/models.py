@@ -4,6 +4,18 @@ from django import forms
 from buchungstool.models import Room
 
 
+class Setting(models.Model):
+    NAME_CHOICES = [
+        ('E-Mail', 'Ziel-E-Mail für Schadenmeldungen'),
+        ('noreply-mail', 'noreply-E-Mail zum Versand der Schadenmeldung'),
+    ]
+    name = models.CharField(max_length=50, choices=NAME_CHOICES)
+    setting = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.setting
+
+
 class Device(models.Model):
     device = models.CharField(max_length=10)
     dbname = models.CharField(max_length=10)

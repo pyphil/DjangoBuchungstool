@@ -1,8 +1,7 @@
 from logging import exception
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking
-from settings.models import Setting
-from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device, Status
+from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device, Status, Setting
 from django.core.mail import send_mail
 
 
