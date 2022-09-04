@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import DevicelistEntry
-from .models import Device
-from .models import Status
+from .models import Device, Status
 
 
 class DeviceCustomAdmin(admin.ModelAdmin):

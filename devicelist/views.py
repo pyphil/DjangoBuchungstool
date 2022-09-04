@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking
+from buchungstool_settings.models import Config
 from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device, Status
 from django.core.mail import send_mail
 
@@ -58,11 +59,19 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     "Beschreibung: " + request.POST.get('beschreibung') + "\n" +
                     "Status: " + str(status)
                 )
+                try:
+                    email = Config.objects.get(name="E-Mail")
+                except Config.DoesNotExist:
+                    email = ""
+                try:
+                    noreply = Config.objects.get(name="noreply-mail")
+                except Config.DoesNotExist:
+                    noreply = ""
                 send_mail(
                     'DjangoBuchungstool Schadenmeldung',
                     mail_text,
-                    'noreply@genm.info',
-                    ['it@genm.info'],
+                    noreply,
+                    [email],
                     fail_silently=True,
                 )
                 f.save()
@@ -118,11 +127,19 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                     "Beschreibung: " + request.POST.get('beschreibung') + "\n" +
                     "Status: " + str(status)
                 )
+                try:
+                    email = Config.objects.get(name="E-Mail")
+                except Config.DoesNotExist:
+                    email = ""
+                try:
+                    noreply = Config.objects.get(name="noreply-mail")
+                except Config.DoesNotExist:
+                    noreply = ""
                 send_mail(
                     'DjangoBuchungstool Schadenmeldung',
                     mail_text,
-                    'noreply@genm.info',
-                    ['it@genm.info'],
+                    noreply,
+                    [email],
                     fail_silently=True,
                 )
                 f.save()
