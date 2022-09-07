@@ -15,6 +15,12 @@
 <div class="container">
     <h2 class="mb-3">Buchung von Räumen und Geräten</h2>
 
+    {% if info_frontpage %}
+        <div class="alert alert-danger" role="alert">
+            {{ info_frontpage|safe }}
+        </div>
+    {% endif %}
+
     <div class="row">
         <div class="col">
             <div class="card mb-3 shadow" style="background-color: #cee3f583;">
