@@ -1,6 +1,8 @@
+from math import fabs
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
+from buchungstool_settings.models import Config
 import datetime
 from django.core.mail import send_mail
 from threading import Thread
@@ -25,9 +27,17 @@ def rooms(request):
 
     rooms = Room.objects.all()
 
+    try:
+        info_frontpage = Config.objects.get(name="info-frontpage")
+        info_frontpage = info_frontpage.text
+        if info_frontpage == "":
+            info_frontpage = False
+    except Config.DoesNotExist:
+        info_frontpage = False
+
     return render(
         request, 'buchungstoolRooms.html',
-        {'rooms': rooms}
+        {'rooms': rooms, 'info_frontpage': info_frontpage}
     )
 
 
