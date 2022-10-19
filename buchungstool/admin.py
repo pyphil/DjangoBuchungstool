@@ -24,8 +24,8 @@ class BookingCustomAdmin(admin.ModelAdmin):
 
 class RoomCustomAdmin(admin.ModelAdmin):
     # fields to display in the listing
-    list_display = ('short_name', 'room', 'description', 'card')
-    list_filter = ('card',)
+    list_display = ('short_name', 'room', 'type', 'description', 'card')
+    list_filter = ('card', 'type')
 
 
 admin.site.register(Booking, BookingCustomAdmin)

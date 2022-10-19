@@ -104,6 +104,7 @@
         {% endif %}
         <button type="submit" class="btn btn-secondary" value="cancel" name="cancel">Abbrechen</button>
 
+    {% if room_type == "iPad" %}
         {% if state == None %}
         <div class="alert alert-warning mt-5">
           <h5>-- NEU -- Ab sofort: Digitaler Eintrag in die Nutzerliste</h5>
@@ -406,6 +407,7 @@
       </div>
       {% endif %}
     </form>
+    {% endif %}
     </div>
   </div>
 </div>

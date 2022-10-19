@@ -1,4 +1,3 @@
-from math import fabs
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
@@ -268,6 +267,7 @@ def eintrag(request, accordion=None, room=None, id=None):
         request, 'buchungstoolEntry.html',
         {
             'room': room,
+            'room_type': room_obj.type,
             'room_text': room_obj.room + " - " + room_obj.description,
             'isodate': isodate,
             'date': date,
@@ -396,19 +396,4 @@ def getUserlist(room, isodate, std):
 
 
 def userlistInfo(request):
-    # run mail sending in thread
-    thread = mail_thread()
-    thread.start()
     return render(request, 'buchungstoolUserlistInfo.html', {})
-
-
-class mail_thread(Thread):
-    # run method automatically executed
-    def run(self):
-        send_mail(
-            'DjangoBuchungstool Message',
-            'Info has been clicked.',
-            'noreply@genm.info',
-            ['philipp.lobe@genm.info'],
-            fail_silently=True,
-        )
