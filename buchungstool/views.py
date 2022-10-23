@@ -3,8 +3,6 @@ from .models import Booking, Room, BookingFormIpad
 from userlist.models import Userlist
 from buchungstool_settings.models import Config
 import datetime
-from django.core.mail import send_mail
-from threading import Thread
 
 
 def rooms(request):
