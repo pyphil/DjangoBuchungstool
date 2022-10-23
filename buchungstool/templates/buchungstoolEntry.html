@@ -25,7 +25,7 @@
     <h5 class="mt-3"><strong>Datum: </strong>{{ date }}, {{ std }}. Stunde</h5>
     <h5 class="mt-3"><strong>Raum/Gerät:</strong> {{room_text}}</h5>
     {% if room_type == "iPad" %}
-      <p class="mt-3">Schaden- und Problemliste zu {{ room }} aufrufen: <a href="{% url 'devicelist' room isodate std entry_id %}" class="btn btn-primary btn-sm">Schaden- und Problemliste</a></p>
+      <p class="mt-3"><a href="{% url 'devicelist' room isodate std entry_id %}" class="btn btn-primary btn-sm">Schaden- und Problemliste zu Koffer {{ room }}</a></p>
     {% endif %}
     <form method="POST">
       {% csrf_token %}
@@ -108,8 +108,8 @@
 
     {% if room_type == "iPad" %}
         {% if state == None %}
-        <div class="alert alert-warning mt-5">
-          <h5>-- NEU -- Ab sofort: Digitaler Eintrag in die Nutzerliste</h5>
+        <div class="alert alert-info mt-5">
+          <h5>Digitaler Eintrag in die iPad-Nutzerliste</h5>
           Klickst du erneut auf deinen Termin im Kalender, taucht hier die digitale Nutzerliste auf und du kannst sie für die Schüler*innen freischalten. Papierlisten gibt es nicht mehr.
           <strong><a href="{% url 'userlistInfo' %}">mehr Informationen</a></strong>
         </div>
@@ -118,12 +118,12 @@
     {% else %}
     <form method="POST">
       {% csrf_token %}
-      <div class="alert alert-warning mt-5">
+      <div class="alert alert-info mt-5">
         <h5>Digitaler Eintrag in die Nutzerliste</h5>
         Die Schüler*innen tragen sich auf dem iPad mit der App "Nutzerliste" ein. Lehrer*innen schalten diese Liste
         vorher frei. Die Schüler*innen wählen den richtigen Koffer/Unterricht aus (nur falls mehrere parallele Freischaltungen offen sind) und tragen
         sich mit den Vornamen (ggf. erster Buchstabe des Nachnamens) ein. In der unten stehenden Liste sieht man (evtl. "Neu laden") die Eintragungen
-        und kann ggf. selbst bei einzelnen Einträgen nachtragen und Speichern. <strong><a href="{% url 'userlistInfo' %}">mehr Informationen</a></strong>
+        und kann ggf. selbst bei einzelnen Einträgen nachtragen und speichern. <strong><a href="{% url 'userlistInfo' %}">mehr Informationen</a></strong>
       </div>
       <div class="col">
         <a name="userlist">Eintrag in die Nutzerliste für Schüler*innen freischalten (20 min):</a>

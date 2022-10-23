@@ -7,6 +7,7 @@ from buchungstool.models import Room
 class Device(models.Model):
     device = models.CharField(max_length=10)
     dbname = models.CharField(max_length=10)
+    type = models.CharField(max_length=10)
 
     def __str__(self):
         return self.device
