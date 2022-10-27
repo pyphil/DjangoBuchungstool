@@ -3,7 +3,7 @@ from .models import DevicelistEntry
 from .models import Device, Status
 
 
-class DeviceCustomAdmin(admin.ModelAdmin):
+class DevicelistEntryCustomAdmin(admin.ModelAdmin):
     list_display = (
         'device', 'room', 'datum', 'stunde', 'beschreibung', 'krzl', 'status', 'behoben',
     )
@@ -16,6 +16,10 @@ class StatusCustomAdmin(admin.ModelAdmin):
     list_display = ('id', 'status', 'color')
 
 
-admin.site.register(DevicelistEntry, DeviceCustomAdmin)
-admin.site.register(Device)
+class DeviceCustomAdmin(admin.ModelAdmin):
+    list_display = ('device', 'dbname', 'type')
+
+
+admin.site.register(DevicelistEntry, DevicelistEntryCustomAdmin)
+admin.site.register(Device, DeviceCustomAdmin)
 admin.site.register(Status, StatusCustomAdmin)
