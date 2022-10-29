@@ -87,7 +87,7 @@
                     <div class="collapse" id="collapseFSM_2" data-bs-parent="#FSM_parent">
                         <div class="card-body">
                             {% for room in rooms %}
-                                {% if room.card == 4 %}
+                                {% if room.card == 5 %}
                                     <form action="{% url 'buchungstoolHome' room.short_name %}">
                                         <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
                                             {{ room.description }} - {{ room.room }}</button><br>

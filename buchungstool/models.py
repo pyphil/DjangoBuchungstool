@@ -141,7 +141,7 @@ class Room(models.Model):
         ('CR', 'Computerraum'),
         ('other', 'anderer Raum'),
     ]
-    type = models.CharField(max_length=5, choices=TYPE_CHOICES)
+    type = models.CharField(max_length=5, choices=TYPE_CHOICES, blank=True)
     description = models.CharField(max_length=100)
     card = models.IntegerField()
     alert = HTMLField(blank=True)
