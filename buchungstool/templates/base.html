@@ -33,19 +33,22 @@
           <li class="nav-item">
             <a class="nav-link disabled text-info"><strong>Eingeloggt als: {{ user.username }}</strong></a>
           </li>
-        {% else %}  
+          <li class="nav-item">
+            <a class="nav-link active" href="/admin/">Django-Admin</a>
+          </li>
+        {% else %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/accounts/login/?next={{ request.get_full_path|urlencode }}">Admin-Login</a>
           </li>
         {% endif %}
       </ul>
       {% if request.path != "/" and request.path != "/buchungstool/userlistInfo/"%}
-        {% if "deviceUsers" in request.path %}  
-          <div class="navbar-nav ms-auto"> <a class="nav-link active" href="javascript:history.back()"><i 
+        {% if "deviceUsers" in request.path %}
+          <div class="navbar-nav ms-auto"> <a class="nav-link active" href="javascript:history.back()"><i
                 class="bi bi-arrow-left-square"> </i>zurück zur Schadenliste</a>
           </div>
-        {% elif "devices" in request.path %}  
-          <div class="navbar-nav ms-auto"> <a class="nav-link active" href="/buchungstool/{{ room }}/{{ entry_id }}/?isodate={{ date }}&std={{ std }}"><i 
+        {% elif "devices" in request.path %}
+          <div class="navbar-nav ms-auto"> <a class="nav-link active" href="/buchungstool/{{ room }}/{{ entry_id }}/?isodate={{ date }}&std={{ std }}"><i
                 class="bi bi-arrow-left-square"> </i>zurück zum Buchungstermin</a>
           </div>
         {% else %}
