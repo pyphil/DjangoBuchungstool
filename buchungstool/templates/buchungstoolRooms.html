@@ -66,17 +66,36 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="card mb-3 shadow" style="background-color: #dddddd9f;">
-                <h5 class="card-header">FS Mathematik</h5>
-                <div class="card-body">
-                    {% for room in rooms %}
-                        {% if room.card == 4 %}
-                            <form action="{% url 'buchungstoolHome' room.short_name %}">
-                                <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
-                                    {{ room.description }} - {{ room.room }}</button><br>
-                            </form>
-                        {% endif %}
-                    {% endfor %}
+            <div id="FSM_parent">
+                <div class="card mb-3 shadow" data-bs-toggle="collapse" data-bs-target="#collapseFSM_1" style="background-color: #dddddd9f;">
+                    <h5 class="card-header"><i class="bi bi-chevron-expand"> </i>FS Mathematik Merzenich</h5>
+                    <div class="collapse" id="collapseFSM_1" data-bs-parent="#FSM_parent">
+                        <div class="card-body">
+                            {% for room in rooms %}
+                                {% if room.card == 4 %}
+                                    <form action="{% url 'buchungstoolHome' room.short_name %}">
+                                        <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
+                                            {{ room.description }} - {{ room.room }}</button><br>
+                                    </form>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3 shadow" data-bs-toggle="collapse" data-bs-target="#collapseFSM_2" style="background-color: #dddddd9f;">
+                    <h5 class="card-header"><i class="bi bi-chevron-expand"> </i>FS Mathematik Niederzier</h5>
+                    <div class="collapse" id="collapseFSM_2" data-bs-parent="#FSM_parent">
+                        <div class="card-body">
+                            {% for room in rooms %}
+                                {% if room.card == 5 %}
+                                    <form action="{% url 'buchungstoolHome' room.short_name %}">
+                                        <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
+                                            {{ room.description }} - {{ room.room }}</button><br>
+                                    </form>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

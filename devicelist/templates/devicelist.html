@@ -35,7 +35,14 @@
                     <td>{{ devicelist_entry.krzl }}</td>
                     <td class="{{ devicelist_entry.status.color }}">{{ devicelist_entry.status }}</td>
                     <td>{{ devicelist_entry.behoben }}</td>
-                    <td><div class="text-end"><button type="submit" class="btn btn-secondary btn-sm">Ändern</button></div></td>
+                    <td>
+                      <div class="text-end">
+                        <span style="white-space: nowrap;">
+                          <button type="submit" class="btn btn-secondary btn-sm">Ändern</button>
+                          <a href="{% url 'deviceusers' room date devicelist_entry.device.dbname %}" class="btn btn-secondary btn-sm">letzte Benutzer</a>
+                        </span>
+                      </div>
+                    </td>
                   </tr>
                 </form>
               {% endif %}

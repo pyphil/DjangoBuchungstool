@@ -40,7 +40,11 @@
         {% endif %}
       </ul>
       {% if request.path != "/" and request.path != "/buchungstool/userlistInfo/"%}
-        {% if "devices" in request.path %}  
+        {% if "deviceUsers" in request.path %}  
+          <div class="navbar-nav ms-auto"> <a class="nav-link active" href="javascript:history.back()"><i 
+                class="bi bi-arrow-left-square"> </i>zurück zur Schadenliste</a>
+          </div>
+        {% elif "devices" in request.path %}  
           <div class="navbar-nav ms-auto"> <a class="nav-link active" href="/buchungstool/{{ room }}/{{ entry_id }}/?isodate={{ date }}&std={{ std }}"><i 
                 class="bi bi-arrow-left-square"> </i>zurück zum Buchungstermin</a>
           </div>
