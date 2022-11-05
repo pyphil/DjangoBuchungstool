@@ -186,7 +186,7 @@ def eintrag(request, accordion=None, room=None, id=None):
                     lerngruppe=request.POST.get('lerngruppe'),
                     datum=isodate,
                     stunde=std,
-                    krzl=request.POST.get('krzl').upper()[:3]
+                    krzl=request.POST.get('krzl').upper()[:15]
                 )
                 return redirect('/buchungstool/' + room + '/?date=' + isodate)
             if selected_date != '0':
@@ -211,7 +211,7 @@ def eintrag(request, accordion=None, room=None, id=None):
                             lerngruppe=request.POST.get('lerngruppe'),
                             datum=d,
                             stunde=std,
-                            krzl=request.POST.get('krzl').upper()[:3]
+                            krzl=request.POST.get('krzl').upper()[:15]
                         )
                         new.save()
                     return redirect('/buchungstool/' + room + '/?date=' + isodate)
@@ -227,8 +227,7 @@ def eintrag(request, accordion=None, room=None, id=None):
             update = True
         else:
             entry_obj.lerngruppe = request.POST.get('lerngruppe')
-            # only three letters for krzl
-            entry_obj.krzl = request.POST.get('krzl').upper()[:3]
+            entry_obj.krzl = request.POST.get('krzl').upper()[:15]
             entry_obj.save()
             print('update')
             return redirect('/buchungstool/' + room + '/?date=' + isodate)
