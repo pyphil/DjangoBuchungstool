@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from buchungstool.models import Booking
+from buchungstool.models import Booking, Room
 from buchungstool_settings.models import Config
 from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device, Status
 from django.core.mail import send_mail
@@ -24,6 +24,25 @@ def devicelist(request, room, date, std, entry_id):
         'entry_id': entry_id,
     }
     return render(request, 'devicelist.html', context)
+
+
+def devicelist_admin(request):
+    if not request.session.get('has_access'):
+        return render(request, 'buchungstoolNoAccess.html',)
+
+    rooms = Room.objects.filter(type='iPad')
+    devices = Device.objects.all()
+    obj = DevicelistEntry.objects.all()
+    iPads_with_entry = []
+    for i in obj:
+        iPads_with_entry.append(i.device)
+    context = {
+        'rooms': rooms,
+        'devices': devices,
+        'iPads_with_entry': iPads_with_entry,
+        'devicelist': obj,
+    }
+    return render(request, 'devicelist_admin.html', context)
 
 
 def devicelistEntry(request, id, room, date, std, entry_id):
