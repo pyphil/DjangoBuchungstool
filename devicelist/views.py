@@ -1,8 +1,10 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from buchungstool.models import Booking
+from buchungstool.models import Booking, Room
 from buchungstool_settings.models import Config
-from .models import DevicelistEntry, DevicelistEntryForm, Room, DevicelistEntryFormLoggedIn, Device, Status
+from .models import DevicelistEntry, DevicelistEntryForm, DevicelistEntryFormLoggedIn
+from .models import Device, Status
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 
 def devicelist(request, room, date, std, entry_id):
@@ -24,6 +26,40 @@ def devicelist(request, room, date, std, entry_id):
         'entry_id': entry_id,
     }
     return render(request, 'devicelist.html', context)
+
+
+@login_required
+def devicelist_admin(request):
+    if not request.session.get('has_access'):
+        return render(request, 'buchungstoolNoAccess.html',)
+
+    if request.GET.get('filter') and request.GET.get('filter') != "alle":
+        filter = request.GET.get('filter')
+        obj = DevicelistEntry.objects.filter(status__status=filter)
+    else:
+        obj = DevicelistEntry.objects.all()
+        filter = ""
+
+    rooms = Room.objects.filter(type='iPad')
+    devices = Device.objects.all()
+    iPads_with_entry = []
+    for i in obj:
+        iPads_with_entry.append(i.device)
+    status = Status.objects.all()
+    options = []
+    options.append('alle')
+    for s in status:
+        options.append(s.status)
+
+    context = {
+        'rooms': rooms,
+        'devices': devices,
+        'iPads_with_entry': iPads_with_entry,
+        'devicelist': obj,
+        'options': options,
+        'filter': filter,
+    }
+    return render(request, 'devicelist_admin.html', context)
 
 
 def devicelistEntry(request, id, room, date, std, entry_id):
