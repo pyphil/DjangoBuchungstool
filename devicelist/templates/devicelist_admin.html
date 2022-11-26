@@ -5,13 +5,19 @@
   <h2 class="mb-3">Übersicht Problem- und Schadenliste</h2>
   
 
+<h5>Filter:</h5>
+<form>
+  <select name="filter" class="form-select" id="filter" onchange="this.form.submit()">
+  {% for option in options %}
+    {% if option == filter %}
+      <option value="{{ option }}" selected>{{ option }}</option>
+    {% else %}
+      <option value="{{ option }}">{{ option }}</option>
+    {% endif %}
+  {% endfor %}
+  </select>
+</form>
 
-  
-  {% for room in rooms %}
-    <!-- <h3 class="mb-3">Raum/Koffer: {{ room }}</h2> -->
-    {% for device in devices %}
-      {% if device in iPads_with_entry %}
-        <!-- <h5 class="mt-4">Schaden- und Problemliste für <strong>{{ device }}</strong></h5> -->
         <div class="row mb-4">
           <div class="col">
             <table class="table table-striped">
@@ -28,37 +34,40 @@
                 </tr>
               </thead>
               <tbody>
-              {% for devicelist_entry in devicelist %}
-                {% if devicelist_entry.device == device %}
-                  <form action="{% url 'deviceEntry' devicelist_entry.id room devicelist_entry.datum devicelist_entry.stunde devicelist_entry.id %}">
-                    <tr>
-                      <td>{{ room }}</td>
-                      <td>{{ device }}</td>
-                      <td>{{ devicelist_entry.datum }}</td>
-                      <td>{{ devicelist_entry.stunde }}</td>
-                      <td>{{ devicelist_entry.beschreibung }}</td>
-                      <td>{{ devicelist_entry.krzl }}</td>
-                      <td class="{{ devicelist_entry.status.color }}">{{ devicelist_entry.status }}</td>
-                      <td>{{ devicelist_entry.behoben }}</td>
-                      <td>
-                        <div class="text-end">
-                          <span style="white-space: nowrap;">
-                            <button type="submit" class="btn btn-secondary btn-sm">Ändern</button>
-                            <a href="{% url 'deviceusers' room devicelist_entry.datum devicelist_entry.device.dbname %}" class="btn btn-secondary btn-sm">letzte Benutzer</a>
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </form>
-                {% endif %}
+              {% for room in rooms %}
+                {% for device in devices %}
+                  {% if device in iPads_with_entry %}
+                    {% for devicelist_entry in devicelist %}
+                      {% if devicelist_entry.device == device %}
+                        <form action="{% url 'deviceEntry' devicelist_entry.id room devicelist_entry.datum devicelist_entry.stunde devicelist_entry.id %}">
+                          <tr>
+                            <td>{{ room }}</td>
+                            <td>{{ device }}</td>
+                            <td>{{ devicelist_entry.datum }}</td>
+                            <td>{{ devicelist_entry.stunde }}</td>
+                            <td>{{ devicelist_entry.beschreibung }}</td>
+                            <td>{{ devicelist_entry.krzl }}</td>
+                            <td class="{{ devicelist_entry.status.color }}">{{ devicelist_entry.status }}</td>
+                            <td>{{ devicelist_entry.behoben }}</td>
+                            <td>
+                              <div class="text-end">
+                                <span style="white-space: nowrap;">
+                                  <button type="submit" class="btn btn-secondary btn-sm">Ändern</button>
+                                  <a href="{% url 'deviceusers' room devicelist_entry.datum devicelist_entry.device.dbname %}" class="btn btn-secondary btn-sm">letzte Benutzer</a>
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        </form>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
               {% endfor %}
               </tbody>
             </table>
           </div>
         </div>
-      {% endif %}
-    {% endfor %}
-  {% endfor %}
 </div>
 
 {% endblock content %}
