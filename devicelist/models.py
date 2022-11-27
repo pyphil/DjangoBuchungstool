@@ -38,6 +38,14 @@ class DevicelistEntry(models.Model):
     class Meta:
         verbose_name_plural = "DevicelistEntries"
 
+    @property
+    def age(self):
+        from datetime import date
+        today = date.today()
+        age = today - self.datum
+        age = str(age).split('d')[0].strip()
+        return age
+
 
 class DevicelistEntryForm(ModelForm):
     class Meta:
