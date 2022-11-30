@@ -3,13 +3,12 @@
 
 <div class="container">
   <h2 class="mb-3">Übersicht Problem- und Schadenliste</h2>
-  
 
 <h5>Filter:</h5>
 <form>
-  <select name="filter" class="form-select" id="filter" onchange="this.form.submit()">
+  <select name="filter_status" class="form-select" id="filter_status" onchange="this.form.submit()">
   {% for option in options %}
-    {% if option == filter %}
+    {% if option == filter_status %}
       <option value="{{ option }}" selected>{{ option }}</option>
     {% else %}
       <option value="{{ option }}">{{ option }}</option>
@@ -34,34 +33,34 @@
                 </tr>
               </thead>
               <tbody>
-              {% for room in rooms %}
-                {% for device in devices %}
-                  {% if device in iPads_with_entry %}
-                    {% for devicelist_entry in devicelist %}
-                      {% if devicelist_entry.device == device %}
-                        <tr>
-                          <td>{{ room }}</td>
-                          <td>{{ device }}</td>
-                          <td>{{ devicelist_entry.datum }}</td>
-                          <td>{{ devicelist_entry.stunde }}</td>
-                          <td>{{ devicelist_entry.beschreibung }}</td>
-                          <td>{{ devicelist_entry.krzl }}</td>
-                          <td class="{{ devicelist_entry.status.color }}">{{ devicelist_entry.status }}</td>
-                          <td>{{ devicelist_entry.behoben }}</td>
-                          <td>
-                            <div class="text-end">
-                              <span style="white-space: nowrap;">
-                                <a href="{% url 'deviceEntry' devicelist_entry.id room devicelist_entry.datum devicelist_entry.stunde devicelist_entry.id %}?admin=1" class="btn btn-secondary btn-sm">Ändern</a>
-                                <a href="{% url 'deviceusers' room devicelist_entry.datum devicelist_entry.device.dbname %}?admin=1" class="btn btn-secondary btn-sm">letzte Benutzer</a>
-                              </span>
-                            </div>
-                          </td>
+
+              
+                {% for devicelist_entry in devicelist %}
+                 
+
+
+                    <tr>
+                      <td>{{ devicelist_entry.room }}</td>
+                      <td>{{ devicelist_entry.device }}</td>
+                      <td>{{ devicelist_entry.datum }}</td>
+                      <td>{{ devicelist_entry.stunde }}</td>
+                      <td>{{ devicelist_entry.beschreibung }}</td>
+                      <td>{{ devicelist_entry.krzl }}</td>
+                      <td class="{{ devicelist_entry.status.color }}">{{ devicelist_entry.status }}</td>
+                      <td>{{ devicelist_entry.behoben }}</td>
+                      <td>
+                        <div class="text-end">
+                          <span style="white-space: nowrap;">
+                            <a href="{% url 'deviceEntry' devicelist_entry.id devicelist_entry.room devicelist_entry.datum devicelist_entry.stunde devicelist_entry.id %}?admin=1" class="btn btn-secondary btn-sm">Ändern</a>
+                            <a href="{% url 'deviceusers' devicelist_entry.room devicelist_entry.datum devicelist_entry.device.dbname %}?admin=1" class="btn btn-secondary btn-sm">letzte Benutzer</a>
+                          </span>
+                        </div>
+                      </td>
                         </tr>
-                      {% endif %}
-                    {% endfor %}
-                  {% endif %}
+
+
                 {% endfor %}
-              {% endfor %}
+              
               </tbody>
             </table>
           </div>
