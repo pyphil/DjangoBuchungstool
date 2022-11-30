@@ -33,18 +33,13 @@ def devicelist_admin(request):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
-    if request.GET.get('filter') and request.GET.get('filter') != "alle":
-        filter = request.GET.get('filter')
-        obj = DevicelistEntry.objects.filter(status__status=filter)
+    if request.GET.get('filter_status') and request.GET.get('filter_status') != "alle":
+        filter_status = request.GET.get('filter_status')
+        obj = DevicelistEntry.objects.filter(status__status=filter_status).order_by('room', 'device')
     else:
-        obj = DevicelistEntry.objects.all()
-        filter = ""
+        obj = DevicelistEntry.objects.all().order_by('room', 'device')
+        filter_status = ""
 
-    rooms = Room.objects.filter(type='iPad')
-    devices = Device.objects.all()
-    iPads_with_entry = []
-    for i in obj:
-        iPads_with_entry.append(i.device)
     status = Status.objects.all()
     options = []
     options.append('alle')
@@ -52,12 +47,9 @@ def devicelist_admin(request):
         options.append(s.status)
 
     context = {
-        'rooms': rooms,
-        'devices': devices,
-        'iPads_with_entry': iPads_with_entry,
         'devicelist': obj,
         'options': options,
-        'filter': filter,
+        'filter_status': filter_status,
     }
     return render(request, 'devicelist_admin.html', context)
 
