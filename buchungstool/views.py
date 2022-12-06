@@ -56,9 +56,14 @@ def home(request, room=None):
     dates, offset, currentdate = getWeekCalendar(request, direction)
     currentdate = currentdate.strftime('%Y-%m-%d')
 
+    checked = False
+    stunden = 7
+    if request.GET.get('switch') == 'on':
+        checked = True
+        stunden = 11
+    range_stunden = range(1, stunden+1)
     btncontent = []
-
-    for std in [1, 2, 3, 4, 5, 6, 7]:
+    for std in range_stunden:
         for date in dates:
             dbobject = Booking.objects.filter(
                 room=room,
@@ -88,7 +93,9 @@ def home(request, room=None):
             'room_alert': room_obj.alert,
             'dates': dates,
             'btncontent': btncontent,
-            'currentdate': currentdate
+            'currentdate': currentdate,
+            'range_stunden': range_stunden,
+            'checked': checked,
         }
     )
     response.set_cookie('offset', offset)

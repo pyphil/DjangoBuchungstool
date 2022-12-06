@@ -25,7 +25,7 @@
     </div>
   {% endif %}
 
-  <div class="card shadow">
+  <div class="card shadow mb-4">
     <div class="card-header">
       <div class="row align-items-center">
         <div class="col text-center">
@@ -53,187 +53,51 @@
     </div>
     
     <div class="card-body">
-    <table class="table text-center align-middle">
-      <thead>
-        <tr>
-          <th>Stunde</th>
-          {% for date in dates %}
-            <th>{{ date.weekday }}{{ date.date }}</th>
-          {% endfor %}
-        </tr>
-      </thead>
+      <table class="table text-center align-middle">
+        <thead>
+          <tr>
+            <th>Stunde</th>
+            {% for date in dates %}
+              <th>{{ date.weekday }}{{ date.date }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
 
-      <tbody>
-      <tr>
-        <th>1.</th>
-        {% for text in btncontent %}
-        {% if text.std == 1 %}
-          <form action="{% url 'buchungstoolEntry' room text.id %}">
-            {% if text.lerngruppe == "frei" %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-success">{{ text.lerngruppe }}</button>
-                </div>
-              </td>
-            {% else %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary"><strong>{{ text.krzl }}</strong><br><small>{{ text.lerngruppe }}</small>
-                  </div>
-                </td>
-            {% endif %}
-            <input type="hidden" name="isodate" value="{{ text.date.isodate }}" />
-            <input type="hidden" name="std" value="{{ text.std }}" />
-          </form>
-        {% endif %}
+        <tbody>
+        {% for i in range_stunden %}
+          <tr>
+            <th>{{ i }}.</th>
+            {% for text in btncontent %}
+              {% if text.std == i %}
+                <form action="{% url 'buchungstoolEntry' room text.id %}">
+                  {% if text.lerngruppe == "frei" %}
+                    <td>
+                      <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">{{ text.lerngruppe }}</button>
+                      </div>
+                    </td>
+                  {% else %}
+                    <td>
+                      <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary"><strong>{{ text.krzl }}</strong><br><small>{{ text.lerngruppe }}</small>
+                        </div>
+                      </td>
+                  {% endif %}
+                  <input type="hidden" name="isodate" value="{{ text.date.isodate }}" />
+                  <input type="hidden" name="std" value="{{ text.std }}" />
+                </form>
+              {% endif %}
+            {% endfor %}
+          </tr>
         {% endfor %}
-      </tr>
-      <tr>
-        <th>2.</th>
-        {% for text in btncontent %}
-        {% if text.std == 2 %}
-          <form action="{% url 'buchungstoolEntry' room text.id %}">
-            {% if text.lerngruppe == "frei" %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-success">{{ text.lerngruppe }}</button>
-                </div>
-              </td>
-            {% else %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary"><strong>{{ text.krzl }}</strong><br><small>{{ text.lerngruppe }}</small></button>
-                </div>
-              </td>
-            {% endif %}
-            <input type="hidden" name="isodate" value="{{ text.date.isodate }}" />
-            <input type="hidden" name="std" value="{{ text.std }}" />
-          </form>
-        {% endif %}
-        {% endfor %}
-      </tr>
-      <tr>
-        <th>3.</th>
-        {% for text in btncontent %}
-        {% if text.std == 3 %}
-          <form action="{% url 'buchungstoolEntry' room text.id %}">
-            {% if text.lerngruppe == "frei" %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-success">{{ text.lerngruppe }}</button>
-                </div>
-              </td>
-            {% else %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary"><strong>{{ text.krzl }}</strong><br><small>{{ text.lerngruppe }}</small></button>
-                </div>
-              </td>
-            {% endif %}
-            <input type="hidden" name="isodate" value="{{ text.date.isodate }}" />
-            <input type="hidden" name="std" value="{{ text.std }}" />
-          </form>
-        {% endif %}
-        {% endfor %}
-      </tr>
-      <tr>
-        <th>4.</th>
-        {% for text in btncontent %}
-        {% if text.std == 4 %}
-          <form action="{% url 'buchungstoolEntry' room text.id %}">
-            {% if text.lerngruppe == "frei" %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-success">{{ text.lerngruppe }}</button>
-                </div>
-              </td>
-            {% else %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary"><strong>{{ text.krzl }}</strong><br><small>{{ text.lerngruppe }}</small></button>
-                </div>
-              </td>
-            {% endif %}
-            <input type="hidden" name="isodate" value="{{ text.date.isodate }}" />
-            <input type="hidden" name="std" value="{{ text.std }}" />
-          </form>
-        {% endif %}
-        {% endfor %}
-      </tr>
-      <tr>
-        <th>5.</th>
-        {% for text in btncontent %}
-        {% if text.std == 5 %}
-          <form action="{% url 'buchungstoolEntry' room text.id %}">
-            {% if text.lerngruppe == "frei" %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-success">{{ text.lerngruppe }}</button>
-                </div>
-              </td>
-            {% else %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary"><strong>{{ text.krzl }}</strong><br><small>{{ text.lerngruppe }}</small></button>
-                </div>
-              </td>
-            {% endif %}
-            <input type="hidden" name="isodate" value="{{ text.date.isodate }}" />
-            <input type="hidden" name="std" value="{{ text.std }}" />
-          </form>
-        {% endif %}
-        {% endfor %}
-      </tr>
-      <tr>
-        <th>6.</th>
-        {% for text in btncontent %}
-        {% if text.std == 6 %}
-          <form action="{% url 'buchungstoolEntry' room text.id %}">
-            {% if text.lerngruppe == "frei" %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-success">{{ text.lerngruppe }}</button>
-                </div>
-              </td>
-            {% else %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary"><strong>{{ text.krzl }}</strong><br><small>{{ text.lerngruppe }}</small></button>
-                </div>
-              </td>
-            {% endif %}
-            <input type="hidden" name="isodate" value="{{ text.date.isodate }}" />
-            <input type="hidden" name="std" value="{{ text.std }}" />
-          </form>
-        {% endif %}
-        {% endfor %}
-      </tr>
-      <tr>
-        <th>7.</th>
-        {% for text in btncontent %}
-        {% if text.std == 7 %}
-          <form action="{% url 'buchungstoolEntry' room text.id %}">
-            {% if text.lerngruppe == "frei" %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-success">{{ text.lerngruppe }}</button>
-                </div>
-              </td>
-            {% else %}
-              <td>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary"><strong>{{ text.krzl }}</strong><br><small>{{ text.lerngruppe }}</small></button>
-                </div>
-              </td>
-            {% endif %}
-            <input type="hidden" name="isodate" value="{{ text.date.isodate }}" />
-            <input type="hidden" name="std" value="{{ text.std }}" />
-          </form>
-        {% endif %}
-        {% endfor %}
-      </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+      <form class="mb-0">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" name="switch" id="extended_plan" {% if checked %} checked {% endif %} onchange="this.form.submit()">
+          <label class="form-check-label" for="flexSwitchCheckChecked"><small>Zeige 8. - 11. Std.</small></label>
+        </div>
+      </form>
     </div>
   </div>
 </div>
