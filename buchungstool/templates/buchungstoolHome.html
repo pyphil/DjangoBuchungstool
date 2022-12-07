@@ -18,7 +18,9 @@
   <h2>{{room_text}}</h2>
   <label for="save" class="form-label">Klicke auf das Element, das du ändern möchstest:</label>
   
-  
+  {{ alert_form.media }}
+  {{ alert_form }}
+
   {% if room_alert %}
     <div class="alert alert-danger" role="alert">
     {{ room_alert|safe }}

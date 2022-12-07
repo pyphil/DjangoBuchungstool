@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad
+from .forms import RoomAlertForm
 from userlist.models import Userlist
 from buchungstool_settings.models import Config
 import datetime
@@ -50,6 +51,10 @@ def home(request, room=None):
     if room is None:
         return redirect('/')
 
+    if request.POST.get(''):
+        pass
+    else:
+
     direction = None
     if request.GET.get('direction'):
         direction = request.GET.get('direction')
@@ -85,6 +90,8 @@ def home(request, room=None):
                 btncontent.append(
                     {'id': 0, 'lerngruppe': "frei", 'date': date, 'std': std})
 
+    alert_form = RoomAlertForm(instance=room_obj)
+
     response = render(
         request, 'buchungstoolHome.html',
         {
@@ -96,6 +103,7 @@ def home(request, room=None):
             'currentdate': currentdate,
             'range_stunden': range_stunden,
             'checked': checked,
+            'alert_form': alert_form,
         }
     )
     response.set_cookie('offset', offset)
