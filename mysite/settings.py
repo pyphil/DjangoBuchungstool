@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'buchungstool',
     'userlist',
     'devicelist',
-    'tinymce',
     'buchungstool_settings',
     'ckeditor',
 ]

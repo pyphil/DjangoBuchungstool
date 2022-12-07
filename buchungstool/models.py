@@ -1,5 +1,4 @@
 from django.db import models
-# from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
 from django import forms
 from django.forms import ModelForm
@@ -72,7 +71,6 @@ class Room(models.Model):
     type = models.CharField(max_length=5, choices=TYPE_CHOICES, blank=True)
     description = models.CharField(max_length=100)
     card = models.IntegerField()
-    # alert = HTMLField(blank=True)
     alert = RichTextField(blank=True)
 
     def __str__(self):
