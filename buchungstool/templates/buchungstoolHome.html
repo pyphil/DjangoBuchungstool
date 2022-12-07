@@ -16,18 +16,24 @@
 
 <div class="container">
   <h2>{{room_text}}</h2>
-  <label for="save" class="form-label">Klicke auf das Element, das du ändern möchstest:</label>
-  
-  {{ alert_form.media }}
-  {{ alert_form }}
+  {% if user.is_authenticated %}
+  <hr />
+  <form method="post">
+    {% csrf_token %}
+    {{ alert_form.media }}
+    {{ alert_form.as_p }}
+    <button class="btn btn-secondary btn-sm" type="submit" value="alert_save" name="alert_save">Speichern</button>
+  </form>
+  <hr />
+  {% endif %}
 
   {% if room_alert %}
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-danger mt-3" role="alert">
     {{ room_alert|safe }}
     </div>
   {% endif %}
 
-  <div class="card shadow mb-4">
+  <div class="card shadow mt-4 mb-4">
     <div class="card-header">
       <div class="row align-items-center">
         <div class="col text-center">

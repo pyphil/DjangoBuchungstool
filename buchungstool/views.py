@@ -51,9 +51,12 @@ def home(request, room=None):
     if room is None:
         return redirect('/')
 
-    if request.POST.get(''):
-        pass
+    if request.POST.get('alert_save'):
+        alert_form = RoomAlertForm(request.POST, instance=room_obj)
+        if alert_form.is_valid():
+            alert_form.save()
     else:
+        alert_form = RoomAlertForm(instance=room_obj)
 
     direction = None
     if request.GET.get('direction'):
@@ -89,8 +92,6 @@ def home(request, room=None):
                 btncontent.append(["frei", date, std])
                 btncontent.append(
                     {'id': 0, 'lerngruppe': "frei", 'date': date, 'std': std})
-
-    alert_form = RoomAlertForm(instance=room_obj)
 
     response = render(
         request, 'buchungstoolHome.html',
