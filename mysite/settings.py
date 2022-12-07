@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'devicelist',
     'tinymce',
     'buchungstool_settings',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
