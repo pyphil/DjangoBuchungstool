@@ -66,7 +66,12 @@ def home(request, room=None):
 
     checked = False
     stunden = 7
-    if request.GET.get('switch') == 'on':
+    if request.GET.get('checked') == 'True':
+        # if hidden input value is True: switch is turned off
+        request.session['switch'] = 'off'
+
+    if request.GET.get('switch') == 'on' or request.session.get('switch') == 'on':
+        request.session['switch'] = 'on'
         checked = True
         stunden = 11
     range_stunden = range(1, stunden+1)
