@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'buchungstool',
     'userlist',
     'devicelist',
-    'tinymce',
     'buchungstool_settings',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -140,6 +140,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = "/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Styles', 'Format'],
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source'],
+            ['Smiley'],
+        ],
+        'height': 100,
+    }
+}
 
 try:
     from .production_settings import *

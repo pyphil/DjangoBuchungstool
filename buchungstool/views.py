@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad
+from .forms import RoomAlertForm
 from userlist.models import Userlist
 from buchungstool_settings.models import Config
 import datetime
@@ -50,15 +51,32 @@ def home(request, room=None):
     if room is None:
         return redirect('/')
 
+    if request.POST.get('alert_save'):
+        alert_form = RoomAlertForm(request.POST, instance=room_obj)
+        if alert_form.is_valid():
+            alert_form.save()
+    else:
+        alert_form = RoomAlertForm(instance=room_obj)
+
     direction = None
     if request.GET.get('direction'):
         direction = request.GET.get('direction')
     dates, offset, currentdate = getWeekCalendar(request, direction)
     currentdate = currentdate.strftime('%Y-%m-%d')
 
-    btncontent = []
+    checked = False
+    stunden = 7
+    if request.GET.get('checked') == 'True':
+        # if hidden input value is True: switch is turned off
+        request.session['switch'] = 'off'
 
-    for std in [1, 2, 3, 4, 5, 6, 7]:
+    if request.GET.get('switch') == 'on' or request.session.get('switch') == 'on':
+        request.session['switch'] = 'on'
+        checked = True
+        stunden = 11
+    range_stunden = range(1, stunden+1)
+    btncontent = []
+    for std in range_stunden:
         for date in dates:
             dbobject = Booking.objects.filter(
                 room=room,
@@ -88,7 +106,10 @@ def home(request, room=None):
             'room_alert': room_obj.alert,
             'dates': dates,
             'btncontent': btncontent,
-            'currentdate': currentdate
+            'currentdate': currentdate,
+            'range_stunden': range_stunden,
+            'checked': checked,
+            'alert_form': alert_form,
         }
     )
     response.set_cookie('offset', offset)
