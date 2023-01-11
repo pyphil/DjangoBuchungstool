@@ -34,7 +34,7 @@ urlpatterns = [
     path('userlist/success/', userlistViews.success, name='userlistSuccess'),
     # path('devices/list/', devicelistViews.devicelist, name='devicelist'),
     path('devices/', include('devicelist.urls')),
-    path('tinymce/', include('tinymce.urls')),
+#    path('tinymce/', include('tinymce.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 

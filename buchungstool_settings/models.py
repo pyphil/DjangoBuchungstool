@@ -1,5 +1,6 @@
 from django.db import models
-from tinymce.models import HTMLField
+# from tinymce.models import HTMLField
+from ckeditor.fields import RichTextField
 
 
 class Config(models.Model):
@@ -10,7 +11,7 @@ class Config(models.Model):
     ]
     name = models.CharField(max_length=50, choices=NAME_CHOICES)
     setting = models.CharField(max_length=30, blank=True)
-    text =  HTMLField(blank=True)
+    text =  RichTextField(blank=True)
 
     def __str__(self):
         return self.setting
