@@ -5,6 +5,7 @@ from .models import DevicelistEntry, DevicelistEntryForm, DevicelistEntryFormLog
 from .models import Device, Status
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
+from threading import Thread
 
 
 def devicelist(request, room, date, std, entry_id):
@@ -95,16 +96,40 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     noreply = Config.objects.get(name="noreply-mail")
                 except Config.DoesNotExist:
                     noreply = ""
-                send_mail(
-                    'DjangoBuchungstool Schadenmeldung',
-                    mail_text,
-                    noreply,
-                    [email],
-                    fail_silently=True,
-                )
+                subject = 'DjangoBuchungstool Update Schadenmeldung'
+                thread = MailThread(subject, mail_text, noreply, email)
+                thread.start()
                 f.save()
                 return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
         elif request.POST.get('delete'):
+            koffer = get_object_or_404(Room, id=int(request.POST.get('room')))
+            device = Device.objects.get(id=int(request.POST.get('device')))
+            status = request.POST.get('status')
+            if request.user.is_authenticated:
+                status = Status.objects.get(id=int(request.POST.get('status')))
+            else:
+                status = request.POST.get('status')
+            mail_text = (
+                    "Folgende Schaden- oder Problemmeldung wurde gelöscht:\n\n"
+                    "Datum: " + request.POST.get('datum') + "\n" +
+                    "Stunde: " + request.POST.get('stunde') + "\n" +
+                    "Koffer: " + koffer.short_name + "\n" +
+                    "Gerät: " + str(device) + "\n" +
+                    "Kürzel: " + request.POST.get('krzl') + "\n" +
+                    "Beschreibung: " + request.POST.get('beschreibung') + "\n" +
+                    "Status: " + str(status)
+                )
+            try:
+                email = Config.objects.get(name="E-Mail")
+            except Config.DoesNotExist:
+                email = ""
+            try:
+                noreply = Config.objects.get(name="noreply-mail")
+            except Config.DoesNotExist:
+                noreply = ""
+            subject = 'DjangoBuchungstool gelöschte Schadenmeldung'
+            thread = MailThread(subject, mail_text, noreply, email)
+            thread.start()
             obj.delete()
             return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
         else:
@@ -163,13 +188,17 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                     noreply = Config.objects.get(name="noreply-mail")
                 except Config.DoesNotExist:
                     noreply = ""
-                send_mail(
-                    'DjangoBuchungstool Schadenmeldung',
-                    mail_text,
-                    noreply,
-                    [email],
-                    fail_silently=True,
-                )
+
+                subject = 'DjangoBuchungstool Schadenmeldung'
+                thread = MailThread(subject, mail_text, noreply, email)
+                thread.start()
+                # send_mail(
+                #     'DjangoBuchungstool Schadenmeldung',
+                #     mail_text,
+                #     noreply,
+                #     [email],
+                #     fail_silently=True,
+                # )
                 f.save()
                 return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
         else:
@@ -209,3 +238,22 @@ def lastDeviceUsers(request, room, date, dev):
     seit_datum = date.split("-")
     seit_datum = seit_datum[2] + "." + seit_datum[1] + "." + seit_datum[0]
     return render(request, 'deviceusers.html', {'devlist': devlist, 'dev': dev, 'seit_datum': seit_datum})
+
+
+class MailThread(Thread):
+    def __init__(self, subject, mail_text, noreply, email):
+        super(MailThread, self).__init__()
+        self.subject = subject
+        self.email = email
+        self.noreply = noreply
+        self.mail_text = mail_text
+
+    # run method is automatically executed on thread.start()
+    def run(self):
+        send_mail(
+            self.subject,
+            self.mail_text,
+            self.noreply,
+            [self.email],
+            fail_silently=False,
+        )

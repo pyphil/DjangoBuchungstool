@@ -85,7 +85,7 @@ class DevicelistEntryFormLoggedIn(ModelForm):
             'room': forms.Select(attrs={'class': 'form-select'}),
             'device': forms.Select(attrs={'class': 'form-select'}),
             'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'stunde': forms.NumberInput(attrs={'class': 'form-control'}),
+            'stunde': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 11}),
             'beschreibung': forms.TextInput(attrs={'class': 'form-control'}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-select'}),
