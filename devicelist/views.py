@@ -192,13 +192,7 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                 subject = 'DjangoBuchungstool Schadenmeldung'
                 thread = MailThread(subject, mail_text, noreply, email)
                 thread.start()
-                # send_mail(
-                #     'DjangoBuchungstool Schadenmeldung',
-                #     mail_text,
-                #     noreply,
-                #     [email],
-                #     fail_silently=True,
-                # )
+
                 f.save()
                 return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
         else:
