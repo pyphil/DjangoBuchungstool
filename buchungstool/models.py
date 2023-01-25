@@ -10,6 +10,7 @@ class Booking(models.Model):
     lerngruppe = models.CharField(max_length=30)
     datum = models.DateField()
     stunde = models.IntegerField()
+    series_id = models.CharField(max_length=32, blank=True)
     iPad_01 = models.CharField(max_length=40, blank=True)
     iPad_02 = models.CharField(max_length=40, blank=True)
     iPad_03 = models.CharField(max_length=40, blank=True)

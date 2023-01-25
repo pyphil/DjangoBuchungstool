@@ -4,6 +4,7 @@ from .forms import RoomAlertForm
 from userlist.models import Userlist
 from buchungstool_settings.models import Config
 import datetime
+from uuid import uuid4
 
 
 def rooms(request):
@@ -227,11 +228,13 @@ def eintrag(request, accordion=None, room=None, id=None):
                     for i in selected_series:
                         d = i['date'].split('.')
                         d = d[2] + "-" + d[1] + "-" + d[0]
+                        series_id = uuid4().hex
                         new = Booking(
                             room=room,
                             lerngruppe=request.POST.get('lerngruppe'),
                             datum=d,
                             stunde=std,
+                            series_id=series_id,
                             krzl=request.POST.get('krzl').upper()[:15]
                         )
                         new.save()
