@@ -225,10 +225,10 @@ def eintrag(request, accordion=None, room=None, id=None):
 
                 # wenn alle frei: einen oder alle buchen
                 if blocked_dates == []:
+                    series_id = uuid4().hex
                     for i in selected_series:
                         d = i['date'].split('.')
                         d = d[2] + "-" + d[1] + "-" + d[0]
-                        series_id = uuid4().hex
                         new = Booking(
                             room=room,
                             lerngruppe=request.POST.get('lerngruppe'),
