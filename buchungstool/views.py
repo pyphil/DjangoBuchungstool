@@ -91,7 +91,8 @@ def home(request, room=None):
                         'lerngruppe': dbobject.lerngruppe,
                         'date': date,
                         'std': std,
-                        'krzl': dbobject.krzl
+                        'krzl': dbobject.krzl,
+                        'series': dbobject.series_id,
                     }
                 )
             else:
