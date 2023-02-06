@@ -139,6 +139,7 @@ def eintrag(request, accordion=None, room=None, id=None):
         lerngruppe = entry_obj.lerngruppe
         std = entry_obj.stunde
         krzl = entry_obj.krzl
+        series_id = entry_obj.series_id
 
         state, userlist = getUserlist(room, isodate, std)
         initial_list = []
@@ -154,6 +155,7 @@ def eintrag(request, accordion=None, room=None, id=None):
         krzl = ""
         state = None
         userlist = None
+        series_id = None
 
     if request.POST.get('submit_student'):
         f = BookingFormIpad(request.POST, instance=entry_obj)
@@ -305,7 +307,8 @@ def eintrag(request, accordion=None, room=None, id=None):
             'update': update,
             'alert': alert,
             'blocked_dates': blocked_dates,
-            'entry_id': id
+            'entry_id': id,
+            'series_id': series_id,
         }
     )
 
