@@ -104,9 +104,9 @@
           {% if series_id %}
             <p><strong>Diese Buchung ist Teil einer Serie!</strong></p>
             <button type="submit" name="update" value="update" class="btn btn-primary">Diese Buchung ändern</button>
-            <button type="submit" name="update" value="update" class="btn btn-primary">Alle ändern</button>
+            <button type="submit" name="update_all" value="update_all" class="btn btn-primary">Alle ändern</button>
             <button type="submit" class="btn btn-danger" name="delete" value="delete">Diese Buchung löschen</button>
-            <button type="submit" class="btn btn-danger" name="delete" value="delete">Alle Buchungen ab hier löschen</button>
+            <button type="submit" class="btn btn-danger" name="delete_future" value="delete_future">Alle Buchungen ab hier löschen</button>
             {% else %}
             <button type="submit" name="update" value="update" class="btn btn-primary">Buchung speichern</button>
             <button type="submit" class="btn btn-danger" name="delete" value="delete">Buchung löschen</button>

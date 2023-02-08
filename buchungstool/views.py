@@ -259,6 +259,19 @@ def eintrag(request, accordion=None, room=None, id=None):
             print('update')
             return redirect('/buchungstool/' + room + '/?date=' + isodate)
 
+    if request.POST.get('update_all'):
+        if request.POST.get('lerngruppe') == "" or request.POST.get('krzl') == "" or request.POST.get('lerngruppe') == " " or request.POST.get('krzl') == " ":
+            warning = True
+            update = True
+        else:
+            all_obj = Booking.objects.filter(series_id=entry_obj.series_id)
+            for i in all_obj:
+                print(i.datum)
+                i.lerngruppe = request.POST.get('lerngruppe')
+                i.krzl = request.POST.get('krzl').upper()[:15]
+                i.save()
+            return redirect('/buchungstool/' + room + '/?date=' + isodate)
+
     if request.POST.get('cancel'):
         # redirect to home
         return redirect('/buchungstool/' + room + '/?date=' + isodate)
@@ -271,7 +284,25 @@ def eintrag(request, accordion=None, room=None, id=None):
             'room': room,
             'buttondate': date,
             'krzl': krzl,
-            'id': id
+            'id': id,
+        }
+        return render(request, 'buchungstoolConfirmation.html', context)
+
+    if request.POST.get('delete_future'):
+        future_obj = Booking.objects.filter(series_id=entry_obj.series_id, datum__gte=entry_obj.datum)
+        series = [i.datum for i in future_obj]
+        series = ', '.join(map(str, series))
+        # print(series)
+        context = {
+            'date': isodate,
+            'lerngruppe': lerngruppe,
+            'std': std,
+            'room': room,
+            'buttondate': date,
+            'krzl': krzl,
+            'id': id,
+            'series_id': series_id,
+            'series': series,
         }
         return render(request, 'buchungstoolConfirmation.html', context)
 
@@ -286,7 +317,25 @@ def eintrag(request, accordion=None, room=None, id=None):
             delete_userlist_entry.delete()
         return redirect('/buchungstool/' + room + '/?date=' + isodate)
 
+    if request.POST.get('deleteconfirmed_future'):
+        future_obj = Booking.objects.filter(series_id=entry_obj.series_id, datum__gte=entry_obj.datum)
+        for i in future_obj:
+            delete_userlist_entry = Userlist.objects.filter(
+                short_name=i.room,
+                datum=i.datum,
+                stunde=i.stunde,
+            ).first()
+            if delete_userlist_entry:
+                delete_userlist_entry.delete()
+            i.delete()
+        return redirect('/buchungstool/' + room + '/?date=' + isodate)
+
     date_series = getDateSeries(isodate)
+
+    if blocked_dates:
+        blocked_dates = ', '.join(blocked_dates)
+    else:
+        blocked_dates = None
 
     return render(
         request, 'buchungstoolEntry.html',
@@ -327,6 +376,7 @@ def getWeekCalendar(request, direction=None):
         print("currentdate")
     elif request.GET.get('currentdate_nav'):
         currentdate = request.GET.get('currentdate_nav')
+        print('NAV', currentdate)
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
         print("nav")
