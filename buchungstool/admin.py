@@ -7,13 +7,10 @@ from .models import Room
 
 class BookingCustomAdmin(admin.ModelAdmin):
     # fields to display in the listing
-    list_display = ('room', 'krzl', 'lerngruppe', 'datum', 'stunde')
-
-    # display value when empty
-    # empty_value_display = '-empty-'
+    list_display = ('room', 'krzl', 'lerngruppe', 'datum', 'stunde', 'series_id')
 
     # enable results filtering
-    list_filter = ('room', 'krzl', 'lerngruppe', 'datum', 'stunde')
+    list_filter = ('room', 'krzl', 'lerngruppe', 'datum', 'stunde', 'series_id')
 
     # number of items per page
     # list_per_page = 25
