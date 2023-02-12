@@ -17,25 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from buchungstool import views as buchungstoolViews
 from userlist import views as userlistViews
-# from django.conf.urls.static import static
-# from django.conf import settings
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', buchungstoolViews.rooms, name='buchungstoolRooms'),
-    # path('buchungstool/', buchungstoolViews.home, name='buchungstoolHome'),
     path('buchungstool/userlistInfo/', buchungstoolViews.userlistInfo, name='userlistInfo'),
     path('buchungstool/<str:room>/', buchungstoolViews.home, name='buchungstoolHome'),
-    # path('buchungstool/entry/', buchungstoolViews.eintrag, name='buchungstoolEntry'),
     path('buchungstool/<str:room>/<int:id>/', buchungstoolViews.eintrag, name='buchungstoolEntry'),
     path('userlist/select/', userlistViews.select, name='userlistSelect'),
     path('userlist/entry/', userlistViews.entry, name='userlistEntry'),
     path('userlist/success/', userlistViews.success, name='userlistSuccess'),
-    # path('devices/list/', devicelistViews.devicelist, name='devicelist'),
     path('devices/', include('devicelist.urls')),
-#    path('tinymce/', include('tinymce.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('settings/', include('buchungstool_settings.urls')),
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

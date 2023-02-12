@@ -30,10 +30,16 @@
             <a class="nav-link active text-info" aria-current="page" href="/accounts/logout/"><strong>Logout ({{ user.username }})</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/devices/admin/">Übersicht Schadenliste</a>
+            <a class="nav-link {% if request.path == '/devices/admin/' %} active {% endif %}" href="/devices/admin/">Übersicht Schadenliste</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/admin/">Django-Admin</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle {% if '/settings/' in request.path %} active {% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Einstellungen
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item {% if request.path == '/settings/' %} active {% endif %}" href="{% url 'settings' %}">Einstellungen</a></li>
+              <li><a class="dropdown-item" href="/admin/">Django-Admin</a></li>
+            </ul>
           </li>
         {% else %}
           <li class="nav-item">

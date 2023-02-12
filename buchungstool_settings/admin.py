@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Config
+from .models import Config, Setting
 
 
 class ConfigCustomAdmin(admin.ModelAdmin):
@@ -7,3 +7,4 @@ class ConfigCustomAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Config, ConfigCustomAdmin)
+admin.site.register(Setting)

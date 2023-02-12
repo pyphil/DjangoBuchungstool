@@ -15,3 +15,11 @@ class Config(models.Model):
 
     def __str__(self):
         return self.setting
+
+
+class Setting(models.Model):
+    name = models.CharField(max_length=50, blank=True)
+    school = models.CharField(max_length=50, blank=True)
+    email_to = models.CharField(max_length=50, blank=True)
+    noreply_mail = models.CharField(max_length=50, blank=True)
+    info_frontpage = RichTextField(blank=True)
