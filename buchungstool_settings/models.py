@@ -20,6 +20,12 @@ class Config(models.Model):
 class Setting(models.Model):
     name = models.CharField(max_length=50, blank=True)
     school = models.CharField(max_length=50, blank=True)
+    access_token = models.CharField(max_length=200, blank=True)
     email_to = models.CharField(max_length=50, blank=True)
     noreply_mail = models.CharField(max_length=50, blank=True)
+    email_host = models.CharField(max_length=50, blank=True)
+    email_use_tls = models.BooleanField(default=True)
+    email_port = models.IntegerField(default=587)
+    email_host_user = models.CharField(max_length=50, blank=True)
+    email_host_password = models.CharField(max_length=50, blank=True)
     info_frontpage = RichTextField(blank=True)
