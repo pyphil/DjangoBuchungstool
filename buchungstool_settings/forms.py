@@ -7,7 +7,8 @@ class SettingForm(ModelForm):
     class Meta:
         model = Setting
         fields = (
-            'school',
+            'institution',
+            'logo',
             'access_token',
             'email_to',
             'noreply_mail',
@@ -19,8 +20,9 @@ class SettingForm(ModelForm):
         )
 
         widgets = {
-            'school': forms.TextInput(attrs={'class': 'form-control'}),
+            'institution': forms.TextInput(attrs={'class': 'form-control'}),
             'access_token': forms.TextInput(attrs={'class': 'form-control'}),
+            # 'logo': forms.FileInput(attrs={'class': 'form-control'}),
             'email_to': forms.TextInput(attrs={'class': 'form-control'}),
             'noreply_mail': forms.TextInput(attrs={'class': 'form-control'}),
             'email_host': forms.TextInput(attrs={'class': 'form-control'}),

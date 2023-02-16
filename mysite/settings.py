@@ -69,8 +69,10 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'buchungstool.context_processors.add_institution',
             ],
         },
     },
@@ -136,8 +138,8 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# MEDIA_ROOT = ''
-# MEDIA_URL = '/media/'
+MEDIA_URL = '/public/media/'
+MEDIA_ROOT = BASE_DIR / 'public/media'
 
 LOGIN_REDIRECT_URL = "/"
 

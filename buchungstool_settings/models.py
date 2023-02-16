@@ -19,7 +19,8 @@ class Config(models.Model):
 
 class Setting(models.Model):
     name = models.CharField(max_length=50, blank=True)
-    school = models.CharField(max_length=50, blank=True)
+    institution = models.CharField(max_length=50, blank=True)
+    logo = models.FileField(blank=True, upload_to='logo/')
     access_token = models.CharField(max_length=200, blank=True)
     email_to = models.CharField(max_length=50, blank=True)
     noreply_mail = models.CharField(max_length=50, blank=True)

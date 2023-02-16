@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from buchungstool import views as buchungstoolViews
 from userlist import views as userlistViews
+from mysite.settings import MEDIA_URL, MEDIA_ROOT
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -33,4 +35,4 @@ urlpatterns = [
     path('settings/', include('buchungstool_settings.urls')),
 ]
 
-# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
