@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 from .models import Setting
+from buchungstool.models import Category
 
 
 class SettingForm(ModelForm):
@@ -39,3 +40,14 @@ class InfoFrontpageForm(ModelForm):
         fields = (
             'info_frontpage',
         )
+
+
+class CategoryForm(ModelForm):
+    class Meta:
+        model = Category
+        fields = ('name', 'column_break', 'position')
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'column_break': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'position': forms.HiddenInput(),
+        }

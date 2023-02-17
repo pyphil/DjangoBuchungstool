@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Room
+from .models import Room, Category
 
 
 class RoomAlertForm(ModelForm):

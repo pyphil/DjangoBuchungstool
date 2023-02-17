@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>Kategorien der Frontseite</h3>
+<form method="post">
+  {% csrf_token %}
+  <table class="table">
+    <thead>
+      <th>Bezeichnung</th>
+      <th>Spaltenumbruch folgt</th>
+    </thead>
+    {{ formset.management_form }}
+    {% for form in formset %}
+    <tr>
+      {% for field in form %}
+        {% if forloop.counter < 3 %}
+          <td>{{ field }}</td>
+        {% else %}
+          {{ field }}
+        {% endif %}
+      {% endfor %}
+      <td>
+        {% if not forloop.first %}
+        <button class="btn btn-secondary btn-sm" name="up" value="{{ form.position.value }}">HOCH</button>
+        {% endif %}
+        {% if not forloop.last %}
+          <button class="btn btn-secondary btn-sm" name="down" value="{{ form.position.value }}">RUNTER</button>
+        {% endif %}
+      </td>
+      <td>
+        <button class="btn btn-danger btn-sm" name="delete" value="{{ form.id.value }}">LÖSCHEN</button>
+      </td>
+    </tr>  
+    {% endfor %}
+    <tr>
+      <td><button class="btn btn-primary btn-sm" name="add" value="add">+  Hinzufügen</button></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    </tbody>
+  </table>
+  <button type="submit" class="btn btn-primary">Speichern</button>
+</form>
+
+<!-- <form method="post">
+  {% csrf_token %}
+  {{ formset }}
+  <button type="submit" class="btn btn-primary">Speichern</button>
+
+</form> -->
+
+
+{% endblock content %}

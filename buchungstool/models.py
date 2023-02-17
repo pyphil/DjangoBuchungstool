@@ -76,3 +76,26 @@ class Room(models.Model):
 
     def __str__(self):
         return self.short_name
+
+
+class Category(models.Model):
+    def get_next_number():
+        """
+        Returns the next integer value in the dataset.
+        """
+        categories = Category.objects.all()
+        if categories.count() == 0:
+            return 1
+        else:
+            return categories.aggregate(models.Max('position'))['position__max'] + 1
+
+    name = models.CharField(max_length=100)
+    position = models.PositiveSmallIntegerField(default=get_next_number)
+    column_break = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+        ordering = ['position']

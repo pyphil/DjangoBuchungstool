@@ -3,6 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from .models import Booking
 from .models import Room
+from .models import Category
 
 
 class BookingCustomAdmin(admin.ModelAdmin):
@@ -27,3 +28,4 @@ class RoomCustomAdmin(admin.ModelAdmin):
 
 admin.site.register(Booking, BookingCustomAdmin)
 admin.site.register(Room, RoomCustomAdmin)
+admin.site.register(Category)
