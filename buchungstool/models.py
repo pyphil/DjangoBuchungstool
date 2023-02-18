@@ -91,6 +91,7 @@ class Category(models.Model):
 
     name = models.CharField(max_length=100)
     position = models.PositiveSmallIntegerField(default=get_next_number)
+    color = models.CharField(max_length=7, default='#ebebeb')
     column_break = models.BooleanField(default=False)
 
     def __str__(self):

@@ -45,9 +45,10 @@ class InfoFrontpageForm(ModelForm):
 class CategoryForm(ModelForm):
     class Meta:
         model = Category
-        fields = ('name', 'column_break', 'position')
+        fields = ('name', 'color', 'column_break', 'position')
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'color': forms.TextInput(attrs={'type': 'color'}),
             'column_break': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'position': forms.HiddenInput(),
         }

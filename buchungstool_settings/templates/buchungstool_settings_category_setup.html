@@ -7,13 +7,14 @@
   <table class="table">
     <thead>
       <th>Bezeichnung</th>
+      <th>Farbe</th>
       <th>Spaltenumbruch folgt</th>
     </thead>
     {{ formset.management_form }}
     {% for form in formset %}
     <tr>
       {% for field in form %}
-        {% if forloop.counter < 3 %}
+        {% if forloop.counter < 4 %}
           <td>{{ field }}</td>
         {% else %}
           {{ field }}
