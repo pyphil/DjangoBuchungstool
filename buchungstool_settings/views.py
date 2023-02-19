@@ -116,20 +116,22 @@ def room_setup(request, new=0):
             current_position = int(request.POST.get('up'))
             obj_before = Room.objects.get(position=current_position - 1)
             current_obj = Room.objects.get(position=current_position)
-            current_obj.position = current_position - 1
-            obj_before.position = current_position
-            current_obj.save()
-            obj_before.save()
-            number_objects()
+            if obj_before.category == current_obj.category:
+                current_obj.position = current_position - 1
+                obj_before.position = current_position
+                current_obj.save()
+                obj_before.save()
+
         if request.POST.get('down'):
             current_position = int(request.POST.get('down'))
             obj_after = Room.objects.get(position=current_position + 1)
             current_obj = Room.objects.get(position=current_position)
-            current_obj.position = current_position + 1
-            obj_after.position = current_position
-            current_obj.save()
-            obj_after.save()
-            number_objects()
+            if obj_after.category == current_obj.category:
+                current_obj.position = current_position + 1
+                obj_after.position = current_position
+                current_obj.save()
+                obj_after.save()
+
         if request.POST.get('delete'):
             obj = Room.objects.get(id=int(request.POST.get('delete')))
             obj.delete()

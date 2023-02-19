@@ -64,4 +64,5 @@ class RoomForm(ModelForm):
             'description': forms.TextInput(attrs={'class': 'form-control'}),
             'type': forms.Select(attrs={'class': 'form-select'}),
             'category': forms.Select(attrs={'class': 'form-select'}),
+            'position': forms.HiddenInput(),
         }
