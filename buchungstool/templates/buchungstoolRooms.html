@@ -20,10 +20,12 @@
             {{ info_frontpage|safe }}
         </div>
     {% endif %}
-
-    {% for category in categories %}
-        <div class="row">
+    
+    <div class="row">
+        {% for category in categories %}
+        {% if forloop.first %}
             <div class="col">
+        {% endif %}
                 <div class="card mb-3 shadow" style="background-color: {{ category.color }}">
                     <h5 class="card-header">{{ category.name }}</h5>
                     <div class="card-body">
@@ -37,7 +39,15 @@
                         {% endfor %}
                     </div>
                 </div>
-    {% endfor %}
+        {% if category.column_break %}
+            </div>
+            <div class="col">
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
 <!-- 
             <div class="card shadow mb-3" style="background-color: #e8d4d470;">
                 <h5 class="card-header">Computer-, Besprechungs- und weitere Räume</h5>
@@ -99,9 +109,3 @@
                         </div>
                     </div>
                 </div> -->
-            </div>
-        </div>
-    </div>
-</div>
-
-{% endblock content %}
