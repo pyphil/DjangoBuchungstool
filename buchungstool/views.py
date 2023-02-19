@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Booking, Room, BookingFormIpad
+from .models import Booking, Room, BookingFormIpad, Category
 from .forms import RoomAlertForm
 from userlist.models import Userlist
 from buchungstool_settings.models import Config
@@ -34,9 +34,11 @@ def rooms(request):
     except Config.DoesNotExist:
         info_frontpage = False
 
+    categories = Category.objects.all()
+
     return render(
         request, 'buchungstoolRooms.html',
-        {'rooms': rooms, 'info_frontpage': info_frontpage}
+        {'rooms': rooms, 'info_frontpage': info_frontpage, 'categories': categories}
     )
 
 

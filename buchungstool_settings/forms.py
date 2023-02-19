@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 from .models import Setting
-from buchungstool.models import Category
+from buchungstool.models import Category, Room
 
 
 class SettingForm(ModelForm):
@@ -51,4 +51,17 @@ class CategoryForm(ModelForm):
             'color': forms.TextInput(attrs={'type': 'color'}),
             'column_break': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'position': forms.HiddenInput(),
+        }
+
+
+class RoomForm(ModelForm):
+    class Meta:
+        model = Room
+        fields = ('room', 'short_name', 'description', 'type', 'category', 'position')
+        widgets = {
+            'room': forms.TextInput(attrs={'class': 'form-control'}),
+            'short_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
+            'type': forms.Select(attrs={'class': 'form-select'}),
+            'category': forms.Select(attrs={'class': 'form-select'}),
         }

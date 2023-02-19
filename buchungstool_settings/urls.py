@@ -7,4 +7,6 @@ urlpatterns = [
     path('frontpage_alert/', views.settings_frontpage_alert, name='settings_frontpage_alert'),
     path('category_setup/', views.category_setup, name='category_setup'),
     path('category_setup/<int:new>/', views.category_setup, name='category_setup'),
+    path('room_setup/', views.room_setup, name='room_setup'),
+    path('room_setup/<int:new>', views.room_setup, name='room_setup'),
 ]

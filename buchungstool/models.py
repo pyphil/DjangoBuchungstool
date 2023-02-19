@@ -61,23 +61,6 @@ class BookingFormIpad(ModelForm):
             widgets[field] = forms.TextInput(attrs={'class': 'form-control'})
 
 
-class Room(models.Model):
-    short_name = models.CharField(max_length=10)
-    room = models.CharField(max_length=50)
-    TYPE_CHOICES = [
-        ('iPad', 'iPad-Koffer'),
-        ('CR', 'Computerraum'),
-        ('other', 'anderer Raum'),
-    ]
-    type = models.CharField(max_length=5, choices=TYPE_CHOICES, blank=True)
-    description = models.CharField(max_length=100)
-    card = models.IntegerField()
-    alert = RichTextField(blank=True)
-
-    def __str__(self):
-        return self.short_name
-
-
 class Category(models.Model):
     def get_next_number():
         """
@@ -100,3 +83,35 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
         ordering = ['position']
+
+
+class Room(models.Model):
+    def get_next_number():
+        """
+        Returns the next integer value in the dataset.
+        """
+        rooms = Room.objects.all()
+        if rooms.count() == 0:
+            return 1
+        else:
+            return rooms.aggregate(models.Max('position'))['position__max'] + 1
+
+    short_name = models.CharField(max_length=10)
+    room = models.CharField(max_length=50)
+    TYPE_CHOICES = [
+        ('iPad', 'iPad-Koffer'),
+        ('CR', 'Computerraum'),
+        ('other', 'anderer Raum'),
+    ]
+    type = models.CharField(max_length=5, choices=TYPE_CHOICES, blank=True)
+    description = models.CharField(max_length=100)
+    card = models.IntegerField(default=0)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, blank=True, null=True)
+    alert = RichTextField(blank=True)
+    position = models.PositiveIntegerField(default=get_next_number)
+
+    def __str__(self):
+        return self.short_name
+
+    class Meta:
+        ordering = ['category', 'position']
