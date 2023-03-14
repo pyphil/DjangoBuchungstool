@@ -103,14 +103,35 @@ def room_setup(request, new=0):
         def number_objects():
             all_obj = Room.objects.all()
             n = 1
-            for i in all_obj:
-                i.position = n
+            for obj in all_obj:
+                obj.position = n
                 n += 1
-                i.save()
+                obj.save()
+
+        def first_and_last_of_category():
+            room_obj = Room.objects.all()
+            for obj in room_obj:
+                obj.is_first_of_category = False
+                obj.is_last_of_category = False
+                obj.save()
+            for category in Category.objects.all():
+                first_obj = Room.objects.filter(category=category).order_by('position').first()
+                if first_obj:
+                    first_obj.is_first_of_category = True
+                    first_obj.save()
+                last_obj = Room.objects.filter(category=category).order_by('position').last()
+                if last_obj:
+                    last_obj.is_last_of_category = True
+                    last_obj.save()
+
+            room_obj = Room.objects.all()    
+            for obj in room_obj:
+                print(obj.room, obj.category, obj.is_first_of_category, obj.is_last_of_category)
 
         if formset.is_valid():
             formset.save()
             number_objects()
+            first_and_last_of_category()
 
         if request.POST.get('up'):
             current_position = int(request.POST.get('up'))
@@ -121,6 +142,7 @@ def room_setup(request, new=0):
                 obj_before.position = current_position
                 current_obj.save()
                 obj_before.save()
+                first_and_last_of_category()
 
         if request.POST.get('down'):
             current_position = int(request.POST.get('down'))
@@ -131,6 +153,7 @@ def room_setup(request, new=0):
                 obj_after.position = current_position
                 current_obj.save()
                 obj_after.save()
+                first_and_last_of_category()
 
         if request.POST.get('delete'):
             obj = Room.objects.get(id=int(request.POST.get('delete')))
@@ -141,4 +164,3 @@ def room_setup(request, new=0):
             return redirect('room_setup', new=1)
         else:
             return redirect('room_setup')
-

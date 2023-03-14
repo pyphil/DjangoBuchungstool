@@ -1,6 +1,7 @@
 from django.db import models
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
+from django_cryptography.fields import encrypt
 
 
 class Config(models.Model):
@@ -28,5 +29,5 @@ class Setting(models.Model):
     email_use_tls = models.BooleanField(default=True)
     email_port = models.IntegerField(default=587)
     email_host_user = models.CharField(max_length=50, blank=True)
-    email_host_password = models.CharField(max_length=50, blank=True)
+    email_host_password_enc = encrypt(models.CharField(max_length=50, blank=True))
     info_frontpage = RichTextField(blank=True)

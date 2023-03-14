@@ -17,7 +17,7 @@ class SettingForm(ModelForm):
             'email_use_tls',
             'email_port',
             'email_host_user',
-            'email_host_password',
+            'email_host_password_enc',
         )
 
         widgets = {
@@ -30,7 +30,7 @@ class SettingForm(ModelForm):
             'email_use_tls': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'email_port': forms.NumberInput(attrs={'class': 'form-control', 'type': 'number'}),
             'email_host_user': forms.TextInput(attrs={'class': 'form-control'}),
-            'email_host_password': forms.TextInput(attrs={'class': 'form-control', 'type': 'password'}),
+            'email_host_password_enc': forms.TextInput(attrs={'class': 'form-control', 'type': 'password'}),
         }
 
 
@@ -57,7 +57,9 @@ class CategoryForm(ModelForm):
 class RoomForm(ModelForm):
     class Meta:
         model = Room
-        fields = ('room', 'short_name', 'description', 'type', 'category', 'position')
+        fields = ('room', 'short_name', 'description', 'type', 'category', 
+                  'position', 'is_first_of_category', 'is_last_of_category')
+
         widgets = {
             'room': forms.TextInput(attrs={'class': 'form-control'}),
             'short_name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -65,4 +67,6 @@ class RoomForm(ModelForm):
             'type': forms.Select(attrs={'class': 'form-select'}),
             'category': forms.Select(attrs={'class': 'form-select'}),
             'position': forms.HiddenInput(),
+            'is_first_of_category': forms.HiddenInput(),
+            'is_last_of_category': forms.HiddenInput(),
         }

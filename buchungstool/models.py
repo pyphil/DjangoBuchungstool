@@ -109,6 +109,8 @@ class Room(models.Model):
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, blank=True, null=True)
     alert = RichTextField(blank=True)
     position = models.PositiveIntegerField(default=get_next_number)
+    is_first_of_category = models.BooleanField(default=False)
+    is_last_of_category = models.BooleanField(default=False)
 
     def __str__(self):
         return self.short_name
