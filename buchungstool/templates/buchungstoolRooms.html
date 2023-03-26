@@ -32,8 +32,10 @@
                         {% for room in rooms %}
                             {% if room.category.position == category.position %}
                                 <form action="{% url 'buchungstoolHome' room.short_name %}">
-                                    <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
-                                            {{ room.description }} - {{ room.room }}</button><br>
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-secondary mt-0 text-dark shadow" style="background-color: #ebebeb;">
+                                                {{ room.description }} - {{ room.room }}</button>
+                                    </div>
                                 </form>
                             {% endif %}
                         {% endfor %}
