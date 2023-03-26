@@ -91,3 +91,4 @@ class DevicelistEntryFormLoggedIn(ModelForm):
             'status': forms.Select(attrs={'class': 'form-select'}),
             'behoben': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
