@@ -113,7 +113,7 @@ class Room(models.Model):
     is_last_of_category = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.short_name
+        return f"{ self.room } - { self.description }"
 
     class Meta:
         ordering = ['category', 'position']

@@ -5,12 +5,14 @@ from buchungstool.models import Room
 
 
 class Device(models.Model):
-    device = models.CharField(max_length=10)
+    device = models.CharField(max_length=30)
     dbname = models.CharField(max_length=10)
-    type = models.CharField(max_length=10)
 
     def __str__(self):
         return self.device
+    
+    class Meta:
+        ordering = ['device']
 
 
 class Status(models.Model):
@@ -62,8 +64,8 @@ class DevicelistEntryForm(ModelForm):
             'room': forms.Select(attrs={'class': 'form-select'}),
             'device': forms.Select(attrs={'class': 'form-select'}),
             'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'stunde': forms.NumberInput(attrs={'class': 'form-control'}),
-            'beschreibung': forms.TextInput(attrs={'class': 'form-control'}),
+            'stunde': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 11}),
+            'beschreibung': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'})
         }
 
@@ -86,9 +88,8 @@ class DevicelistEntryFormLoggedIn(ModelForm):
             'device': forms.Select(attrs={'class': 'form-select'}),
             'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
             'stunde': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 11}),
-            'beschreibung': forms.TextInput(attrs={'class': 'form-control'}),
+            'beschreibung': forms.TextInput(attrs={'class': 'form-control', 'rows': 3}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-select'}),
             'behoben': forms.TextInput(attrs={'class': 'form-control'}),
         }
-
