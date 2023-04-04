@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3>Einrichtung der Räume und Geräte</h3>
+<h3>Einrichtung der Räume/Standorte</h3>
+<div class="alert alert-light" role="alert">
+  Innerhalb der Kategorien kannst du die Reihenfolge der Räume/Standorte mit den Auf- und Ab-Buttons festlegen.
+</div>
 <form method="post">
   {% csrf_token %}
   <table class="table">
@@ -23,15 +26,37 @@
         {% endif %}
       {% endfor %}
       <td>
-        {% if not form.is_first_of_category.value %}
-        <button class="btn btn-secondary btn-sm" name="up" value="{{ form.position.value }}"><i class="bi bi-arrow-up"></i></button>
+        {% if not form.is_first_of_category.value and not form.category.value is None %}
+          <button class="btn btn-secondary btn-sm" name="up" value="{{ form.position.value }}"><i class="bi bi-arrow-up"></i></button>
         {% endif %}
-        {% if not form.is_last_of_category.value %}
+        {% if not form.is_last_of_category.value and not form.category.value is None %}
           <button class="btn btn-secondary btn-sm" name="down" value="{{ form.position.value }}"><i class="bi bi-arrow-down"></i></button>
         {% endif %}
       </td>
       <td>
-        <button class="btn btn-danger btn-sm" name="delete" value="{{ form.id.value }}"><i class="bi bi-trash3-fill"></i></button>
+        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal_{{ form.id.value }}"><i class="bi bi-trash3-fill"></i></button>
+      
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal_{{ form.id.value }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Raum/Standort löschen</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Bist du sicher, dass du den Raum/Standort </p>
+                <p><strong>"{{ form.room.value }} - {{ form.description.value }}"</strong></p>
+                <p>löschen möchtest?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button name="delete" value="{{ form.id.value }}" class="btn btn-danger">Löschen</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      
       </td>
     </tr>
     {% endfor %}
