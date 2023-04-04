@@ -31,7 +31,27 @@
         {% endif %}
       </td>
       <td>
-        <button class="btn btn-danger btn-sm" name="delete" value="{{ form.id.value }}"><i class="bi bi-trash3-fill"></i></button>
+        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal_{{ form.id.value }}"><i class="bi bi-trash3-fill"></i></button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal_{{ form.id.value }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Kategorie löschen</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Bist du sicher, dass du die Kategorie "{{ form.name.value }}" löschen möchtest?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button name="delete" value="{{ form.id.value }}" class="btn btn-danger">Löschen</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </td>
     </tr>  
     {% endfor %}
@@ -45,6 +65,7 @@
     </tbody>
   </table>
   <button type="submit" class="btn btn-primary">Speichern</button>
+
 </form>
 
 <!-- <form method="post">
