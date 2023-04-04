@@ -23,6 +23,7 @@ class Setting(models.Model):
     institution = models.CharField(max_length=50, blank=True)
     logo = models.FileField(blank=True, upload_to='logo/')
     access_token = models.CharField(max_length=200, blank=True)
+    student_access_token = models.CharField(max_length=200, blank=True)
     email_to = models.CharField(max_length=50, blank=True)
     noreply_mail = models.CharField(max_length=50, blank=True)
     email_host = models.CharField(max_length=50, blank=True)
