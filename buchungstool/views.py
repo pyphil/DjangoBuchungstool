@@ -3,22 +3,29 @@ from .models import Booking, Room, BookingFormIpad, Category
 from .forms import RoomAlertForm
 from userlist.models import Userlist
 from buchungstool_settings.models import Config
+from buchungstool_settings.models import Setting
 import datetime
 from uuid import uuid4
 
 
 def rooms(request):
-    # Zugriff nur mit access key in production
+    # Access only with access_token key in production
     if not request.session.get('has_access'):
         try:
-            from .production_access import ACCESSKEY
-        except ImportError:
-            # development
+            settings = Setting.objects.filter(name='settings').first()
+            access_token = settings.access_token
+        except AttributeError:
+            # development (no settings yet)
             request.session['has_access'] = True
         else:
-            if request.GET.get('access') != ACCESSKEY:
+            if access_token == "":
+                # development (no access_token set in settings)
+                request.session['has_access'] = True
+            elif request.GET.get('access') != access_token:
+                # production (no or wrong access_token)
                 return render(request, 'buchungstoolNoAccess.html')
             else:
+                # production - correct access_token, save right to access in session
                 request.session['has_access'] = True
                 return redirect('/')
     elif request.GET.get('access') and request.session.get('has_access'):
