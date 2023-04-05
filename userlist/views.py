@@ -47,7 +47,7 @@ def select(request):
 
 
 def entry(request):
-    # Zugriff nur mit access key in production
+    # Access only with student_access_token in production
     if not request.session.get('student_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
@@ -75,7 +75,7 @@ def entry(request):
 
 
 def success(request):
-    # Zugriff nur mit access key in production
+    # Access only with student_access_token in production
     if not request.session.get('student_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 

@@ -54,15 +54,16 @@
         
         
         <button type="submit" name="save" value="save" class="btn btn-primary mt-5">Speichern</button>
+        <input type="hidden" name="devicelist_all" value="{{ devicelist_all }}" />
         {% if nodelete %}
         {% else %}
           <button type="submit" name="delete" value="delete" class="btn btn-danger mt-5">Löschen</button>
         {% endif %}
-        {% if "admin" in request.get_full_path %}
+        {% comment %} {% if "all" in request.get_full_path %} {% endcomment %}
           <a href="javascript:history.back()" class="btn btn-secondary mt-5">Abbrechen</a>
-        {% else %}
-          <a href="{% url 'devicelist' room date std entry_id %}" class="btn btn-secondary mt-5">Abbrechen</a>
-        {% endif %}
+        {% comment %} {% else %} {% endcomment %}
+          {% comment %} <a href="{% url 'devicelist' room date std entry_id %}" class="btn btn-secondary mt-5">Abbrechen</a> {% endcomment %}
+        {% comment %} {% endif %} {% endcomment %}
       </form>
     </div>
   </div>

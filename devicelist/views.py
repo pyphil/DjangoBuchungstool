@@ -29,8 +29,7 @@ def devicelist(request, room, date, std, entry_id):
     return render(request, 'devicelist.html', context)
 
 
-@login_required
-def devicelist_admin(request):
+def devicelist_all(request):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
@@ -52,7 +51,7 @@ def devicelist_admin(request):
         'options': options,
         'filter_status': filter_status,
     }
-    return render(request, 'devicelist_admin.html', context)
+    return render(request, 'devicelist_all.html', context)
 
 
 def devicelistEntry(request, id, room, date, std, entry_id):
@@ -100,7 +99,11 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                 thread = MailThread(subject, mail_text, noreply, email)
                 thread.start()
                 f.save()
-                return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
+                if request.POST.get('devicelist_all'):
+                    return redirect('devicelist_all')
+                else:
+                    return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)        
+            
         elif request.POST.get('delete'):
             koffer = get_object_or_404(Room, id=int(request.POST.get('room')))
             device = Device.objects.get(id=int(request.POST.get('device')))
@@ -131,7 +134,11 @@ def devicelistEntry(request, id, room, date, std, entry_id):
             thread = MailThread(subject, mail_text, noreply, email)
             thread.start()
             obj.delete()
-            return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
+            # TODO Return to devicelist_all if coming from there -> use url parameter
+            if request.POST.get('devicelist_all'):
+                return redirect('devicelist_all')
+            else:
+                return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
         else:
             return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
 
@@ -140,18 +147,22 @@ def devicelistEntry(request, id, room, date, std, entry_id):
         'devicelist': f,
         'date': date,
         'std': std,
-        'entry_id': entry_id
+        'entry_id': entry_id,
+        'devicelist_all': request.GET.get('devicelist_all'),
     }
 
     return render(request, 'devicelistEntry.html', context)
 
 
-def devicelistEntryNew(request, room, date, std, entry_id):
+def devicelistEntryNew(request, room=None, date=None, std=None, entry_id=None):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
     # get room id to pass in for initial data
-    room_id = get_object_or_404(Room, short_name=room).id
+    if room:
+        room_id = get_object_or_404(Room, short_name=room).id
+    else:
+        room_id = None
     if request.method == "GET":
         # new empty form
         if request.user.is_authenticated:
@@ -194,9 +205,16 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                 thread.start()
 
                 f.save()
-                return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
+
+                if room:
+                    return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
+                else:
+                    return redirect('devicelist_all')
         else:
-            return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
+            if room:
+                return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
+            else:
+                return redirect('devicelist_all')
 
     context = {
         'room': room,

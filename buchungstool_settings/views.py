@@ -3,8 +3,10 @@ from .forms import SettingForm, InfoFrontpageForm, Setting, CategoryForm, RoomFo
 from buchungstool.models import Category, Room
 import os
 from django.forms import modelformset_factory
-from django import forms
+from django.contrib.auth.decorators import login_required
 
+
+@login_required
 def settings(request):
     obj, created = Setting.objects.get_or_create(name='settings')
     # If created True -> First start -> show settings
@@ -29,6 +31,7 @@ def settings(request):
         return redirect('settings')
 
 
+@login_required
 def settings_frontpage_alert(request):
     obj, created = Setting.objects.get_or_create(name='settings_frontpage_alert')
     # If created True -> First start -> show settings
@@ -43,6 +46,7 @@ def settings_frontpage_alert(request):
         return redirect('settings_frontpage_alert')
 
 
+@login_required
 def category_setup(request, new=0):
     obj = Category.objects.all()
     CategoryFormset = modelformset_factory(Category, form=CategoryForm, extra=new)
@@ -89,6 +93,7 @@ def category_setup(request, new=0):
             return redirect('category_setup')
 
 
+@login_required
 def room_setup(request, new=0):
     obj = Room.objects.all()
     RoomFormset = modelformset_factory(Room, form=RoomForm, extra=new)
