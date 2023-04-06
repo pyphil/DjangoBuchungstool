@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # make instution name and logo available to base.html via context processors
                 'buchungstool.context_processors.add_institution',
             ],
         },
