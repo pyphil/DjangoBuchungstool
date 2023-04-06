@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import django
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,6 +77,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # make instution name and logo available to base.html via context processors
                 'buchungstool.context_processors.add_institution',
+                # get logout url for base.html
+                'buchungstool.context_processors.get_logout_url',
             ],
         },
     },
@@ -159,8 +163,3 @@ CKEDITOR_CONFIGS = {
         'height': 100,
     }
 }
-
-try:
-    from .production_settings import *
-except ImportError:
-    LOGOUT_REDIRECT_URL = "/"

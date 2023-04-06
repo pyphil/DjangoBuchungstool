@@ -31,7 +31,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link active text-info" aria-current="page" href="/accounts/logout/"><strong>Logout ({{ user.username }})</strong></a>
+            <a class="nav-link active text-info" aria-current="page" href="/accounts/logout/?next={{ LOGOUT_REDIRECT_URL }}"><strong>Logout ({{ user.username }})</strong></a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle {% if '/settings/' in request.path %} active {% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
