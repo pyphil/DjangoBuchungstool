@@ -53,8 +53,8 @@
                 <td>
                   <div class="text-end">
                     <span style="white-space: nowrap;">
-                      <a href="{% url 'deviceEntry' devicelist_entry.id devicelist_entry.room devicelist_entry.datum devicelist_entry.stunde devicelist_entry.id %}?devicelist_all=True" class="btn btn-secondary btn-sm">Ändern</a>
-                      <a href="{% url 'deviceusers' devicelist_entry.room devicelist_entry.datum devicelist_entry.device.dbname %}?devicelist_all=True" class="btn btn-secondary btn-sm">letzte Benutzer</a>
+                      <a href="{% url 'deviceEntry' devicelist_entry.id devicelist_entry.room.short_name devicelist_entry.datum devicelist_entry.stunde devicelist_entry.id %}?devicelist_all=True" class="btn btn-secondary btn-sm">Ändern</a>
+                      <a href="{% url 'deviceusers' devicelist_entry.room.short_name devicelist_entry.datum devicelist_entry.device.dbname %}?devicelist_all=True" class="btn btn-secondary btn-sm">letzte Benutzer</a>
                     </span>
                   </div>
                 </td>
