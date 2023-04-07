@@ -1,11 +1,24 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking, Room
-from buchungstool_settings.models import Config
+from buchungstool_settings.models import Config, Setting
 from .models import DevicelistEntry, DevicelistEntryForm, DevicelistEntryFormLoggedIn
 from .models import Device, Status
 from django.core.mail import send_mail
-from django.contrib.auth.decorators import login_required
 from threading import Thread
+from django.core.mail.backends.smtp import EmailBackend
+
+
+# Get email settings from DB
+settings = Setting.objects.filter(name='settings').first()
+
+# Custom email backend
+backend = EmailBackend(
+    host=settings.email_host,
+    use_tls=settings.email_use_tls,
+    port=settings.email_port,
+    username=settings.email_host_user,
+    password=settings.email_host_password_enc,
+)
 
 
 def devicelist(request, room, date, std, entry_id):
@@ -123,7 +136,7 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     "Status: " + str(status)
                 )
             try:
-                email = Config.objects.get(name="E-Mail")
+                email = settings.email_to
             except Config.DoesNotExist:
                 email = ""
             try:
@@ -192,7 +205,7 @@ def devicelistEntryNew(request, room=None, date=None, std=None, entry_id=None):
                     "Status: " + str(status)
                 )
                 try:
-                    email = Config.objects.get(name="E-Mail")
+                    email = settings.email_to
                 except Config.DoesNotExist:
                     email = ""
                 try:
@@ -268,4 +281,5 @@ class MailThread(Thread):
             self.noreply,
             [self.email],
             fail_silently=False,
+            connection=backend
         )
