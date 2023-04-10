@@ -147,7 +147,7 @@ def devicelistEntry(request, id, room, date, std, entry_id):
             thread = MailThread(subject, mail_text, noreply, email)
             thread.start()
             obj.delete()
-            # TODO Return to devicelist_all if coming from there -> use url parameter
+            # Return to devicelist_all if coming from there -> use url parameter
             if request.POST.get('devicelist_all'):
                 return redirect('devicelist_all')
             else:
