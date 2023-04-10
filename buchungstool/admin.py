@@ -8,7 +8,7 @@ from .models import Category
 
 class BookingCustomAdmin(admin.ModelAdmin):
     # fields to display in the listing
-    list_display = ('room', 'krzl', 'lerngruppe', 'datum', 'stunde', 'series_id')
+    list_display = ('id', 'room', 'krzl', 'lerngruppe', 'datum', 'stunde', 'series_id')
 
     # enable results filtering
     list_filter = ('room', 'krzl', 'lerngruppe', 'datum', 'stunde', 'series_id')
