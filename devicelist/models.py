@@ -27,7 +27,7 @@ class Status(models.Model):
 
 
 class DevicelistEntry(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.DO_NOTHING)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     # device = models.CharField(max_length=10)
     device = models.ForeignKey(Device, on_delete=models.DO_NOTHING)
     datum = models.DateField()
