@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 from .models import Setting
+from django.utils.safestring import mark_safe
 from buchungstool.models import Category, Room
 
 
@@ -22,23 +23,88 @@ class SettingForm(ModelForm):
         )
 
         labels = {
-            'institution': 'Kurzname der Institution zur Anzeige in der Kopfzeile',
-            'logo': 'Hochladen eines Logos',
-            'access_token': 'Access Token (Beschränkt den Zugang auf Geräte/Konten der Institution. ' +
-                'Das Token sollte möglichst lang sein. Es wird auf folgende Weise als URL-Parameter ' +
-                'angehängt, z.B. https://buchungstool.institution.org/?access=2s3x5W6... ' +
-                'Diese URL sollte auf berechtigten Konten und Geräten verteilt werden.)',
-            'student_access_token': 'Student Access Token für die Nutzerliste. ' +
-                'Die URL zur Nutzerliste auf Schülerendgeräten lautet dann z.B. ' +
-                'https://buchungstool.institution.org/userlist/select/?access=2s3x5W6... ' +
-                'Diese URL sollte auf berechtigten Konten und Geräten zum Eintrag in die Nuterliste verteilt werden.)',
-            'email_to': 'Empfänger E-Mail-Adresse für Benachrichtigungen wie Schadenmeldungen',
-            'noreply_mail': 'Noreply-Adresse, die als Versandadresse für Benachrichtigungen dient',
-            'email_host': 'SMTP-Host für den Versand (z.B.: smtp.office365.com)',
-            'email_use_tls': 'TLS-Verschlüsselung nutzen',
-            'email_port': 'Port (z.B. 587)',
-            'email_host_user': 'Benutzername des noreply-Kontos (i.d.R. identisch mit noreply-Adresse)',
-            'email_host_password_enc': 'Passwort des noreply-Kontos (wird verschlüsselt gespeichert)',
+            'institution': mark_safe('''
+                <div class="mt-3">
+                    <strong>Kurzname der Institution zur Anzeige in der Kopfzeile</strong>
+                </div>
+                '''
+            ),
+            'logo': mark_safe('''
+                <div class="mt-3">
+                    <strong>Hochladen eines Logos</strong><br>
+                </div>
+                '''
+            ),
+            'access_token': mark_safe('''
+                <div class="mt-3">
+                    <strong>Access Token</strong><br>
+                    <div class="alert alert-info">
+                        Das Access-Token beschränkt den Zugang auf Geräte/Konten der Institution.
+                        Das Token sollte möglichst lang sein. Es wird auf folgende Weise als URL-Parameter
+                        angehängt, z.B. <br>
+                        <code>https://buchungstool.institution.org<b><mark>/?access=2s3x5W6...</b></mark></code><br>
+                        Diese URL sollte auf berechtigten Konten und Geräten verteilt werden.
+                    </div>
+                    <div class="alert alert-danger">
+                        Nach dem Speichern ist die Seite nur noch über den Link mit Access Token erreichbar. 
+                        Das Token kann aber auch über das Django Admin-Backend geändert werden.
+                    </div>
+                    Aktuelles Token für den Zugriff auf Buchungen und Support Tickets:
+                </div>
+                '''
+            ),
+            'student_access_token': mark_safe('''
+                <div class="mt-3">
+                    <strong>Student Access Token für die Nutzerliste</strong>
+                    <div class="alert alert-info">
+                        Die URL zur Nutzerliste auf Schülerendgeräten lautet dann z.B.<br>
+                        <code>https://buchungstool.institution.org<b><mark>/userlist/select/?access=2s3x5W6...</b></mark></code><br>
+                        Diese URL sollte auf berechtigten Konten und Geräten zum Eintrag in die Nutzerliste verteilt werden.
+                    </div>
+                    Aktuelles Token für den Zugriff auf die Nutzerliste:
+                </div>
+                '''
+            ),
+            'email_to': mark_safe('''
+                <div class="mt-3">
+                    <h3>E-Mail-Konfiguration</h3>
+                     <div class="alert alert-info">
+                        Um Benachrichtigungen über neue oder im Status geänderte Support Tickets (Schaden- und Problemmitteilungen)
+                        zu erhalten, kann hier die SMPT-E-Mail-Konfiguration vorgenommen werden.
+                     </div>
+                    <strong>Empfänger E-Mail-Adresse für Benachrichtigungen wie Schadenmeldungen</strong>
+                '''
+            ),
+            'noreply_mail': mark_safe('''
+                <div class="mt-3">
+                    <strong>Noreply-Adresse, die als Versandadresse für Benachrichtigungen dient</strong>
+                '''
+            ),
+            'email_host': mark_safe('''
+                <div class="mt-3">
+                    <strong>SMTP-Host für den Versand (z.B.: smtp.office365.com)</strong>
+                '''
+            ),
+            'email_use_tls': mark_safe('''
+                <div class="mt-3">
+                    <strong>TLS-Verschlüsselung nutzen</strong>
+                '''
+            ),
+            'email_port': mark_safe('''
+                <div class="mt-3">
+                    <strong>Port (bei TLS z.B. standardmäßig 587)</strong>
+                '''
+            ),
+            'email_host_user': mark_safe('''
+                <div class="mt-3">
+                    <strong>Benutzername des noreply-Kontos (i.d.R. identisch mit noreply-Adresse)</strong>
+                '''
+            ),
+            'email_host_password_enc': mark_safe('''
+                <div class="mt-3">
+                    <strong>Passwort des noreply-Kontos (wird verschlüsselt gespeichert)</strong>
+                '''
+            ),
         }
 
         widgets = {

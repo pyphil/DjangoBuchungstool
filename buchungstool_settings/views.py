@@ -15,7 +15,7 @@ def settings(request):
     else:
         filepath = None
     if request.method == 'GET':
-        f = SettingForm(instance=obj)
+        f = SettingForm(instance=obj, label_suffix="")
         return render(request, 'buchungstool_settings.html', {'form': f})
 
     if request.method == 'POST':
@@ -28,7 +28,7 @@ def settings(request):
                     print("No file to delete.")
             f.save()
 
-        return redirect('settings')
+        return redirect('buchungstoolRooms')
 
 
 @login_required
@@ -90,7 +90,10 @@ def category_setup(request, new=0):
         if request.POST.get('add'):
             return redirect('category_setup', new=1)
         else:
-            return redirect('category_setup')
+            if request.POST.get('save'):
+                return redirect('buchungstoolRooms')
+            else:
+                return redirect('category_setup')
 
 
 @login_required
@@ -168,4 +171,7 @@ def room_setup(request, new=0):
         if request.POST.get('add'):
             return redirect('room_setup', new=1)
         else:
-            return redirect('room_setup')
+            if request.POST.get('save'):
+                return redirect('buchungstoolRooms')
+            else:
+                return redirect('room_setup')
