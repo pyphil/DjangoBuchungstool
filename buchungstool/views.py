@@ -34,8 +34,8 @@ def rooms(request):
     rooms = Room.objects.all()
 
     try:
-        info_frontpage = Config.objects.get(name="info-frontpage")
-        info_frontpage = info_frontpage.text
+        info_frontpage = Setting.objects.get(name="settings")
+        info_frontpage = info_frontpage.info_frontpage
         if info_frontpage == "":
             info_frontpage = False
     except Config.DoesNotExist:

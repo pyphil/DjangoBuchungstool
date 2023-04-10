@@ -115,8 +115,8 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                 if request.POST.get('devicelist_all'):
                     return redirect('devicelist_all')
                 else:
-                    return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)        
-            
+                    return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
+
         elif request.POST.get('delete'):
             koffer = get_object_or_404(Room, id=int(request.POST.get('room')))
             device = Device.objects.get(id=int(request.POST.get('device')))

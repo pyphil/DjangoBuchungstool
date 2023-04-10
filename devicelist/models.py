@@ -88,7 +88,7 @@ class DevicelistEntryFormLoggedIn(ModelForm):
             'device': forms.Select(attrs={'class': 'form-select'}),
             'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
             'stunde': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 11}),
-            'beschreibung': forms.TextInput(attrs={'class': 'form-control', 'rows': 3}),
+            'beschreibung': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-select'}),
             'behoben': forms.TextInput(attrs={'class': 'form-control'}),

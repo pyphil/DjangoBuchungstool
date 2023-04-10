@@ -33,7 +33,7 @@ def settings(request):
 
 @login_required
 def settings_frontpage_alert(request):
-    obj, created = Setting.objects.get_or_create(name='settings_frontpage_alert')
+    obj, created = Setting.objects.get_or_create(name='settings')
     # If created True -> First start -> show settings
     if request.method == 'GET':
         f = InfoFrontpageForm(instance=obj)
@@ -43,7 +43,7 @@ def settings_frontpage_alert(request):
         f = InfoFrontpageForm(request.POST, instance=obj)
         if f.is_valid():
             f.save()
-        return redirect('settings_frontpage_alert')
+        return redirect('buchungstoolRooms')
 
 
 @login_required
