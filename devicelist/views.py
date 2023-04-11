@@ -200,16 +200,12 @@ def devicelistEntryNew(request, room=None, date=None, std=None, entry_id=None):
                     "Status: " + str(status)
                 )
                 try:
-                    email = settings.email_to
-                except Config.DoesNotExist:
-                    email = ""
-                try:
-                    noreply = Config.objects.get(name="noreply-mail")
-                except Config.DoesNotExist:
-                    noreply = ""
+                    email_to = settings.email_to
+                except Exception:
+                    email_to = ""
 
                 subject = 'DjangoBuchungstool Schadenmeldung'
-                thread = MailThread(subject, mail_text, noreply, email)
+                thread = MailThread(subject, mail_text, email_to)
                 thread.start()
 
                 f.save()
