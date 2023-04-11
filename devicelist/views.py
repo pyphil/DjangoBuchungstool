@@ -9,16 +9,19 @@ from django.core.mail.backends.smtp import EmailBackend
 
 
 # Get email settings from DB
-settings = Setting.objects.filter(name='settings').first()
-
-# Custom email backend
-backend = EmailBackend(
-    host=settings.email_host,
-    use_tls=settings.email_use_tls,
-    port=settings.email_port,
-    username=settings.email_host_user,
-    password=settings.email_host_password_enc,
-)
+try:
+    settings = Setting.objects.filter(name='settings').first()
+    # Custom email backend
+    backend = EmailBackend(
+        host=settings.email_host,
+        use_tls=settings.email_use_tls,
+        port=settings.email_port,
+        username=settings.email_host_user,
+        password=settings.email_host_password_enc,
+    )
+except Exception as e:
+    print(e)
+    print("No Settings object with email configuration yet.")
 
 
 def devicelist(request, room, date, std, entry_id):
@@ -272,6 +275,6 @@ class MailThread(Thread):
             self.mail_text,
             self.noreply,
             [self.email_to],
-            fail_silently=False,
+            fail_silently=True,
             connection=backend
         )

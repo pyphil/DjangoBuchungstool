@@ -37,7 +37,7 @@ def rooms(request):
         info_frontpage = info_frontpage.info_frontpage
         if info_frontpage == "":
             info_frontpage = False
-    except Config.DoesNotExist:
+    except Setting.DoesNotExist:
         info_frontpage = False
 
     categories = Category.objects.all()
