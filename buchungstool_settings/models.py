@@ -4,18 +4,18 @@ from ckeditor.fields import RichTextField
 from django_cryptography.fields import encrypt
 
 
-class Config(models.Model):
-    NAME_CHOICES = [
-        ('E-Mail', 'Ziel-E-Mail für Schadenmeldungen'),
-        ('noreply-mail', 'noreply-E-Mail zum Versand der Schadenmeldung'),
-        ('info-frontpage', 'info-frontpage'),
-    ]
-    name = models.CharField(max_length=50, choices=NAME_CHOICES)
-    setting = models.CharField(max_length=30, blank=True)
-    text = RichTextField(blank=True)
+# class Config(models.Model):
+#     NAME_CHOICES = [
+#         ('E-Mail', 'Ziel-E-Mail für Schadenmeldungen'),
+#         ('noreply-mail', 'noreply-E-Mail zum Versand der Schadenmeldung'),
+#         ('info-frontpage', 'info-frontpage'),
+#     ]
+#     name = models.CharField(max_length=50, choices=NAME_CHOICES)
+#     setting = models.CharField(max_length=30, blank=True)
+#     text = RichTextField(blank=True)
 
-    def __str__(self):
-        return self.setting
+#     def __str__(self):
+#         return self.setting
 
 
 class Setting(models.Model):

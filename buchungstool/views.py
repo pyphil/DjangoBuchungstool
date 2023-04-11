@@ -2,7 +2,6 @@ from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad, Category
 from .forms import RoomAlertForm
 from userlist.models import Userlist
-from buchungstool_settings.models import Config
 from buchungstool_settings.models import Setting
 import datetime
 from uuid import uuid4
