@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking, Room
-from buchungstool_settings.models import Config, Setting
+from buchungstool_settings.models import Setting
 from .models import DevicelistEntry, DevicelistEntryForm, DevicelistEntryFormLoggedIn
 from .models import Device, Status
 from django.core.mail import send_mail
@@ -100,16 +100,12 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     "Beschreibung: " + request.POST.get('beschreibung') + "\n" +
                     "Status: " + str(status)
                 )
-                try:
-                    email = Config.objects.get(name="E-Mail")
-                except Config.DoesNotExist:
-                    email = ""
-                try:
-                    noreply = Config.objects.get(name="noreply-mail")
-                except Config.DoesNotExist:
-                    noreply = ""
                 subject = 'DjangoBuchungstool Update Schadenmeldung'
-                thread = MailThread(subject, mail_text, noreply, email)
+                try:
+                    email_to = settings.email_to
+                except Exception:
+                    email_to = ""
+                thread = MailThread(subject, mail_text, email_to)
                 thread.start()
                 f.save()
                 if request.POST.get('devicelist_all'):
@@ -136,15 +132,11 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     "Status: " + str(status)
                 )
             try:
-                email = settings.email_to
-            except Config.DoesNotExist:
-                email = ""
-            try:
-                noreply = Config.objects.get(name="noreply-mail")
-            except Config.DoesNotExist:
-                noreply = ""
+                email_to = settings.email_to
+            except Exception:
+                email_to = ""
             subject = 'DjangoBuchungstool gelöschte Schadenmeldung'
-            thread = MailThread(subject, mail_text, noreply, email)
+            thread = MailThread(subject, mail_text, email_to)
             thread.start()
             obj.delete()
             # Return to devicelist_all if coming from there -> use url parameter
@@ -266,12 +258,12 @@ def lastDeviceUsers(request, room, date, dev):
 
 
 class MailThread(Thread):
-    def __init__(self, subject, mail_text, noreply, email):
+    def __init__(self, subject, mail_text, email_to):
         super(MailThread, self).__init__()
         self.subject = subject
-        self.email = email
-        self.noreply = noreply
         self.mail_text = mail_text
+        self.email_to = email_to
+        self.noreply = settings.noreply_mail
 
     # run method is automatically executed on thread.start()
     def run(self):
@@ -279,7 +271,7 @@ class MailThread(Thread):
             self.subject,
             self.mail_text,
             self.noreply,
-            [self.email],
+            [self.email_to],
             fail_silently=False,
             connection=backend
         )
