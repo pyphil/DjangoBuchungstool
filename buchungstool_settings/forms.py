@@ -109,8 +109,8 @@ class SettingForm(ModelForm):
 
         widgets = {
             'institution': forms.TextInput(attrs={'class': 'form-control'}),
-            'access_token': forms.TextInput(attrs={'class': 'form-control'}),
-            'student_access_token': forms.TextInput(attrs={'class': 'form-control'}),
+            'access_token': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'student_access_token': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             # Standard widget for logo instead of form-control 
             # 'logo': forms.FileInput(attrs={'class': 'form-control'}),
             'email_to': forms.TextInput(attrs={'class': 'form-control'}),
