@@ -108,7 +108,13 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     email_to = settings.email_to
                 except Exception:
                     email_to = ""
-                thread = MailThread(subject, mail_text, email_to)
+
+                if request.POST.get('email_to_second'):
+                    email_to_second = request.POST.get('email_to_second')
+                else:
+                    email_to_second = ""
+
+                thread = MailThread(subject, mail_text, email_to, email_to_second)
                 thread.start()
                 f.save()
                 if request.POST.get('devicelist_all'):
@@ -138,8 +144,11 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                 email_to = settings.email_to
             except Exception:
                 email_to = ""
+
+            email_to_second = ""
+
             subject = 'DjangoBuchungstool gelöschte Schadenmeldung'
-            thread = MailThread(subject, mail_text, email_to)
+            thread = MailThread(subject, mail_text, email_to, email_to_second)
             thread.start()
             obj.delete()
             # Return to devicelist_all if coming from there -> use url parameter
@@ -204,8 +213,10 @@ def devicelistEntryNew(request, room=None, date=None, std=None, entry_id=None):
                 except Exception:
                     email_to = ""
 
+                email_to_second = ""
+
                 subject = 'DjangoBuchungstool Schadenmeldung'
-                thread = MailThread(subject, mail_text, email_to)
+                thread = MailThread(subject, mail_text, email_to, email_to_second)
                 thread.start()
 
                 f.save()
@@ -257,11 +268,12 @@ def lastDeviceUsers(request, room, date, dev):
 
 
 class MailThread(Thread):
-    def __init__(self, subject, mail_text, email_to):
+    def __init__(self, subject, mail_text, email_to, email_to_second):
         super(MailThread, self).__init__()
         self.subject = subject
         self.mail_text = mail_text
         self.email_to = email_to
+        self.email_to_second = email_to_second
         self.noreply = settings.noreply_mail
 
     # run method is automatically executed on thread.start()
@@ -270,7 +282,7 @@ class MailThread(Thread):
             self.subject,
             self.mail_text,
             self.noreply,
-            [self.email_to],
+            [self.email_to, self.email_to_second],
             fail_silently=True,
             connection=backend
         )
