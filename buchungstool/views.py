@@ -488,19 +488,21 @@ def userlistInfo(request):
 
 def first_run():
     # create iPad devices
-    for i in range(1,17):
+    for i in range(1, 17):
         devices, created = Device.objects.get_or_create(dbname='iPad_' + "{:02d}".format(i))
         if created:
             devices.dbname = 'iPad_' + '{:02d}'.format(i)
             devices.device = 'iPad ' + '{:02d}'.format(i)
+            devices.position = i
             devices.save()
 
     # create pens
-        for i in range(1,17):
+        for i in range(17, 33):
             devices, created = Device.objects.get_or_create(dbname='pen_' + '{:02d}'.format(i))
             if created:
                 devices.dbname = 'pen_' + '{:02d}'.format(i)
                 devices.device = 'Stift ' + '{:02d}'.format(i)
+                devices.position = i
                 devices.save()
 
     # create status

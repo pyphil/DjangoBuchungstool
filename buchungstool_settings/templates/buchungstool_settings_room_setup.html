@@ -26,10 +26,10 @@
         {% endif %}
       {% endfor %}
       <td>
-        {% if not form.is_first_of_category.value and not form.category.value is None %}
+        {% if not form.is_first_of_category.value %}
           <button class="btn btn-secondary btn-sm" name="up" value="{{ form.position.value }}"><i class="bi bi-arrow-up"></i></button>
         {% endif %}
-        {% if not form.is_last_of_category.value and not form.category.value is None %}
+        {% if not form.is_last_of_category.value %}
           <button class="btn btn-secondary btn-sm" name="down" value="{{ form.position.value }}"><i class="bi bi-arrow-down"></i></button>
         {% endif %}
       </td>

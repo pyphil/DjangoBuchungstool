@@ -133,10 +133,15 @@ def room_setup(request, new=0):
                 if last_obj:
                     last_obj.is_last_of_category = True
                     last_obj.save()
-
-            room_obj = Room.objects.all()    
-            for obj in room_obj:
-                print(obj.room, obj.category, obj.is_first_of_category, obj.is_last_of_category)
+            # for category "None"
+            first_obj = Room.objects.filter(category=None).order_by('position').first()
+            if first_obj:
+                first_obj.is_first_of_category = True
+                first_obj.save()
+            last_obj = Room.objects.filter(category=None).order_by('position').last()
+            if last_obj:
+                last_obj.is_last_of_category = True
+                last_obj.save()
 
         if formset.is_valid():
             formset.save()
