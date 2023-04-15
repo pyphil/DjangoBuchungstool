@@ -10,5 +10,5 @@ class RoomAlertForm(ModelForm):
             'alert',
         )
         labels = {
-            'alert': 'Du bist eingeloggt und kannst einen Hinweis zu diesem Raum/Gerät erstellen oder bearbeiten'
+            'alert': 'Du bist eingeloggt und kannst einen Hinweis zu diesem Raum/Standort erstellen oder bearbeiten'
         }

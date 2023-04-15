@@ -5,14 +5,24 @@ from buchungstool.models import Room
 
 
 class Device(models.Model):
+    def get_next_number():
+        """
+        Returns the next integer value in the dataset.
+        """
+        devices = Device.objects.all()
+        if devices.count() == 0:
+            return 1
+        else:
+            return devices.aggregate(models.Max('position'))['position__max'] + 1
     device = models.CharField(max_length=30)
-    dbname = models.CharField(max_length=10)
+    dbname = models.CharField(max_length=10, blank=True, null=True)
+    position = models.PositiveIntegerField(default=get_next_number)
 
     def __str__(self):
         return self.device
-    
+
     class Meta:
-        ordering = ['device']
+        ordering = ['position']
 
 
 class Status(models.Model):

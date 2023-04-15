@@ -3,6 +3,7 @@ from django import forms
 from .models import Setting
 from django.utils.safestring import mark_safe
 from buchungstool.models import Category, Room
+from devicelist.models import Device
 
 
 class SettingForm(ModelForm):
@@ -139,6 +140,16 @@ class CategoryForm(ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'color': forms.TextInput(attrs={'type': 'color'}),
             'column_break': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'position': forms.HiddenInput(),
+        }
+
+
+class DeviceForm(ModelForm):
+    class Meta:
+        model = Device
+        fields = ('device', 'position')
+        widgets = {
+            'device': forms.TextInput(attrs={'class': 'form-control'}),
             'position': forms.HiddenInput(),
         }
 

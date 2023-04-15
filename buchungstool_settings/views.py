@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import SettingForm, InfoFrontpageForm, Setting, CategoryForm, RoomForm
 from buchungstool.models import Category, Room
+from .forms import Device, DeviceForm
 import os
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
+from django.db.models import Max
 
 
 @login_required
@@ -175,3 +177,74 @@ def room_setup(request, new=0):
                 return redirect('buchungstoolRooms')
             else:
                 return redirect('room_setup')
+
+
+@login_required
+def device_setup(request, new=0):
+    obj = Device.objects.all()
+    DeviceFormset = modelformset_factory(Device, form=DeviceForm, extra=new)
+
+    if request.method == 'GET':
+        formset = DeviceFormset(queryset=obj)
+        return render(request, 'buchungstool_settings_device_setup.html', {'devices': obj, 'formset': formset, 'new': new})
+
+    if request.method == 'POST':
+        formset = DeviceFormset(request.POST, queryset=obj)
+
+        def number_objects():
+            all_obj = Device.objects.all()
+            n = 1
+            for obj in all_obj:
+                obj.position = n
+                n += 1
+                obj.save()
+
+        if formset.is_valid():
+            formset.save()
+
+        if request.POST.get('up'):
+            current_position = int(request.POST.get('up'))
+            obj_before = Device.objects.get(position=current_position - 1)
+            current_obj = Device.objects.get(position=current_position)
+            current_obj.position = current_position - 1
+            obj_before.position = current_position
+            current_obj.save()
+            obj_before.save()
+        if request.POST.get('down'):
+            current_position = int(request.POST.get('down'))
+            obj_after = Device.objects.get(position=current_position + 1)
+            current_obj = Device.objects.get(position=current_position)
+            current_obj.position = current_position + 1
+            obj_after.position = current_position
+            current_obj.save()
+            obj_after.save()
+        if request.POST.get('top'):
+            current_position = int(request.POST.get('top'))
+            current_obj = Device.objects.get(position=current_position)
+            current_obj.position = 0
+            current_obj.save()
+            number_objects()
+        if request.POST.get('bottom'):
+            current_position = int(request.POST.get('bottom'))
+            current_obj = Device.objects.get(position=current_position)
+            current_obj.position = obj.aggregate(Max('position'))['position__max'] + 1
+            current_obj.save()
+            # number_objects()
+
+        if request.POST.get('delete'):
+            obj = Device.objects.get(id=int(request.POST.get('delete')))
+            obj.delete()
+            all_obj = Device.objects.all()
+            n = 1
+            for i in all_obj:
+                i.position = n
+                n += 1
+                i.save()
+
+        if request.POST.get('add'):
+            return redirect('device_setup', new=1)
+        else:
+            if request.POST.get('save'):
+                return redirect('buchungstoolRooms')
+            else:
+                return redirect('device_setup')

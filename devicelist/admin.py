@@ -17,7 +17,7 @@ class StatusCustomAdmin(admin.ModelAdmin):
 
 
 class DeviceCustomAdmin(admin.ModelAdmin):
-    list_display = ('device', 'dbname')
+    list_display = ('device', 'dbname', 'position')
 
 
 admin.site.register(DevicelistEntry, DevicelistEntryCustomAdmin)

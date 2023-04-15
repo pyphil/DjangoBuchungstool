@@ -41,6 +41,7 @@
               <li><a class="dropdown-item {% if request.path == '/settings/' %} active {% endif %}" href="{% url 'settings' %}">Einstellungen</a></li>
               <li><a class="dropdown-item {% if request.path == '/settings/category_setup/' %} active {% endif %}" href="{% url 'category_setup' %}">Kategorien Frontseite</a></li>
               <li><a class="dropdown-item {% if request.path == '/settings/room_setup/' %} active {% endif %}" href="{% url 'room_setup' %}">Räume/Standorte</a></li>
+              <li><a class="dropdown-item {% if request.path == '/settings/device_setup/' %} active {% endif %}" href="{% url 'device_setup' %}">Gerätearten</a></li>
               <li><a class="dropdown-item {% if request.path == '/settings/frontpage_alert/' %} active {% endif %}" href="{% url 'settings_frontpage_alert' %}">Hinweis Frontseite</a></li>
               <li><a class="dropdown-item" href="/admin/">Django-Admin</a></li>
             </ul>
