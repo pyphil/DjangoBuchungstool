@@ -62,7 +62,7 @@
     </tr>
     {% endfor %}
     <tr>
-      <td><button class="btn btn-primary btn-sm" name="add" value="add">+  Hinzufügen</button></td>
+      <td><button class="btn btn-primary btn-sm" name="add" value="add" id="new">+  Hinzufügen</button></td>
       <td></td>
       <td></td>
       <td></td>
@@ -74,5 +74,12 @@
   </table>
   <button type="submit" name="save" value="save" class="btn btn-primary">Speichern</button>
 </form>
+
+{% if new == 1 %}
+  <script>
+    var element = document.getElementById("new");
+    element.scrollIntoView();
+  </script>
+{% endif %}
 
 {% endblock content %}

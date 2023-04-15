@@ -105,7 +105,7 @@ def room_setup(request, new=0):
 
     if request.method == 'GET':
         formset = RoomFormset(queryset=obj)
-        return render(request, 'buchungstool_settings_room_setup.html', {'room': obj, 'formset': formset})
+        return render(request, 'buchungstool_settings_room_setup.html', {'room': obj, 'formset': formset, 'new': new})
 
     if request.method == 'POST':
         formset = RoomFormset(request.POST, queryset=obj)
