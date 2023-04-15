@@ -514,7 +514,7 @@ def first_run():
     ]
 
     for s in status_texts:
-        devices, created = Status.objects.get_or_create(status='s[0]')
+        devices, created = Status.objects.get_or_create(status=s[0])
         if created:
             devices.status = s[0]
             devices.color = s[1]
