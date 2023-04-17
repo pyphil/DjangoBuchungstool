@@ -48,7 +48,7 @@ def select(request):
 
 def entry(request):
     # Access only with student_access_token in production
-    if not request.session.get('student_access'):
+    if not request.session.get('student_has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
     selection_query = Userlist.objects.get(
