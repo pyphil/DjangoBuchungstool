@@ -1,11 +1,27 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from buchungstool.models import Booking, Room
-from buchungstool_settings.models import Config
+from buchungstool_settings.models import Setting
 from .models import DevicelistEntry, DevicelistEntryForm, DevicelistEntryFormLoggedIn
 from .models import Device, Status
 from django.core.mail import send_mail
-from django.contrib.auth.decorators import login_required
 from threading import Thread
+from django.core.mail.backends.smtp import EmailBackend
+
+
+# Get email settings from DB
+try:
+    settings = Setting.objects.filter(name='settings').first()
+    # Custom email backend
+    backend = EmailBackend(
+        host=settings.email_host,
+        use_tls=settings.email_use_tls,
+        port=settings.email_port,
+        username=settings.email_host_user,
+        password=settings.email_host_password_enc,
+    )
+except Exception as e:
+    print(e)
+    print("No Settings object with email configuration yet.")
 
 
 def devicelist(request, room, date, std, entry_id):
@@ -29,8 +45,7 @@ def devicelist(request, room, date, std, entry_id):
     return render(request, 'devicelist.html', context)
 
 
-@login_required
-def devicelist_admin(request):
+def devicelist_all(request):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
@@ -52,7 +67,7 @@ def devicelist_admin(request):
         'options': options,
         'filter_status': filter_status,
     }
-    return render(request, 'devicelist_admin.html', context)
+    return render(request, 'devicelist_all.html', context)
 
 
 def devicelistEntry(request, id, room, date, std, entry_id):
@@ -88,19 +103,25 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     "Beschreibung: " + request.POST.get('beschreibung') + "\n" +
                     "Status: " + str(status)
                 )
-                try:
-                    email = Config.objects.get(name="E-Mail")
-                except Config.DoesNotExist:
-                    email = ""
-                try:
-                    noreply = Config.objects.get(name="noreply-mail")
-                except Config.DoesNotExist:
-                    noreply = ""
                 subject = 'DjangoBuchungstool Update Schadenmeldung'
-                thread = MailThread(subject, mail_text, noreply, email)
+                try:
+                    email_to = settings.email_to
+                except Exception:
+                    email_to = ""
+
+                if request.POST.get('email_to_second'):
+                    email_to_second = request.POST.get('email_to_second')
+                else:
+                    email_to_second = ""
+
+                thread = MailThread(subject, mail_text, email_to, email_to_second)
                 thread.start()
                 f.save()
-                return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
+                if request.POST.get('devicelist_all'):
+                    return redirect('devicelist_all')
+                else:
+                    return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
+
         elif request.POST.get('delete'):
             koffer = get_object_or_404(Room, id=int(request.POST.get('room')))
             device = Device.objects.get(id=int(request.POST.get('device')))
@@ -120,18 +141,21 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     "Status: " + str(status)
                 )
             try:
-                email = Config.objects.get(name="E-Mail")
-            except Config.DoesNotExist:
-                email = ""
-            try:
-                noreply = Config.objects.get(name="noreply-mail")
-            except Config.DoesNotExist:
-                noreply = ""
+                email_to = settings.email_to
+            except Exception:
+                email_to = ""
+
+            email_to_second = ""
+
             subject = 'DjangoBuchungstool gelöschte Schadenmeldung'
-            thread = MailThread(subject, mail_text, noreply, email)
+            thread = MailThread(subject, mail_text, email_to, email_to_second)
             thread.start()
             obj.delete()
-            return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
+            # Return to devicelist_all if coming from there -> use url parameter
+            if request.POST.get('devicelist_all'):
+                return redirect('devicelist_all')
+            else:
+                return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
         else:
             return redirect('devicelist', room=obj.room, date=obj.datum, std=obj.stunde, entry_id=entry_id)
 
@@ -140,18 +164,22 @@ def devicelistEntry(request, id, room, date, std, entry_id):
         'devicelist': f,
         'date': date,
         'std': std,
-        'entry_id': entry_id
+        'entry_id': entry_id,
+        'devicelist_all': request.GET.get('devicelist_all'),
     }
 
     return render(request, 'devicelistEntry.html', context)
 
 
-def devicelistEntryNew(request, room, date, std, entry_id):
+def devicelistEntryNew(request, room=None, date=None, std=None, entry_id=None):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
     # get room id to pass in for initial data
-    room_id = get_object_or_404(Room, short_name=room).id
+    if room:
+        room_id = get_object_or_404(Room, short_name=room).id
+    else:
+        room_id = None
     if request.method == "GET":
         # new empty form
         if request.user.is_authenticated:
@@ -181,22 +209,30 @@ def devicelistEntryNew(request, room, date, std, entry_id):
                     "Status: " + str(status)
                 )
                 try:
-                    email = Config.objects.get(name="E-Mail")
-                except Config.DoesNotExist:
-                    email = ""
-                try:
-                    noreply = Config.objects.get(name="noreply-mail")
-                except Config.DoesNotExist:
-                    noreply = ""
+                    email_to = settings.email_to
+                except Exception:
+                    email_to = ""
+
+                if request.POST.get('email_to_second'):
+                    email_to_second = request.POST.get('email_to_second')
+                else:
+                    email_to_second = ""
 
                 subject = 'DjangoBuchungstool Schadenmeldung'
-                thread = MailThread(subject, mail_text, noreply, email)
+                thread = MailThread(subject, mail_text, email_to, email_to_second)
                 thread.start()
 
                 f.save()
-                return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
+
+                if room:
+                    return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
+                else:
+                    return redirect('devicelist_all')
         else:
-            return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
+            if room:
+                return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
+            else:
+                return redirect('devicelist_all')
 
     context = {
         'room': room,
@@ -235,12 +271,13 @@ def lastDeviceUsers(request, room, date, dev):
 
 
 class MailThread(Thread):
-    def __init__(self, subject, mail_text, noreply, email):
+    def __init__(self, subject, mail_text, email_to, email_to_second):
         super(MailThread, self).__init__()
         self.subject = subject
-        self.email = email
-        self.noreply = noreply
         self.mail_text = mail_text
+        self.email_to = email_to
+        self.email_to_second = email_to_second
+        self.noreply = settings.noreply_mail
 
     # run method is automatically executed on thread.start()
     def run(self):
@@ -248,6 +285,7 @@ class MailThread(Thread):
             self.subject,
             self.mail_text,
             self.noreply,
-            [self.email],
-            fail_silently=False,
+            [self.email_to, self.email_to_second],
+            fail_silently=True,
+            connection=backend
         )

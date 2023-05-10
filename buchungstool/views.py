@@ -1,24 +1,31 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Booking, Room, BookingFormIpad
+from .models import Booking, Room, BookingFormIpad, Category
 from .forms import RoomAlertForm
 from userlist.models import Userlist
-from buchungstool_settings.models import Config
+from buchungstool_settings.models import Setting
+from devicelist.models import Device, Status
 import datetime
 from uuid import uuid4
 
 
 def rooms(request):
-    # Zugriff nur mit access key in production
+    # Access only with access_token key in production
     if not request.session.get('has_access'):
         try:
-            from .production_access import ACCESSKEY
-        except ImportError:
-            # development
+            settings = Setting.objects.filter(name='settings').first()
+            access_token = settings.access_token
+        except AttributeError:
+            # development (no settings yet)
             request.session['has_access'] = True
         else:
-            if request.GET.get('access') != ACCESSKEY:
+            if access_token == "":
+                # development (no access_token set in settings)
+                request.session['has_access'] = True
+            elif request.GET.get('access') != access_token:
+                # production (no or wrong access_token)
                 return render(request, 'buchungstoolNoAccess.html')
             else:
+                # production - correct access_token, save right to access in session
                 request.session['has_access'] = True
                 return redirect('/')
     elif request.GET.get('access') and request.session.get('has_access'):
@@ -27,16 +34,20 @@ def rooms(request):
     rooms = Room.objects.all()
 
     try:
-        info_frontpage = Config.objects.get(name="info-frontpage")
-        info_frontpage = info_frontpage.text
+        info_frontpage = Setting.objects.get(name="settings")
+        info_frontpage = info_frontpage.info_frontpage
         if info_frontpage == "":
             info_frontpage = False
-    except Config.DoesNotExist:
+    except Setting.DoesNotExist:
         info_frontpage = False
+        # call first run function
+        first_run()
+
+    categories = Category.objects.all()
 
     return render(
         request, 'buchungstoolRooms.html',
-        {'rooms': rooms, 'info_frontpage': info_frontpage}
+        {'rooms': rooms, 'info_frontpage': info_frontpage, 'categories': categories}
     )
 
 
@@ -473,3 +484,38 @@ def getUserlist(room, isodate, std):
 
 def userlistInfo(request):
     return render(request, 'buchungstoolUserlistInfo.html', {})
+
+
+def first_run():
+    # create iPad devices
+    for i in range(1, 17):
+        devices, created = Device.objects.get_or_create(dbname='iPad_' + "{:02d}".format(i))
+        if created:
+            devices.dbname = 'iPad_' + '{:02d}'.format(i)
+            devices.device = 'iPad ' + '{:02d}'.format(i)
+            devices.position = i
+            devices.save()
+
+    # create pens
+        for i in range(17, 33):
+            devices, created = Device.objects.get_or_create(dbname='pen_' + '{:02d}'.format(i))
+            if created:
+                devices.dbname = 'pen_' + '{:02d}'.format(i)
+                devices.device = 'Stift ' + '{:02d}'.format(i)
+                devices.position = i
+                devices.save()
+
+    # create status
+    status_texts = [
+        ('offen', 'text-danger'),
+        ('in Bearbeitung', 'text-warning'),
+        ('gelöst', 'text-success'),
+        ('irreparabel', 'text-danger'),
+    ]
+
+    for s in status_texts:
+        devices, created = Status.objects.get_or_create(status=s[0])
+        if created:
+            devices.status = s[0]
+            devices.color = s[1]
+            devices.save()

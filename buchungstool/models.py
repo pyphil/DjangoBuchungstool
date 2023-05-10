@@ -61,7 +61,41 @@ class BookingFormIpad(ModelForm):
             widgets[field] = forms.TextInput(attrs={'class': 'form-control'})
 
 
+class Category(models.Model):
+    def get_next_number():
+        """
+        Returns the next integer value in the dataset.
+        """
+        categories = Category.objects.all()
+        if categories.count() == 0:
+            return 1
+        else:
+            return categories.aggregate(models.Max('position'))['position__max'] + 1
+
+    name = models.CharField(max_length=100)
+    position = models.PositiveSmallIntegerField(default=get_next_number)
+    color = models.CharField(max_length=7, default='#ebebeb')
+    column_break = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+        ordering = ['position']
+
+
 class Room(models.Model):
+    def get_next_number():
+        """
+        Returns the next integer value in the dataset.
+        """
+        rooms = Room.objects.all()
+        if rooms.count() == 0:
+            return 1
+        else:
+            return rooms.aggregate(models.Max('position'))['position__max'] + 1
+
     short_name = models.CharField(max_length=10)
     room = models.CharField(max_length=50)
     TYPE_CHOICES = [
@@ -71,8 +105,15 @@ class Room(models.Model):
     ]
     type = models.CharField(max_length=5, choices=TYPE_CHOICES, blank=True)
     description = models.CharField(max_length=100)
-    card = models.IntegerField()
+    card = models.IntegerField(default=0)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, blank=True, null=True)
     alert = RichTextField(blank=True)
+    position = models.PositiveIntegerField(default=get_next_number)
+    is_first_of_category = models.BooleanField(default=False)
+    is_last_of_category = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.short_name
+        return f"{ self.room } - { self.description }"
+
+    class Meta:
+        ordering = ['category', 'position']

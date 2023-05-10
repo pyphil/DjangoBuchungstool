@@ -2,23 +2,30 @@ from datetime import datetime
 from django.shortcuts import render, redirect
 from buchungstool.models import Booking
 from .models import Userlist
+from buchungstool_settings.models import Setting
 
 
-def select(request):
-    # Zugriff nur mit access key in production
-    if not request.session.get('student_access'):
+def select(request):   
+    # Access only with student_access_token in production
+    if not request.session.get('student_has_access'):
         try:
-            from .production_access import ACCESSKEY
-        except ImportError:
-            # development
-            request.session['student_access'] = True
+            settings = Setting.objects.filter(name='settings').first()
+            student_access_token = settings.student_access_token
+        except AttributeError:
+            # development (no settings yet)
+            request.session['student_has_access'] = True
         else:
-            if request.GET.get('access') != ACCESSKEY:
+            if student_access_token == "":
+                # development (no access_token set in settings)
+                request.session['student_has_access'] = True
+            elif request.GET.get('access') != student_access_token:
+                # production (no or wrong access_token)
                 return render(request, 'buchungstoolNoAccess.html')
             else:
-                request.session['student_access'] = True
+                # production - correct access_token, save right to access in session
+                request.session['student_has_access'] = True
                 return redirect('/userlist/select/')
-    elif request.GET.get('access') and request.session.get('student_access'):
+    elif request.GET.get('access') and request.session.get('student_has_access'):
         return redirect('/userlist/select/')
 
     # delete objects that are more than 20 min old
@@ -40,8 +47,8 @@ def select(request):
 
 
 def entry(request):
-    # Zugriff nur mit access key in production
-    if not request.session.get('student_access'):
+    # Access only with student_access_token in production
+    if not request.session.get('student_has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
     selection_query = Userlist.objects.get(
@@ -68,8 +75,8 @@ def entry(request):
 
 
 def success(request):
-    # Zugriff nur mit access key in production
-    if not request.session.get('student_access'):
+    # Access only with student_access_token in production
+    if not request.session.get('student_has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
 
     ipad = request.POST.get('iPad')

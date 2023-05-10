@@ -3,11 +3,12 @@ from django.contrib import admin
 # Register your models here.
 from .models import Booking
 from .models import Room
+from .models import Category
 
 
 class BookingCustomAdmin(admin.ModelAdmin):
     # fields to display in the listing
-    list_display = ('room', 'krzl', 'lerngruppe', 'datum', 'stunde', 'series_id')
+    list_display = ('id', 'room', 'krzl', 'lerngruppe', 'datum', 'stunde', 'series_id')
 
     # enable results filtering
     list_filter = ('room', 'krzl', 'lerngruppe', 'datum', 'stunde', 'series_id')
@@ -27,3 +28,4 @@ class RoomCustomAdmin(admin.ModelAdmin):
 
 admin.site.register(Booking, BookingCustomAdmin)
 admin.site.register(Room, RoomCustomAdmin)
+admin.site.register(Category)

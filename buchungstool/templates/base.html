@@ -8,7 +8,7 @@
 {% load static %}
   <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'bootstrap/bootstrap-icons.css' %}">
-  <script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}" async></script>
+  <script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
   <style>
     body {
       background-color: #ebebeb;
@@ -18,7 +18,11 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
   <div class="container">
-    <img src="{% static 'images/GNM.png' %}" width="40" class="ms-3"> <a class="navbar-brand ps-3 mb-0 h1" href="/">GENM Buchungstool</a>
+    {% if institution_logo %}
+      <img src="{{ MEDIA_URL }}{{ institution_logo }}" width="40" class="ms-3"> 
+    {% endif %}  
+    <a class="navbar-brand ps-3 mb-0 h1" href="/">{{ institution_name }} Buchungstool</a>
+    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -27,22 +31,32 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link active text-info" aria-current="page" href="/accounts/logout/"><strong>Logout ({{ user.username }})</strong></a>
+            <a class="nav-link active text-info" aria-current="page" href="/accounts/logout/?next={{ LOGOUT_REDIRECT_URL }}"><strong>Logout ({{ user.username }})</strong></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/devices/admin/">Übersicht Schadenliste</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/admin/">Django-Admin</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle {% if '/settings/' in request.path %} active {% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Einstellungen
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item {% if request.path == '/settings/' %} active {% endif %}" href="{% url 'settings' %}">Einstellungen</a></li>
+              <li><a class="dropdown-item {% if request.path == '/settings/category_setup/' %} active {% endif %}" href="{% url 'category_setup' %}">Kategorien Frontseite</a></li>
+              <li><a class="dropdown-item {% if request.path == '/settings/room_setup/' %} active {% endif %}" href="{% url 'room_setup' %}">Räume/Standorte</a></li>
+              <li><a class="dropdown-item {% if request.path == '/settings/device_setup/' %} active {% endif %}" href="{% url 'device_setup' %}">Gerätearten</a></li>
+              <li><a class="dropdown-item {% if request.path == '/settings/frontpage_alert/' %} active {% endif %}" href="{% url 'settings_frontpage_alert' %}">Hinweis Frontseite</a></li>
+              <li><a class="dropdown-item" href="/admin/">Django-Admin</a></li>
+            </ul>
           </li>
         {% else %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/accounts/login/?next={{ request.get_full_path|urlencode }}">Admin-Login</a>
           </li>
         {% endif %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/devices/all/' %} active {% endif %}" href="/devices/all/">Übersicht Schadenliste</a>
+          </li>
       </ul>
       {% if request.path != "/" and request.path != "/buchungstool/userlistInfo/"%}
-        {% if "admin" in request.get_full_path and not request.path == "/devices/admin/" %}
+        {% if "admin" in request.get_full_path and not request.path == "/devices/all/" %}
         <div class="navbar-nav ms-auto"> <a class="nav-link active" href="javascript:history.back()"><i
               class="bi bi-arrow-left-square"> </i>zurück</a>
         </div>
@@ -50,7 +64,7 @@
           <div class="navbar-nav ms-auto"> <a class="nav-link active" href="javascript:history.back()"><i
                 class="bi bi-arrow-left-square"> </i>zurück zur Schadenliste</a>
           </div>
-        {% elif "devices" in request.path and not request.path == "/devices/admin/" %}
+        {% elif "devices" in request.path and not request.path == "/devices/all/" %}
           <div class="navbar-nav ms-auto"> <a class="nav-link active" href="/buchungstool/{{ room }}/{{ entry_id }}/?isodate={{ date }}&std={{ std }}"><i
                 class="bi bi-arrow-left-square"> </i>zurück zum Buchungstermin</a>
           </div>

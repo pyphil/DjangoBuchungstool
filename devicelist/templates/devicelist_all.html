@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+  <h2 class="mb-3">Übersicht Problem- und Schadenliste</h2>
+  
+  <a href="{% url 'deviceEntryNewAll' %}" type="submit" class="btn btn-primary"><strong>+</strong> neuer Eintrag</a>
+
+  <h5 class="mt-3">Filter:</h5>
+  <form>
+    <select name="filter_status" class="form-select" id="filter_status" onchange="this.form.submit()">
+    {% for option in options %}
+      {% if option == filter_status %}
+        <option value="{{ option }}" selected>{{ option }}</option>
+      {% else %}
+        <option value="{{ option }}">{{ option }}</option>
+      {% endif %}
+    {% endfor %}
+    </select>
+  </form>
+
+  <div class="row mb-4">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Raum/Standort</th>
+            <th scope="col">Gerät</th>
+            <th scope="col">Datum</th>
+            <th scope="col">Stunde</th>
+            <th scope="col">Beschreibung</th>
+            <th scope="col">Krzl.</th>
+            <th scope="col">Status</th>
+            <th scope="col">Bearbeitet durch</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        
+          {% for devicelist_entry in devicelist %}
+            
+
+
+              <tr>
+                <td>{{ devicelist_entry.room }}</td>
+                <td>{{ devicelist_entry.device }}</td>
+                <td>{{ devicelist_entry.datum }}</td>
+                <td>{{ devicelist_entry.stunde }}</td>
+                <td>{{ devicelist_entry.beschreibung }}</td>
+                <td>{{ devicelist_entry.krzl }}</td>
+                <td class="{{ devicelist_entry.status.color }}">{{ devicelist_entry.status }}</td>
+                <td>{{ devicelist_entry.behoben }}</td>
+                <td>
+                  <div class="text-end">
+                    <span style="white-space: nowrap;">
+                      <a href="{% url 'deviceEntry' devicelist_entry.id devicelist_entry.room.short_name devicelist_entry.datum devicelist_entry.stunde devicelist_entry.id %}?devicelist_all=True" class="btn btn-secondary btn-sm">Ändern</a>
+                      <a href="{% url 'deviceusers' devicelist_entry.room.short_name devicelist_entry.datum devicelist_entry.device.dbname %}?devicelist_all=True" class="btn btn-secondary btn-sm">letzte Benutzer</a>
+                    </span>
+                  </div>
+                </td>
+                  </tr>
+
+
+          {% endfor %}
+        
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

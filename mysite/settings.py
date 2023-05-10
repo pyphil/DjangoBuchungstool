@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import django
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,8 +72,13 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # make instution name and logo available to base.html via context processors
+                'buchungstool.context_processors.add_institution',
+                # get logout url for base.html
+                'buchungstool.context_processors.get_logout_url',
             ],
         },
     },
@@ -127,17 +135,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
-# Done in production settings on server only
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'public/static')
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# MEDIA_ROOT = ''
-# MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -155,8 +163,3 @@ CKEDITOR_CONFIGS = {
         'height': 100,
     }
 }
-
-try:
-    from .production_settings import *
-except ImportError:
-    LOGOUT_REDIRECT_URL = "/"

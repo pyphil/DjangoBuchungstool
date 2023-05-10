@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="container">
-  <h2 class="mb-3">Geräteliste iPad-Koffer {{ room }}</h2>
+  <h2 class="mb-3">Schaden- und Problemliste {{ room }}</h2>
 
   <form action="{% url 'deviceEntryNew' room date std entry_id %}">
     <button type="submit" class="btn btn-primary"><strong>+</strong> neuer Eintrag</button>
@@ -10,7 +10,7 @@
 
   {% for device in devices %}
     {% if device in iPads_with_entry %}
-      <h5 class="mt-4">Schaden- und Problemliste für <strong>{{ device }}</strong></h5>
+      <h5 class="mt-4"><strong><u>{{ device }}</u></strong></h5>
       <div class="row mb-4">
         <div class="col">
           <table class="table table-striped">

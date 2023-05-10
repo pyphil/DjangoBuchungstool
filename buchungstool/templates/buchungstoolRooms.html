@@ -9,6 +9,19 @@
     </style>
 </head> -->
 
+<style>
+    .btn-primary {
+        color: #333333 !important;
+        background-color: #e9e7e7 !important;
+        border-color: #a5a4a4 !important;
+    }
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+        color: #333333 !important;
+        background-color: #d2d2d2 !important;
+        border-color: #999999 !important;
+    }
+</style>
+
 {% extends 'base.html' %}
 {% block content %}
 
@@ -20,23 +33,38 @@
             {{ info_frontpage|safe }}
         </div>
     {% endif %}
-
+    
     <div class="row">
-        <div class="col">
-            <div class="card mb-3 shadow" style="background-color: #cee3f583;">
-                <h5 class="card-header">iPad-Koffer Niederzier</h5>
-                <div class="card-body">
-                    {% for room in rooms %}
-                        {% if room.card == 1 %}
-                            <form action="{% url 'buchungstoolHome' room.short_name %}">
-                                <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
-                                        {{ room.description }} - {{ room.room }}</button><br>
-                            </form>
-                        {% endif %}
-                    {% endfor %}
+        {% for category in categories %}
+        {% if forloop.first %}
+            <div class="col">
+        {% endif %}
+                <div class="card mb-3 shadow" style="background-color: {{ category.color }}">
+                    <h5 class="card-header">{{ category.name }}</h5>
+                    <div class="card-body">
+                        {% for room in rooms %}
+                            {% if room.category.position == category.position %}
+                                <form action="{% url 'buchungstoolHome' room.short_name %}">
+                                    <div class="d-grid">
+                                        <!-- <button type="submit" class="btn btn-secondary mt-0 text-dark shadow" style="background-color: #ebebeb;"> -->
+                                        <button type="submit" class="btn btn-primary mt-0 shadow">
+                                                {{ room.description }} - {{ room.room }}</button>
+                                    </div>
+                                </form>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
+        {% if category.column_break %}
             </div>
+            <div class="col">
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
 
+{% endblock content %}
+<!-- 
             <div class="card shadow mb-3" style="background-color: #e8d4d470;">
                 <h5 class="card-header">Computer-, Besprechungs- und weitere Räume</h5>
                 <div class="card-body">
@@ -96,10 +124,4 @@
                             {% endfor %}
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-{% endblock content %}
+                </div> -->
