@@ -213,7 +213,10 @@ def devicelistEntryNew(request, room=None, date=None, std=None, entry_id=None):
                 except Exception:
                     email_to = ""
 
-                email_to_second = ""
+                if request.POST.get('email_to_second'):
+                    email_to_second = request.POST.get('email_to_second')
+                else:
+                    email_to_second = ""
 
                 subject = 'DjangoBuchungstool Schadenmeldung'
                 thread = MailThread(subject, mail_text, email_to, email_to_second)
