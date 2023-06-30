@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Booking, Room, BookingFormIpad, Category
+from .models import Booking, Room, BookingFormIpad, Category, FAQ
 from .forms import RoomAlertForm
 from userlist.models import Userlist
 from buchungstool_settings.models import Setting
@@ -484,6 +484,11 @@ def getUserlist(room, isodate, std):
 
 def userlistInfo(request):
     return render(request, 'buchungstoolUserlistInfo.html', {})
+
+
+def faq(request):
+    faqs = FAQ.objects.all()
+    return render(request, 'buchungstoolFAQ.html', {'faqs': faqs})
 
 
 def first_run():

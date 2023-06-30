@@ -47,12 +47,15 @@
             </ul>
           </li>
         {% else %}
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/accounts/login/?next={{ request.get_full_path|urlencode }}">Admin-Login</a>
+          <li class="nav-item d-flex align-items-center me-2">
+            <a class="btn btn-secondary btn-sm" aria-current="page" href="/accounts/login/?next={{ request.get_full_path|urlencode }}">Admin-Login</a>
           </li>
         {% endif %}
           <li class="nav-item">
-            <a class="nav-link {% if request.path == '/devices/all/' %} active {% endif %}" href="/devices/all/">Übersicht Schadenliste</a>
+            <a class="nav-link {% if request.path == '/devices/all/' %} active {% endif %}" href="/devices/all/">Support Tickets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/faq/' %} active {% endif %}" href="/buchungstool/faq/">FAQ</a>
           </li>
       </ul>
       {% if request.path != "/" and request.path != "/buchungstool/userlistInfo/"%}

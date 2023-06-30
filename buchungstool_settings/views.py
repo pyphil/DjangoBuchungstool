@@ -17,6 +17,7 @@ def settings(request):
     else:
         filepath = None
     if request.method == 'GET':
+        # suppress colon with an empty label_suffix
         f = SettingForm(instance=obj, label_suffix="")
         return render(request, 'buchungstool_settings.html', {'form': f})
 
