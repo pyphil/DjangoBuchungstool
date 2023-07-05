@@ -1,26 +1,3 @@
-<!-- <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <style>
-        body {
-            background-color: #ebebeb;
-        }
-    </style>
-</head> -->
-
-<style>
-    .btn-primary {
-        color: #333333 !important;
-        background-color: #e9e7e7 !important;
-        border-color: #a5a4a4 !important;
-    }
-    .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
-        color: #333333 !important;
-        background-color: #d2d2d2 !important;
-        border-color: #999999 !important;
-    }
-</style>
 
 {% extends 'base.html' %}
 {% block content %}
@@ -47,7 +24,7 @@
                                 <form action="{% url 'buchungstoolHome' room.short_name %}">
                                     <div class="d-grid">
                                         <!-- <button type="submit" class="btn btn-secondary mt-0 text-dark shadow" style="background-color: #ebebeb;"> -->
-                                        <button type="submit" class="btn btn-primary mt-0 shadow">
+                                        <button type="submit" id="custom-btn" class="btn btn-primary shadow mt-1 mb-1">
                                                 {{ room.description }} - {{ room.room }}</button>
                                     </div>
                                 </form>
@@ -64,64 +41,3 @@
 </div>
 
 {% endblock content %}
-<!-- 
-            <div class="card shadow mb-3" style="background-color: #e8d4d470;">
-                <h5 class="card-header">Computer-, Besprechungs- und weitere Räume</h5>
-                <div class="card-body">
-                    {% for room in rooms %}
-                        {% if room.card == 3 %}
-                            <form action="{% url 'buchungstoolHome' room.short_name %}">
-                                <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
-                                    {{ room.description }} - {{ room.room }}</button><br>
-                            </form>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card mb-3 shadow" style="background-color: #d5e9ce7d;">
-                <h5 class="card-header">iPad-Koffer Merzenich</h5>
-                <div class="card-body">
-                    {% for room in rooms %}
-                        {% if room.card == 2 %}
-                            <form action="{% url 'buchungstoolHome' room.short_name %}">
-                                <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
-                                    {{ room.description }} - {{ room.room }}</button><br>
-                            </form>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-            <div id="FSM_parent">
-                <div class="card mb-3 shadow" data-bs-toggle="collapse" data-bs-target="#collapseFSM_1" style="background-color: #dddddd9f;">
-                    <h5 class="card-header"><i class="bi bi-chevron-expand"> </i>FS Mathematik Merzenich</h5>
-                    <div class="collapse" id="collapseFSM_1" data-bs-parent="#FSM_parent">
-                        <div class="card-body">
-                            {% for room in rooms %}
-                                {% if room.card == 4 %}
-                                    <form action="{% url 'buchungstoolHome' room.short_name %}">
-                                        <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
-                                            {{ room.description }} - {{ room.room }}</button><br>
-                                    </form>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-3 shadow" data-bs-toggle="collapse" data-bs-target="#collapseFSM_2" style="background-color: #dddddd9f;">
-                    <h5 class="card-header"><i class="bi bi-chevron-expand"> </i>FS Mathematik Niederzier</h5>
-                    <div class="collapse" id="collapseFSM_2" data-bs-parent="#FSM_parent">
-                        <div class="card-body">
-                            {% for room in rooms %}
-                                {% if room.card == 5 %}
-                                    <form action="{% url 'buchungstoolHome' room.short_name %}">
-                                        <button type="submit" class="btn btn-secondary mt-0 text-dark" style="background-color: #f7f7f7;">
-                                            {{ room.description }} - {{ room.room }}</button><br>
-                                    </form>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div> -->

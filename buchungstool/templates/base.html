@@ -1,88 +1,102 @@
-<head>
-  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"> -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script> -->
-{% load static %}
-  <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'bootstrap/bootstrap-icons.css' %}">
-  <script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
-  <style>
-    body {
-      background-color: #ebebeb;
-    }
-  </style>
-</head>
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ institution_name }} Buchungstool</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap-icons.css' %}">
+    <script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
+ 
+    <style>
+      body {
+        background-color: #ebebeb;
+      }
+      #custom-btn {
+        color: #333333 !important;
+        background-color: #e9e7e7 !important;
+        border-color: #a5a4a4 !important;
+      }
+      #custom-btn:hover, #custom-btn:focus, #custom-btn:active, #custom-btn.active {
+          color: #333333 !important;
+          background-color: #d2d2d2 !important;
+          border-color: #999999 !important;
+      }
+    </style>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-  <div class="container">
-    {% if institution_logo %}
-      <img src="{{ MEDIA_URL }}{{ institution_logo }}" width="40" class="ms-3"> 
-    {% endif %}  
-    <a class="navbar-brand ps-3 mb-0 h1" href="/">{{ institution_name }} Buchungstool</a>
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link active text-info" aria-current="page" href="/accounts/logout/?next={{ LOGOUT_REDIRECT_URL }}"><strong>Logout ({{ user.username }})</strong></a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle {% if '/settings/' in request.path %} active {% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Einstellungen
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item {% if request.path == '/settings/' %} active {% endif %}" href="{% url 'settings' %}">Einstellungen</a></li>
-              <li><a class="dropdown-item {% if request.path == '/settings/category_setup/' %} active {% endif %}" href="{% url 'category_setup' %}">Kategorien Frontseite</a></li>
-              <li><a class="dropdown-item {% if request.path == '/settings/room_setup/' %} active {% endif %}" href="{% url 'room_setup' %}">Räume/Standorte</a></li>
-              <li><a class="dropdown-item {% if request.path == '/settings/device_setup/' %} active {% endif %}" href="{% url 'device_setup' %}">Gerätearten</a></li>
-              <li><a class="dropdown-item {% if request.path == '/settings/frontpage_alert/' %} active {% endif %}" href="{% url 'settings_frontpage_alert' %}">Hinweis Frontseite</a></li>
-              <li><a class="dropdown-item" href="/admin/">Django-Admin</a></li>
-            </ul>
-          </li>
-        {% else %}
-          <li class="nav-item d-flex align-items-center me-2">
-            <a class="btn btn-secondary btn-sm" aria-current="page" href="/accounts/login/?next={{ request.get_full_path|urlencode }}">Admin-Login</a>
-          </li>
-        {% endif %}
-          <li class="nav-item">
-            <a class="nav-link {% if request.path == '/devices/all/' %} active {% endif %}" href="/devices/all/">Support Tickets</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if request.path == '/faq/' %} active {% endif %}" href="/buchungstool/faq/">FAQ</a>
-          </li>
-      </ul>
-      {% if request.path != "/" and request.path != "/buchungstool/userlistInfo/"%}
-        {% if "admin" in request.get_full_path and not request.path == "/devices/all/" %}
-        <div class="navbar-nav ms-auto"> <a class="nav-link active" href="javascript:history.back()"><i
-              class="bi bi-arrow-left-square"> </i>zurück</a>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+      <div class="container">
+        {% if institution_logo %}
+          <img src="{{ MEDIA_URL }}{{ institution_logo }}" width="40" class="ms-3"> 
+        {% endif %}  
+        <a class="navbar-brand ps-3 mb-0 h1" href="/">{{ institution_name }} Buchungstool</a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link active text-info" aria-current="page" href="/accounts/logout/?next={{ LOGOUT_REDIRECT_URL }}"><strong>Logout ({{ user.username }})</strong></a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle {% if '/settings/' in request.path %} active {% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Einstellungen
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item {% if request.path == '/settings/' %} active {% endif %}" href="{% url 'settings' %}">Einstellungen</a></li>
+                  <li><a class="dropdown-item {% if request.path == '/settings/category_setup/' %} active {% endif %}" href="{% url 'category_setup' %}">Kategorien Frontseite</a></li>
+                  <li><a class="dropdown-item {% if request.path == '/settings/room_setup/' %} active {% endif %}" href="{% url 'room_setup' %}">Räume/Standorte</a></li>
+                  <li><a class="dropdown-item {% if request.path == '/settings/device_setup/' %} active {% endif %}" href="{% url 'device_setup' %}">Gerätearten</a></li>
+                  <li><a class="dropdown-item {% if request.path == '/settings/frontpage_alert/' %} active {% endif %}" href="{% url 'settings_frontpage_alert' %}">Hinweis Frontseite</a></li>
+                  <li><a class="dropdown-item" href="/admin/">Django-Admin</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item d-flex align-items-center me-2">
+                <a class="btn btn-secondary btn-sm" aria-current="page" href="/accounts/login/?next={{ request.get_full_path|urlencode }}">Admin-Login</a>
+              </li>
+            {% endif %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/devices/all/' %} active {% endif %}" href="/devices/all/">Support Tickets</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/faq/' %} active {% endif %}" href="/buchungstool/faq/">FAQ</a>
+              </li>
+          </ul>
+          {% if request.path != "/" and request.path != "/buchungstool/userlistInfo/"%}
+            {% if "admin" in request.get_full_path and not request.path == "/devices/all/" %}
+            <div class="navbar-nav ms-auto"> <a class="nav-link active" href="javascript:history.back()"><i
+                  class="bi bi-arrow-left-square"> </i>zurück</a>
+            </div>
+            {% elif "deviceUsers" in request.path and not "admin" in request.get_full_path %}
+              <div class="navbar-nav ms-auto"> <a class="nav-link active" href="javascript:history.back()"><i
+                    class="bi bi-arrow-left-square"> </i>zurück zur Schadenliste</a>
+              </div>
+            {% elif "devices" in request.path and not request.path == "/devices/all/" %}
+              <div class="navbar-nav ms-auto"> <a class="nav-link active" href="/buchungstool/{{ room }}/{{ entry_id }}/?isodate={{ date }}&std={{ std }}"><i
+                    class="bi bi-arrow-left-square"> </i>zurück zum Buchungstermin</a>
+              </div>
+            {% else %}
+              <div class="navbar-nav ms-auto"> <a class="nav-link active" href="{% url 'buchungstoolRooms' %}"><i
+                    class="bi bi-arrow-left-square"> </i>zur Auswahl der Räume und Geräte</a>
+              </div>
+            {% endif %}
+          {% endif %}
         </div>
-        {% elif "deviceUsers" in request.path and not "admin" in request.get_full_path %}
-          <div class="navbar-nav ms-auto"> <a class="nav-link active" href="javascript:history.back()"><i
-                class="bi bi-arrow-left-square"> </i>zurück zur Schadenliste</a>
-          </div>
-        {% elif "devices" in request.path and not request.path == "/devices/all/" %}
-          <div class="navbar-nav ms-auto"> <a class="nav-link active" href="/buchungstool/{{ room }}/{{ entry_id }}/?isodate={{ date }}&std={{ std }}"><i
-                class="bi bi-arrow-left-square"> </i>zurück zum Buchungstermin</a>
-          </div>
-        {% else %}
-          <div class="navbar-nav ms-auto"> <a class="nav-link active" href="{% url 'buchungstoolRooms' %}"><i
-                class="bi bi-arrow-left-square"> </i>zur Auswahl der Räume und Geräte</a>
-          </div>
-        {% endif %}
-      {% endif %}
+      </div>
+    </nav>
+
+    <div class="container">
+      {% block content %}
+      {% endblock content %}
+
     </div>
-  </div>
-</nav>
-
-<div class="container">
-  {% block content %}
-  {% endblock content %}
-
-</div>
+  </body>
+</html>
