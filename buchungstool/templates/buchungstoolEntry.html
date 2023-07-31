@@ -158,12 +158,12 @@
               data-bs-parent="#accordionSerie">
               {% endif %}
               <div class="accordion-body">
-                <div class="row mb-4">
+                <div class="row mb-2">
                   <div class="col-auto text-end">
-                    <button type="submit" name="reload" value="reload" class="btn btn-success"><i
-                        class="bi bi-arrow-clockwise"> </i>Neu Laden</button>
-                    <i class="bi bi-info-circle" data-bs-toggle="popover" data-bs-placement="bottom" title="Neu laden"
-                      data-bs-content="Neu laden, um aktuelle Einträge der Schüler*innen zu sehen."></i>
+                    <button type="submit" class="btn btn-success" name="submit_student" value="submit_student">
+                      <i class="bi bi-arrow-repeat"> </i>Änderungen synchronisieren</button>
+                    <i class="bi bi-info-circle" data-bs-toggle="popover" data-bs-placement="bottom" title="Speichern und neu laden"
+                      data-bs-content="Änderungen der Schüler*innen laden und eigene Änderungen speichern."></i>
                   </div>
                   <script>
                     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
@@ -174,6 +174,7 @@
                 <div class="row">
                 <div class="col">
 
+                {% if device_count >= 1 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_01"><strong><small>iPad 01: </small></strong></label>
@@ -186,8 +187,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
-
+                {% if device_count >= 2 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_02"><strong><small>iPad 02: </small></strong></label>
@@ -200,7 +202,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 3 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_03"><strong><small>iPad 03: </small></strong></label>
@@ -213,7 +217,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 4 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_04"><strong><small>iPad 04: </small></strong></label>
@@ -226,7 +232,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 5 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_05"><strong><small>iPad 05: </small></strong></label>
@@ -239,7 +247,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 6 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_06"><strong><small>iPad 06: </small></strong></label>
@@ -252,7 +262,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 7 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_07"><strong><small>iPad 07: </small></strong></label>
@@ -265,7 +277,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 8 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_08"><strong><small>iPad 08: </small></strong></label>
@@ -278,10 +292,10 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
-              </div>
-              <div class="col">
 
+                {% if device_count >= 9 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_09"><strong><small>iPad 09: </small></strong></label>
@@ -294,7 +308,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 10 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_10"><strong><small>iPad 10: </small></strong></label>
@@ -307,7 +323,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 11 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_11"><strong><small>iPad 11: </small></strong></label>
@@ -320,7 +338,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 12 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_12"><strong><small>iPad 12: </small></strong></label>
@@ -333,7 +353,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 13 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_13"><strong><small>iPad 13: </small></strong></label>
@@ -346,7 +368,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 14 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_14"><strong><small>iPad 14: </small></strong></label>
@@ -359,7 +383,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 15 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_15"><strong><small>iPad 15: </small></strong></label>
@@ -372,7 +398,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 16 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_16"><strong><small>iPad 16: </small></strong></label>
@@ -385,14 +413,15 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
               </div>
               </div>
 
                 <div class="row align-items-center mt-2">
                   <div class="col">
-                    <button type="submit" class="btn btn-primary" name="submit_student" value="submit_student">
-                      <i class="bi bi-save"> </i>Speichern</button>
+                    <button type="submit" class="btn btn-success" name="submit_student" value="submit_student">
+                      <i class="bi bi-arrow-repeat"> </i>Änderungen synchronisieren</button>
                   </div>
                 </div>
               </div>

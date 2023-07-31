@@ -370,6 +370,7 @@ def eintrag(request, accordion=None, room=None, id=None):
             'blocked_dates': blocked_dates,
             'entry_id': id,
             'series_id': series_id,
+            'device_count': 16,
         }
     )
 
