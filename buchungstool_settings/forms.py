@@ -71,7 +71,7 @@ class SettingForm(ModelForm):
                     <h3>E-Mail-Konfiguration</h3>
                      <div class="alert alert-info">
                         Um Benachrichtigungen über neue oder im Status geänderte Support Tickets (Schaden- und Problemmitteilungen)
-                        zu erhalten, kann hier die SMPT-E-Mail-Konfiguration vorgenommen werden.
+                        zu erhalten, kann hier die SMTP-E-Mail-Konfiguration vorgenommen werden.
                      </div>
                     <strong>Empfänger E-Mail-Adresse für Benachrichtigungen wie Schadenmeldungen</strong>
                 '''
