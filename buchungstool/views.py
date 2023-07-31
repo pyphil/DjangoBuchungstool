@@ -156,7 +156,8 @@ def eintrag(request, accordion=None, room=None, id=None):
         initial_list = []
         for i in userlist:
             initial_list.append(i.value())
-        request.session['initial_list'] = initial_list
+        if request.method == 'GET':
+            request.session['initial_list'] = initial_list
     elif id == 0:
         # neuer Eintrag Variablen vorbereiten
         isodate = request.GET.get('isodate')
