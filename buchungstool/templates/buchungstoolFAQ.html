@@ -3,10 +3,24 @@
 {% load static %}
 
 <div class="container">
-  <h2 class="mb-4"><i>FAQ</i></h2>
-  {% for faq in faqs %}
-    <h5 class="mt-5">{{ faq.question }}</h5>
-    <p>{{ faq.answer|safe }}</p>
-  {% endfor %}
-
+  <h2 class="mb-4"><i>Häufige Fragen (FAQ)</i></h2>
+  <div class="accordion" id="acc_{{ faq.id }}">
+    {% for faq in faqs %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading_{{ faq.id }}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{ faq.id }}" aria-expanded="false" aria-controls="collapse_{{ faq.id }}">
+            {{ faq.question }}
+          </button>
+        </h2>
+        <div id="collapse_{{ faq.id }}" class="accordion-collapse collapse" aria-labelledby="heading_{{ faq.id }}" data-bs-parent="#acc_{{ faq.id }}">
+          <div class="accordion-body">
+            {{ faq.answer|safe }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  </div>
+    
 {% endblock content %}
