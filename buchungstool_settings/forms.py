@@ -147,9 +147,10 @@ class CategoryForm(ModelForm):
 class DeviceForm(ModelForm):
     class Meta:
         model = Device
-        fields = ('device', 'position')
+        fields = ('device', 'dbname', 'position')
         widgets = {
             'device': forms.TextInput(attrs={'class': 'form-control'}),
+            'dbname': forms.TextInput(attrs={'class': 'form-control'}),
             'position': forms.HiddenInput(),
         }
 
