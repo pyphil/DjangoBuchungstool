@@ -23,10 +23,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', buchungstoolViews.rooms, name='buchungstoolRooms'),
-    path('buchungstool/userlistInfo/', buchungstoolViews.userlistInfo, name='userlistInfo'),
-    path('buchungstool/<str:room>/', buchungstoolViews.home, name='buchungstoolHome'),
-    path('buchungstool/<str:room>/<int:id>/', buchungstoolViews.eintrag, name='buchungstoolEntry'),
+    path('', include('buchungstool.urls')),
     path('userlist/select/', userlistViews.select, name='userlistSelect'),
     path('userlist/entry/', userlistViews.entry, name='userlistEntry'),
     path('userlist/success/', userlistViews.success, name='userlistSuccess'),

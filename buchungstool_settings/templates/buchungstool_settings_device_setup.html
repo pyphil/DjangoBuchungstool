@@ -2,11 +2,16 @@
 {% block content %}
 
 <h3>Gerätearten</h3>
+<div class="alert alert-light">
+  Bei iPads und Stiften muss zusätzlich die Spalte "dbname" im Format "iPad_01" bzw. "pen_01" gefüllt werden. 
+  Über die maximale Anzahl an iPads und Stiften hinausgehende Einträge können gelöscht werden.
+</div>
 <form method="post">
   {% csrf_token %}
   <table class="table">
     <thead>
       <th>Bezeichnung</th>
+      <th>dbname</th>
       <th></th>
       <th></th>
     </thead>

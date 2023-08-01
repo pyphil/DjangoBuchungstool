@@ -4,6 +4,7 @@ from django.contrib import admin
 from .models import Booking
 from .models import Room
 from .models import Category
+from .models import FAQ
 
 
 class BookingCustomAdmin(admin.ModelAdmin):
@@ -22,10 +23,11 @@ class BookingCustomAdmin(admin.ModelAdmin):
 
 class RoomCustomAdmin(admin.ModelAdmin):
     # fields to display in the listing
-    list_display = ('short_name', 'room', 'type', 'description', 'card')
-    list_filter = ('card', 'type')
+    list_display = ('short_name', 'room', 'device_count', 'description', 'card')
+    list_filter = ('card', 'device_count')
 
 
 admin.site.register(Booking, BookingCustomAdmin)
 admin.site.register(Room, RoomCustomAdmin)
 admin.site.register(Category)
+admin.site.register(FAQ)

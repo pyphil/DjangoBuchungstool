@@ -1,16 +1,3 @@
-<!-- <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
-</head> -->
-<style>
-  .custom-width {
-    width: 152px !important;
-  }
-</style>
-
 {% extends 'base.html' %}
 {% block content %}
 
@@ -24,7 +11,7 @@
     {% endif %}
     <h5 class="mt-3"><strong>Datum: </strong>{{ date }}, {{ std }}. Stunde</h5>
     <h5 class="mt-3"><strong>Raum/Gerät:</strong> {{room_text}}</h5>
-    {% if room_type == "iPad" %}
+    {% if device_count %}
       <p class="mt-3"><a href="{% url 'devicelist' room isodate std entry_id %}" class="btn btn-primary btn-sm">Schaden- und Problemliste zu Koffer {{ room }}</a></p>
     {% endif %}
     <form method="POST">
@@ -68,7 +55,7 @@
                       <label for="date"> Termin bis zu folgendem Datum <strong>wöchentlich wiederholen:</strong> </label>
                     </div>
                     <div class="col-2 pe-0">
-                      <select name="selection" class="form-select custom-width" aria-label="Default select example">
+                      <select name="selection" class="form-select custom-width" style="width: 152px;" aria-label="Default select example">
                         {% for date in date_series %}
                         <option value="{{date.item}}">{{date.date}}</option>
                         {% endfor %}
@@ -114,7 +101,7 @@
         {% endif %}
         <button type="submit" class="btn btn-secondary" value="cancel" name="cancel">Abbrechen</button>
 
-    {% if room_type == "iPad" %}
+    {% if device_count %}
         {% if state == None %}
         <div class="alert alert-info mt-5">
           <h5>Digitaler Eintrag in die iPad-Nutzerliste</h5>
@@ -171,12 +158,12 @@
               data-bs-parent="#accordionSerie">
               {% endif %}
               <div class="accordion-body">
-                <div class="row mb-4">
+                <div class="row mb-2">
                   <div class="col-auto text-end">
-                    <button type="submit" name="reload" value="reload" class="btn btn-success"><i
-                        class="bi bi-arrow-clockwise"> </i>Neu Laden</button>
-                    <i class="bi bi-info-circle" data-bs-toggle="popover" data-bs-placement="bottom" title="Neu laden"
-                      data-bs-content="Neu laden, um aktuelle Einträge der Schüler*innen zu sehen."></i>
+                    <button type="submit" class="btn btn-success" name="submit_student" value="submit_student">
+                      <i class="bi bi-arrow-repeat"> </i>Änderungen synchronisieren</button>
+                    <i class="bi bi-info-circle" data-bs-toggle="popover" data-bs-placement="bottom" title="Speichern und neu laden"
+                      data-bs-content="Änderungen der Schüler*innen laden und eigene Änderungen speichern."></i>
                   </div>
                   <script>
                     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
@@ -187,6 +174,7 @@
                 <div class="row">
                 <div class="col">
 
+                {% if device_count >= 1 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_01"><strong><small>iPad 01: </small></strong></label>
@@ -199,8 +187,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
-
+                {% if device_count >= 2 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_02"><strong><small>iPad 02: </small></strong></label>
@@ -213,7 +202,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 3 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_03"><strong><small>iPad 03: </small></strong></label>
@@ -226,7 +217,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 4 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_04"><strong><small>iPad 04: </small></strong></label>
@@ -239,7 +232,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 5 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_05"><strong><small>iPad 05: </small></strong></label>
@@ -252,7 +247,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 6 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_06"><strong><small>iPad 06: </small></strong></label>
@@ -265,7 +262,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 7 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_07"><strong><small>iPad 07: </small></strong></label>
@@ -278,7 +277,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 8 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_08"><strong><small>iPad 08: </small></strong></label>
@@ -291,10 +292,10 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
-              </div>
-              <div class="col">
 
+                {% if device_count >= 9 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_09"><strong><small>iPad 09: </small></strong></label>
@@ -307,7 +308,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 10 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_10"><strong><small>iPad 10: </small></strong></label>
@@ -320,7 +323,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 11 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_11"><strong><small>iPad 11: </small></strong></label>
@@ -333,7 +338,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 12 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_12"><strong><small>iPad 12: </small></strong></label>
@@ -346,7 +353,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 13 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_13"><strong><small>iPad 13: </small></strong></label>
@@ -359,7 +368,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 14 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_14"><strong><small>iPad 14: </small></strong></label>
@@ -372,7 +383,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 15 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_15"><strong><small>iPad 15: </small></strong></label>
@@ -385,7 +398,9 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
 
+                {% if device_count >= 16 %}
                 <div class="row align-items-center mt-2">
                   <div class="col-auto mb-3 pe-0">
                     <label for="iPad_16"><strong><small>iPad 16: </small></strong></label>
@@ -398,14 +413,225 @@
                     <small><small>Schüler*innen (Vornamen)</small></small>
                   </div>
                 </div>
+                {% endif %}
+
+                {% if device_count >= 17 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_17"><strong><small>iPad 17: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_17 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_17 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 18 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_18"><strong><small>iPad 18: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_18 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_18 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 19 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_19"><strong><small>iPad 19: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_19 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_19 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 20 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_20"><strong><small>iPad 20: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_20 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_20 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 21 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_21"><strong><small>iPad 21: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_21 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_21 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 22 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_22"><strong><small>iPad 22: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_22 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_22 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 23 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_23"><strong><small>iPad 23: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_23 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_23 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 24 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_24"><strong><small>iPad 24: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_24 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_24 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 25 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_25"><strong><small>iPad 25: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_25 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_25 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 26 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_26"><strong><small>iPad 26: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_26 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_26 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 27 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_27"><strong><small>iPad 27: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_27 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_27 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 28 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_28"><strong><small>iPad 28: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_28 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_28 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 29 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_29"><strong><small>iPad 29: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_29 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_29 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if device_count >= 30 %}
+                <div class="row align-items-center mt-2">
+                  <div class="col-auto mb-3 pe-0">
+                    <label for="iPad_30"><strong><small>iPad 30: </small></strong></label>
+                  </div>
+                  <div class="col-2 pe-0">
+                    {{ userlist.pen_30 }} <small><small>Stift</small></small>
+                  </div>
+                  <div class="col">
+                    {{ userlist.iPad_30 }}
+                    <small><small>Schüler*innen (Vornamen)</small></small>
+                  </div>
+                </div>
+                {% endif %}
 
               </div>
               </div>
 
                 <div class="row align-items-center mt-2">
                   <div class="col">
-                    <button type="submit" class="btn btn-primary" name="submit_student" value="submit_student">
-                      <i class="bi bi-save"> </i>Speichern</button>
+                    <button type="submit" class="btn btn-success" name="submit_student" value="submit_student">
+                      <i class="bi bi-arrow-repeat"> </i>Änderungen synchronisieren</button>
                   </div>
                 </div>
               </div>

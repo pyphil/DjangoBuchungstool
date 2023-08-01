@@ -71,7 +71,7 @@ class SettingForm(ModelForm):
                     <h3>E-Mail-Konfiguration</h3>
                      <div class="alert alert-info">
                         Um Benachrichtigungen über neue oder im Status geänderte Support Tickets (Schaden- und Problemmitteilungen)
-                        zu erhalten, kann hier die SMPT-E-Mail-Konfiguration vorgenommen werden.
+                        zu erhalten, kann hier die SMTP-E-Mail-Konfiguration vorgenommen werden.
                      </div>
                     <strong>Empfänger E-Mail-Adresse für Benachrichtigungen wie Schadenmeldungen</strong>
                 '''
@@ -147,9 +147,10 @@ class CategoryForm(ModelForm):
 class DeviceForm(ModelForm):
     class Meta:
         model = Device
-        fields = ('device', 'position')
+        fields = ('device', 'dbname', 'position')
         widgets = {
             'device': forms.TextInput(attrs={'class': 'form-control'}),
+            'dbname': forms.TextInput(attrs={'class': 'form-control'}),
             'position': forms.HiddenInput(),
         }
 
@@ -157,14 +158,14 @@ class DeviceForm(ModelForm):
 class RoomForm(ModelForm):
     class Meta:
         model = Room
-        fields = ('room', 'short_name', 'description', 'type', 'category', 
+        fields = ('room', 'short_name', 'description', 'device_count', 'category', 
                   'position', 'is_first_of_category', 'is_last_of_category')
 
         widgets = {
             'room': forms.TextInput(attrs={'class': 'form-control'}),
             'short_name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'class': 'form-control'}),
-            'type': forms.Select(attrs={'class': 'form-select', 'onchange': 'this.form.submit()'}),
+            'device_count': forms.Select(attrs={'class': 'form-select', 'onchange': 'this.form.submit()'}),
             'category': forms.Select(attrs={'class': 'form-select', 'onchange': 'this.form.submit()'}),
             'position': forms.HiddenInput(),
             'is_first_of_category': forms.HiddenInput(),

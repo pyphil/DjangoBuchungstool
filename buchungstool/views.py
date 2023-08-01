@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Booking, Room, BookingFormIpad, Category
+from .models import Booking, Room, BookingFormIpad, Category, FAQ
 from .forms import RoomAlertForm
 from userlist.models import Userlist
 from buchungstool_settings.models import Setting
@@ -348,12 +348,15 @@ def eintrag(request, accordion=None, room=None, id=None):
         blocked_dates = ', '.join(blocked_dates)
     else:
         blocked_dates = None
-
+    if room_obj.device_count:
+        device_count = int(room_obj.device_count)
+    else:
+        device_count = None
     return render(
         request, 'buchungstoolEntry.html',
         {
             'room': room,
-            'room_type': room_obj.type,
+            'device_count': device_count,
             'room_text': room_obj.room + " - " + room_obj.description,
             'isodate': isodate,
             'date': date,
@@ -370,6 +373,7 @@ def eintrag(request, accordion=None, room=None, id=None):
             'blocked_dates': blocked_dates,
             'entry_id': id,
             'series_id': series_id,
+            #'device_count': 16,
         }
     )
 
@@ -487,6 +491,11 @@ def userlistInfo(request):
     return render(request, 'buchungstoolUserlistInfo.html', {})
 
 
+def faq(request):
+    faqs = FAQ.objects.all()
+    return render(request, 'buchungstoolFAQ.html', {'faqs': faqs})
+
+
 def first_run():
     # create iPad devices
     for i in range(1, 17):
@@ -498,7 +507,7 @@ def first_run():
             devices.save()
 
     # create pens
-        for i in range(17, 33):
+        for i in range(1, 17):
             devices, created = Device.objects.get_or_create(dbname='pen_' + '{:02d}'.format(i))
             if created:
                 devices.dbname = 'pen_' + '{:02d}'.format(i)
