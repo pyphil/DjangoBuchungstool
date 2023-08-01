@@ -27,6 +27,20 @@ class Booking(models.Model):
     iPad_14 = models.CharField(max_length=40, blank=True)
     iPad_15 = models.CharField(max_length=40, blank=True)
     iPad_16 = models.CharField(max_length=40, blank=True)
+    iPad_17 = models.CharField(max_length=40, blank=True)
+    iPad_18 = models.CharField(max_length=40, blank=True)
+    iPad_19 = models.CharField(max_length=40, blank=True)
+    iPad_20 = models.CharField(max_length=40, blank=True)
+    iPad_21 = models.CharField(max_length=40, blank=True)
+    iPad_22 = models.CharField(max_length=40, blank=True)
+    iPad_23 = models.CharField(max_length=40, blank=True)
+    iPad_24 = models.CharField(max_length=40, blank=True)
+    iPad_25 = models.CharField(max_length=40, blank=True)
+    iPad_26 = models.CharField(max_length=40, blank=True)
+    iPad_27 = models.CharField(max_length=40, blank=True)
+    iPad_28 = models.CharField(max_length=40, blank=True)
+    iPad_29 = models.CharField(max_length=40, blank=True)
+    iPad_30 = models.CharField(max_length=40, blank=True)
     pen_01 = models.CharField(max_length=2, blank=True)
     pen_02 = models.CharField(max_length=2, blank=True)
     pen_03 = models.CharField(max_length=2, blank=True)
@@ -43,7 +57,20 @@ class Booking(models.Model):
     pen_14 = models.CharField(max_length=2, blank=True)
     pen_15 = models.CharField(max_length=2, blank=True)
     pen_16 = models.CharField(max_length=2, blank=True)
-
+    pen_17 = models.CharField(max_length=2, blank=True)
+    pen_18 = models.CharField(max_length=2, blank=True)
+    pen_19 = models.CharField(max_length=2, blank=True)
+    pen_20 = models.CharField(max_length=2, blank=True)
+    pen_21 = models.CharField(max_length=2, blank=True)
+    pen_22 = models.CharField(max_length=2, blank=True)
+    pen_23 = models.CharField(max_length=2, blank=True)
+    pen_24 = models.CharField(max_length=2, blank=True)
+    pen_25 = models.CharField(max_length=2, blank=True)
+    pen_26 = models.CharField(max_length=2, blank=True)
+    pen_27 = models.CharField(max_length=2, blank=True)
+    pen_28 = models.CharField(max_length=2, blank=True)
+    pen_29 = models.CharField(max_length=2, blank=True)
+    pen_30 = models.CharField(max_length=2, blank=True)
 
 class BookingFormIpad(ModelForm):
     class Meta:
@@ -52,9 +79,15 @@ class BookingFormIpad(ModelForm):
             'iPad_01', 'iPad_02', 'iPad_03', 'iPad_04', 'iPad_05',
             'iPad_06', 'iPad_07', 'iPad_08', 'iPad_09', 'iPad_10',
             'iPad_11', 'iPad_12', 'iPad_13', 'iPad_14', 'iPad_15', 'iPad_16',
+            'iPad_12', 'iPad_13', 'iPad_14', 'iPad_15', 'iPad_16', 'iPad_17',
+            'iPad_18', 'iPad_19', 'iPad_20', 'iPad_21', 'iPad_22', 'iPad_23',
+            'iPad_24', 'iPad_25', 'iPad_26', 'iPad_27', 'iPad_28', 'iPad_29', 'iPad_30',
             'pen_01', 'pen_02', 'pen_03', 'pen_04', 'pen_05',
             'pen_06', 'pen_07', 'pen_08', 'pen_09', 'pen_10',
-            'pen_11', 'pen_12', 'pen_13', 'pen_14', 'pen_15', 'pen_16'
+            'pen_11', 'pen_12', 'pen_13', 'pen_14', 'pen_15', 'pen_16',
+            'pen_12', 'pen_13', 'pen_14', 'pen_15', 'pen_16', 'pen_17',
+            'pen_18', 'pen_19', 'pen_20', 'pen_21', 'pen_22', 'pen_23',
+            'pen_24', 'pen_25', 'pen_26', 'pen_27', 'pen_28', 'pen_29', 'pen_30',
         ]
         widgets = {}
         for field in fields:

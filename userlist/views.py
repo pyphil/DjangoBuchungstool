@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
-from buchungstool.models import Booking
+from buchungstool.models import Booking, Room
 from .models import Userlist
 from buchungstool_settings.models import Setting
 
@@ -63,9 +63,10 @@ def entry(request):
 
     }
     request.session['id'] = request.POST.get('selection')
+    obj = Room.objects.get(short_name=selection_query.short_name)
 
     numbers = [""]
-    for i in range(1, 17):
+    for i in range(1, int(obj.device_count) + 1):
         numbers.append(("%02d" % i))
 
     return render(
