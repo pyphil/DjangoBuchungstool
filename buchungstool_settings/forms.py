@@ -157,14 +157,14 @@ class DeviceForm(ModelForm):
 class RoomForm(ModelForm):
     class Meta:
         model = Room
-        fields = ('room', 'short_name', 'description', 'type', 'category', 
+        fields = ('room', 'short_name', 'description', 'device_count', 'category', 
                   'position', 'is_first_of_category', 'is_last_of_category')
 
         widgets = {
             'room': forms.TextInput(attrs={'class': 'form-control'}),
             'short_name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'class': 'form-control'}),
-            'type': forms.Select(attrs={'class': 'form-select', 'onchange': 'this.form.submit()'}),
+            'device_count': forms.Select(attrs={'class': 'form-select', 'onchange': 'this.form.submit()'}),
             'category': forms.Select(attrs={'class': 'form-select', 'onchange': 'this.form.submit()'}),
             'position': forms.HiddenInput(),
             'is_first_of_category': forms.HiddenInput(),

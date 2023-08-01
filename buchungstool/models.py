@@ -98,12 +98,10 @@ class Room(models.Model):
 
     short_name = models.CharField(max_length=10)
     room = models.CharField(max_length=50)
-    TYPE_CHOICES = [
-        ('iPad', 'iPad-Koffer'),
-        ('CR', 'Computerraum'),
-        ('other', 'anderer Raum'),
-    ]
-    type = models.CharField(max_length=5, choices=TYPE_CHOICES, blank=True)
+    DEVICE_COUNT_CHOICES = []
+    for i in range(1,31):
+        DEVICE_COUNT_CHOICES.append((str(i), str(i)))
+    device_count = models.CharField(max_length=5, choices=DEVICE_COUNT_CHOICES, blank=True)
     description = models.CharField(max_length=100)
     card = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, blank=True, null=True)
