@@ -4,23 +4,90 @@
 
 <div class="container">
   <h2 class="mb-4"><i>Häufige Fragen (FAQ)</i></h2>
-  <div class="accordion" id="acc_{{ faq.id }}">
-    {% for faq in faqs %}
+
+  <!-- Button to trigger new faq modal -->
+  <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    + FAQ hinzufügen
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">FAQ hinzufügen</h5>
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+        </div>
+        <form method="post">
+          <div class="modal-body">
+              {% csrf_token %}
+              {{ new_faq.media }}
+              {{ new_faq.as_p }}
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" name="save" value="save">Speichern</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion" id="accordion">
+  <div class="card px-2 py-2" style="background-color: #f6f5f5;">
+    {% for form in forms %}
       <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_{{ faq.id }}">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{ faq.id }}" aria-expanded="false" aria-controls="collapse_{{ faq.id }}">
-            {{ faq.question }}
+        <h2 class="accordion-header" id="heading_{{ form.instance.id }}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{ form.instance.id }}" aria-expanded="false" aria-controls="collapse_{{ form.instance.id }}">
+            <!-- <strong>{{ form.question }}</strong> -->
+            <strong>{{ form.instance.question }}</strong>
           </button>
         </h2>
-        <div id="collapse_{{ faq.id }}" class="accordion-collapse collapse" aria-labelledby="heading_{{ faq.id }}" data-bs-parent="#acc_{{ faq.id }}">
+        <div id="collapse_{{ form.instance.id }}" class="accordion-collapse collapse" aria-labelledby="heading_{{ form.instance.id }}" data-bs-parent="#accordion">
           <div class="accordion-body">
-            {{ faq.answer|safe }}
+
+            {{ form.instance.answer|safe }}
+            <div class="text-end">
+              <!-- Button to trigger new faq modal -->
+              <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ form.instance.id }}">
+                bearbeiten
+              </button>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop{{ form.instance.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{ form.instance.id }}Label" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdrop{{ form.instance.id }}Label">FAQ ändern</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                  </div>
+                  <form method="post">
+                    <div class="modal-body">
+                      {% csrf_token %}
+                      {{ form.media }}
+                      <!-- {{ form.as_p }} -->
+                      <label for="id_question">Frage:</label>
+                      <input type="text" name="question" value="{{ form.question.value }}" class="form-control mb-3" maxlength="300" required id="id_question">
+                      <label for="id_answer{{ form.instance.id }}">Antwort:</label>
+                      <div class="django-ckeditor-widget" data-field-id="id_answer{{ form.instance.id }}" style="display: inline-block;">
+                        <textarea name="answer" cols="40" rows="10" required id="id_answer{{ form.instance.id }}" data-processed="0" data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: &quot;Custom&quot;, &quot;height&quot;: 200, &quot;width&quot;: &quot;100%&quot;, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;toolbar_Custom&quot;: [[&quot;Styles&quot;, &quot;Format&quot;], [&quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;], [&quot;NumberedList&quot;, &quot;BulletedList&quot;, &quot;-&quot;, &quot;Outdent&quot;, &quot;Indent&quot;, &quot;-&quot;, &quot;JustifyLeft&quot;, &quot;JustifyCenter&quot;, &quot;JustifyRight&quot;, &quot;JustifyBlock&quot;], [&quot;Link&quot;, &quot;Unlink&quot;], [&quot;RemoveFormat&quot;, &quot;Source&quot;], [&quot;Smiley&quot;]], &quot;removePlugins&quot;: &quot;exportpdf&quot;, &quot;language&quot;: &quot;de-de&quot;}" data-external-plugin-resources="[]" data-id="id_answer{{ form.instance.id }}" data-type="ckeditortype">{{ form.answer.value }}</textarea>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary" name="edit_save" value="{{ form.instance.id }}">Speichern</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
-    </div>
     {% endfor %}
   </div>
   </div>
+</div>
     
 {% endblock content %}
