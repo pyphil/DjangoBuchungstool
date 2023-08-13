@@ -38,12 +38,12 @@
     {% for form in forms %}
       <div class="accordion-item">
         <h2 class="accordion-header" id="heading_{{ form.instance.id }}">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{ form.instance.id }}" aria-expanded="false" aria-controls="collapse_{{ form.instance.id }}">
+          <button class="accordion-button {% if open != form.instance.id %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{ form.instance.id }}" aria-expanded="false" aria-controls="collapse_{{ form.instance.id }}">
             <!-- <strong>{{ form.question }}</strong> -->
             <strong>{{ form.instance.question }}</strong>
           </button>
         </h2>
-        <div id="collapse_{{ form.instance.id }}" class="accordion-collapse collapse" aria-labelledby="heading_{{ form.instance.id }}" data-bs-parent="#accordion">
+        <div id="collapse_{{ form.instance.id }}" class="accordion-collapse collapse {% if open == form.instance.id %}show{% endif %}" aria-labelledby="heading_{{ form.instance.id }}" data-bs-parent="#accordion">
           <div class="accordion-body">
 
             {{ form.instance.answer|safe }}
