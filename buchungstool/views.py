@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Booking, Room, BookingFormIpad, Category, FAQ
-from .forms import RoomAlertForm
+from .forms import RoomAlertForm, FAQForm
 from userlist.models import Userlist
 from buchungstool_settings.models import Setting
 from devicelist.models import Device, Status
@@ -492,8 +492,26 @@ def userlistInfo(request):
 
 
 def faq(request):
-    faqs = FAQ.objects.all()
-    return render(request, 'buchungstoolFAQ.html', {'faqs': faqs})
+    if request.method == 'POST':
+        if request.POST.get('save'):
+            f = FAQForm(request.POST)
+            if f.is_valid():
+                f.save()
+                return redirect('faq')
+        if request.POST.get('edit_save'):
+            print(request.POST.get('edit_save'))
+            obj = FAQ.objects.get(id=int(request.POST.get('edit_save')))
+            form = FAQForm(request.POST, instance=obj)
+            if form.is_valid():
+                form.save()
+                return redirect('faq')
+    else:
+        # new faq item
+        new_faq = FAQForm()
+        # create a list forms for displaying and editing faqs
+        objects = FAQ.objects.all()
+        forms = [ FAQForm(instance=obj) for obj in objects ]
+        return render(request, 'buchungstoolFAQ.html', {'forms': forms, 'new_faq': new_faq})
 
 
 def first_run():

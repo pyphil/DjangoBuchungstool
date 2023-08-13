@@ -26,15 +26,17 @@
         {% endif %}
       {% endfor %}
       <td>
-        {% if not forloop.first %}
-        <button class="btn btn-secondary btn-sm" name="up" value="{{ form.position.value }}"><i class="bi bi-arrow-up"></i></button>
-        <button class="btn btn-secondary btn-sm" name="top" value="{{ form.position.value }}"><i class="bi bi-arrow-bar-up"></i></button>
-        {% endif %}
-        {% if not forloop.last %}
+        <span style="white-space: nowrap;">
+          {% if not forloop.first %}
+          <button class="btn btn-secondary btn-sm" name="up" value="{{ form.position.value }}"><i class="bi bi-arrow-up"></i></button>
+          <button class="btn btn-secondary btn-sm" name="top" value="{{ form.position.value }}"><i class="bi bi-arrow-bar-up"></i></button>
+          {% endif %}
+          {% if not forloop.last %}
           <button class="btn btn-secondary btn-sm" name="down" value="{{ form.position.value }}"><i class="bi bi-arrow-down"></i></button>
           <button class="btn btn-secondary btn-sm" name="bottom" value="{{ form.position.value }}"><i class="bi bi-arrow-bar-down"></i></button>
-
-        {% endif %}
+          
+          {% endif %}
+        </span>
       </td>
       <td>
         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal_{{ form.id.value }}"><i class="bi bi-trash3-fill"></i></button>

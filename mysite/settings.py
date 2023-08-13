@@ -161,5 +161,7 @@ CKEDITOR_CONFIGS = {
             ['Smiley'],
         ],
         'height': 100,
+        'width': '100%',
+        'removePlugins': 'exportpdf',
     }
 }
