@@ -504,14 +504,18 @@ def faq(request):
             form = FAQForm(request.POST, instance=obj)
             if form.is_valid():
                 form.save()
-                return redirect('faq')
+                return redirect('/buchungstool/faq/?open=' + str(obj.id) + '#heading_' + str(obj.id))
     else:
         # new faq item
         new_faq = FAQForm()
         # create a list forms for displaying and editing faqs
         objects = FAQ.objects.all()
         forms = [ FAQForm(instance=obj) for obj in objects ]
-        return render(request, 'buchungstoolFAQ.html', {'forms': forms, 'new_faq': new_faq})
+        if request.GET.get('open'):
+            open = int(request.GET.get('open'))
+        else:
+            open = None
+        return render(request, 'buchungstoolFAQ.html', {'forms': forms, 'new_faq': new_faq, 'open': open})
 
 
 def first_run():
