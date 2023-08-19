@@ -5,10 +5,17 @@
   <div class="card shadow bg-light">
     <div class="card-body">
     {% if buttontext == "" %}
-    <h2>Buchung hinzufügen</h2>
+      <h2>Buchung hinzufügen</h2>
     {% else %}
-    <h2>Buchung bearbeiten</strong></h2>
+      <h2>Buchung bearbeiten</strong></h2>
     {% endif %}
+
+    {% if errors %}
+      <div class="alert alert-danger">
+        {{ errors|safe }}
+      </div>
+    {% endif %}
+
     <h5 class="mt-3"><strong>Datum: </strong>{{ date }}, {{ std }}. Stunde</h5>
     <h5 class="mt-3"><strong>Raum/Gerät:</strong> {{room_text}}</h5>
     {% if device_count %}
@@ -117,7 +124,7 @@
         <h5>Digitaler Eintrag in die Nutzerliste</h5>
         Die Schüler*innen tragen sich auf dem iPad mit der App "Nutzerliste" ein. Lehrer*innen schalten diese Liste
         vorher frei. Die Schüler*innen wählen den richtigen Koffer/Unterricht aus (nur falls mehrere parallele Freischaltungen offen sind) und tragen
-        sich mit den Vornamen (ggf. erster Buchstabe des Nachnamens) ein. In der unten stehenden Liste sieht man (evtl. "Neu laden") die Eintragungen
+        sich mit den Vornamen (ggf. erster Buchstabe des Nachnamens) ein. In der unten stehenden Liste sieht man (evtl. "Änderungen synchronisieren") die Eintragungen
         und kann ggf. selbst bei einzelnen Einträgen nachtragen und speichern. <strong><a href="{% url 'userlistInfo' %}">mehr Informationen</a></strong>
       </div>
       <div class="col">
