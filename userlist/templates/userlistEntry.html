@@ -14,7 +14,7 @@
 
 <div class="container">
     <h2 class="mb-3">Eintrag in die Nutzerliste</h2>
-    <h4 class="mb-3">{{selection.short_name}}: {{selection.stunde}}. Std. {{ selection.krzl }} - {{selection.lerngruppe}}</h3>
+    <h4 class="mb-3">{{selection_data.short_name}}: {{selection_data.stunde}}. Std. {{ selection_data.krzl }} - {{selection_data.lerngruppe}}</h3>
     <div class="row mb-4">
         <div class="col">
             <p>Alle, die an diesem iPad arbeiten, übernehmen die Verantwortung dafür, dass dieses Gerät im gleichen Zustand zurückgegeben wird, wie ihr es bekommen habt. 
@@ -23,7 +23,12 @@
             <p>Tragt Eure iPad-Nummer und die Stift-Nummer (wenn ihr einen benutzt, sonst leer lassen) hier ein:</p>
         </div>
     </div>
-    <form action="{% url 'userlistSuccess' %}" method="POST">
+    {% if error %}
+        <div class="alert alert-danger">
+            Du hast kein iPad ausgewählt. Bitte wähle deine iPad-Nummer aus und trage die Namen ein.
+        </div>
+    {% endif %}
+    <form method="POST">
         {% csrf_token %}
         <div class="row mb-4">
             <div class="col-2">
@@ -43,10 +48,10 @@
                 <small><strong>Stift-Nr.</strong></small>
             </div>
             <div class="col">
-                <input type="text" class="form-control" name="students"><small>Schüler*innen (<strong>Vornamen</strong> mit Komma getrennt, wenn nötig mit Anfangsbuchstabe des Nachnamens.)</small>
+                <input type="text" class="form-control" name="students" maxlength="120"><small>Schüler*innen (<strong>Vornamen</strong> mit Komma getrennt, wenn nötig mit Anfangsbuchstabe des Nachnamens.)</small>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-primary" name="selection" value="{{selection}}">Speichern</button>
+                <button type="submit" class="btn btn-primary" name="selection" value="{{ selection_id }}">Speichern</button>
             </div>
         </div>
     </form>

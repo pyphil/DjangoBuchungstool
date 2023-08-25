@@ -179,10 +179,12 @@ def eintrag(request, accordion=None, room=None, id=None):
                 changed_fields.append(i.name)
             z += 1
         del request.session['initial_list']
-        obj = f.save(commit=False)
-        obj.save(update_fields=changed_fields)
+        if f.is_valid():
+            obj = f.save(commit=False)
+            obj.save(update_fields=changed_fields)
+            return redirect('/buchungstool/' + room + "/" + str(id) + '/?accordion="open"#userlist')
+        errors = f.errors
 
-        return redirect('/buchungstool/' + room + "/" + str(id) + '/?accordion="open"#userlist')
 
     if request.POST.get('freischalten'):
         state = "off"
@@ -352,6 +354,11 @@ def eintrag(request, accordion=None, room=None, id=None):
         device_count = int(room_obj.device_count)
     else:
         device_count = None
+    try:
+        errors = errors
+    except Exception:
+        errors = None
+
     return render(
         request, 'buchungstoolEntry.html',
         {
@@ -373,7 +380,7 @@ def eintrag(request, accordion=None, room=None, id=None):
             'blocked_dates': blocked_dates,
             'entry_id': id,
             'series_id': series_id,
-            #'device_count': 16,
+            'errors': errors,
         }
     )
 
