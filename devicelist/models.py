@@ -73,7 +73,7 @@ class DevicelistEntryForm(ModelForm):
         widgets = {
             'room': forms.Select(attrs={'class': 'form-select'}),
             'device': forms.Select(attrs={'class': 'form-select'}),
-            'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control', 'style': "height: 38px;"}),
             'stunde': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 11}),
             'beschreibung': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'})
@@ -96,7 +96,7 @@ class DevicelistEntryFormLoggedIn(ModelForm):
         widgets = {
             'room': forms.Select(attrs={'class': 'form-select'}),
             'device': forms.Select(attrs={'class': 'form-select'}),
-            'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'datum': forms.TextInput(attrs={'type': 'date', 'class': 'form-control', 'style': "height: 38px;"}),
             'stunde': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 11}),
             'beschreibung': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'krzl': forms.TextInput(attrs={'class': 'form-control'}),

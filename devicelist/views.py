@@ -55,6 +55,11 @@ def devicelist_all(request):
     else:
         obj = DevicelistEntry.objects.all().order_by('room', 'device')
         filter_status = ""
+    if request.GET.get('filter_room') and request.GET.get('filter_room') != "alle":
+        filter_room = int(request.GET.get('filter_room'))
+        obj = obj.filter(room__id=filter_room).order_by('room', 'device')
+    else:
+        filter_room = ""
 
     status = Status.objects.all()
     options = []
@@ -62,10 +67,18 @@ def devicelist_all(request):
     for s in status:
         options.append(s.status)
 
+    room_obj = Room.objects.all()
+    rooms = []
+    rooms.append('alle')
+    for room in room_obj:
+        rooms.append(room)
+
     context = {
         'devicelist': obj,
         'options': options,
+        'rooms': rooms,
         'filter_status': filter_status,
+        'filter_room': filter_room,
     }
     return render(request, 'devicelist_all.html', context)
 
