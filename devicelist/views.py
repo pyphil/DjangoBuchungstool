@@ -8,22 +8,6 @@ from threading import Thread
 from django.core.mail.backends.smtp import EmailBackend
 
 
-# Get email settings from DB
-try:
-    settings = Setting.objects.filter(name='settings').first()
-    # Custom email backend
-    backend = EmailBackend(
-        host=settings.email_host,
-        use_tls=settings.email_use_tls,
-        port=settings.email_port,
-        username=settings.email_host_user,
-        password=settings.email_host_password_enc,
-    )
-except Exception as e:
-    print(e)
-    print("No Settings object with email configuration yet.")
-
-
 def devicelist(request, room, date, std, entry_id):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
@@ -117,17 +101,13 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     "Status: " + str(status)
                 )
                 subject = 'DjangoBuchungstool Update Schadenmeldung'
-                try:
-                    email_to = settings.email_to
-                except Exception:
-                    email_to = ""
 
                 if request.POST.get('email_to_second'):
                     email_to_second = request.POST.get('email_to_second')
                 else:
                     email_to_second = ""
 
-                thread = MailThread(subject, mail_text, email_to, email_to_second)
+                thread = MailThread(subject, mail_text, email_to_second)
                 thread.start()
                 f.save()
                 if request.POST.get('devicelist_all'):
@@ -153,15 +133,11 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     "Beschreibung: " + request.POST.get('beschreibung') + "\n" +
                     "Status: " + str(status)
                 )
-            try:
-                email_to = settings.email_to
-            except Exception:
-                email_to = ""
 
             email_to_second = ""
 
             subject = 'DjangoBuchungstool gelöschte Schadenmeldung'
-            thread = MailThread(subject, mail_text, email_to, email_to_second)
+            thread = MailThread(subject, mail_text, email_to_second)
             thread.start()
             obj.delete()
             # Return to devicelist_all if coming from there -> use url parameter
@@ -221,10 +197,6 @@ def devicelistEntryNew(request, room=None, date=None, std=None, entry_id=None):
                     "Beschreibung: " + request.POST.get('beschreibung') + "\n" +
                     "Status: " + str(status)
                 )
-                try:
-                    email_to = settings.email_to
-                except Exception:
-                    email_to = ""
 
                 if request.POST.get('email_to_second'):
                     email_to_second = request.POST.get('email_to_second')
@@ -232,7 +204,7 @@ def devicelistEntryNew(request, room=None, date=None, std=None, entry_id=None):
                     email_to_second = ""
 
                 subject = 'DjangoBuchungstool Schadenmeldung'
-                thread = MailThread(subject, mail_text, email_to, email_to_second)
+                thread = MailThread(subject, mail_text, email_to_second)
                 thread.start()
 
                 f.save()
@@ -284,13 +256,28 @@ def lastDeviceUsers(request, room, date, dev):
 
 
 class MailThread(Thread):
-    def __init__(self, subject, mail_text, email_to, email_to_second):
+    def __init__(self, subject, mail_text, email_to_second):
         super(MailThread, self).__init__()
+        # Get email settings from DB
+        try:
+            settings = Setting.objects.filter(name='settings').first()
+            # Custom email backend
+            backend = EmailBackend(
+                host=settings.email_host,
+                use_tls=settings.email_use_tls,
+                port=settings.email_port,
+                username=settings.email_host_user,
+                password=settings.email_host_password_enc,
+            )
+        except Exception as e:
+            print(e)
+            print("No Settings object with email configuration yet.")
         self.subject = subject
         self.mail_text = mail_text
-        self.email_to = email_to
+        self.email_to = settings.email_to
         self.email_to_second = email_to_second
         self.noreply = settings.noreply_mail
+        self.backend = backend
 
     # run method is automatically executed on thread.start()
     def run(self):
@@ -299,6 +286,6 @@ class MailThread(Thread):
             self.mail_text,
             self.noreply,
             [self.email_to, self.email_to_second],
-            fail_silently=True,
-            connection=backend
+            fail_silently=False,
+            connection=self.backend
         )
