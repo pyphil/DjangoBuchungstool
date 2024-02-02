@@ -5,7 +5,7 @@ from .models import Device, Status
 
 class DevicelistEntryCustomAdmin(admin.ModelAdmin):
     list_display = (
-        'device', 'room', 'datum', 'stunde', 'beschreibung', 'krzl', 'status', 'behoben',
+        'id', 'device', 'room', 'datum', 'stunde', 'beschreibung', 'krzl', 'status', 'behoben',
     )
     list_filter = (
         'device', 'room', 'datum', 'stunde', 'beschreibung', 'krzl', 'status', 'behoben',
