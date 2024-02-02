@@ -286,6 +286,6 @@ class MailThread(Thread):
             self.mail_text,
             self.noreply,
             [self.email_to, self.email_to_second],
-            fail_silently=False,
+            fail_silently=True,
             connection=self.backend
         )
