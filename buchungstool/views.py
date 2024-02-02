@@ -189,22 +189,25 @@ def eintrag(request, accordion=None, room=None, id=None):
     if request.POST.get('freischalten'):
         state = "off"
         if request.POST.get('freischalten') == "on":
-            Userlist.objects.get_or_create(
+            entry, created = Userlist.objects.get_or_create(
                 short_name=room,
                 datum=isodate,
                 stunde=std,
                 lerngruppe=lerngruppe,
                 krzl=krzl,
-                created=datetime.datetime.now()
             )
+            print(entry)
+            entry.created = datetime.datetime.now()
+            entry.save()
             state = "on"
         elif request.POST.get('freischalten') == "off":
-            delete = Userlist.objects.get(
+            delete_objects = Userlist.objects.filter(
                 short_name=room,
                 datum=isodate,
                 stunde=std,
             )
-            delete.delete()
+            for obj in delete_objects:
+                obj.delete()
 
         return redirect('/buchungstool/' + room + "/" + str(id) + '/?accordion="open"#userlist')
 
