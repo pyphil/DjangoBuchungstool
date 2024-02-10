@@ -102,11 +102,11 @@
             <button type="submit" class="btn btn-danger" name="delete" value="delete"><i class="bi bi-trash3">&ensp;</i>Diese Buchung löschen</button>
             <button type="submit" class="btn btn-danger" name="delete_future" value="delete_future"><i class="bi bi-trash3"></i><i class="bi bi-trash3">&ensp;</i>Alle Buchungen ab hier löschen</button>
             {% else %}
-            <button type="submit" name="update" value="update" class="btn btn-primary"><i class="bi bi-save">&ensp;</i>Speichern</button>
-            <button type="submit" class="btn btn-danger" name="delete" value="delete"><i class="bi bi-trash3">&ensp;</i>Löschen</button>
+            <button type="submit" name="update" value="update" class="btn btn-primary"><i class="bi bi-save"></i> Speichern</button>
+            <button type="submit" class="btn btn-danger" name="delete" value="delete"><i class="bi bi-trash3"></i> Löschen</button>
           {% endif %}
         {% endif %}
-        <button type="submit" class="btn btn-secondary" value="cancel" name="cancel"><i class="bi bi-x-square">&ensp;</i>Abbrechen</button>
+        <button type="submit" class="btn btn-secondary" value="cancel" name="cancel"><i class="bi bi-x-square"></i> Abbrechen</button>
 
     {% if device_count %}
         {% if state == None %}

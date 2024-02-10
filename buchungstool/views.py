@@ -56,9 +56,7 @@ def home(request, room=None):
         return render(request, 'buchungstoolNoAccess.html',)
 
     if room:
-        print(room)
         room_obj = get_object_or_404(Room, short_name=room)
-        print(room_obj.room, room_obj.description)
 
     if room is None:
         return redirect('/')
@@ -196,7 +194,6 @@ def eintrag(request, accordion=None, room=None, id=None):
                 lerngruppe=lerngruppe,
                 krzl=krzl,
             )
-            print(entry)
             entry.created = datetime.datetime.now()
             entry.save()
             state = "on"
@@ -273,7 +270,6 @@ def eintrag(request, accordion=None, room=None, id=None):
             entry_obj.lerngruppe = request.POST.get('lerngruppe')
             entry_obj.krzl = request.POST.get('krzl').upper()[:15]
             entry_obj.save()
-            print('update')
             return redirect('/buchungstool/' + room + '/?date=' + isodate)
 
     if request.POST.get('update_all'):
@@ -283,7 +279,6 @@ def eintrag(request, accordion=None, room=None, id=None):
         else:
             all_obj = Booking.objects.filter(series_id=entry_obj.series_id)
             for i in all_obj:
-                print(i.datum)
                 i.lerngruppe = request.POST.get('lerngruppe')
                 i.krzl = request.POST.get('krzl').upper()[:15]
                 i.save()
@@ -309,7 +304,6 @@ def eintrag(request, accordion=None, room=None, id=None):
         future_obj = Booking.objects.filter(series_id=entry_obj.series_id, datum__gte=entry_obj.datum)
         series = [i.datum for i in future_obj]
         series = ', '.join(map(str, series))
-        # print(series)
         context = {
             'date': isodate,
             'lerngruppe': lerngruppe,
@@ -399,23 +393,18 @@ def getWeekCalendar(request, direction=None):
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
         offset = 0
-        print("currentdate")
     elif request.GET.get('currentdate_nav'):
         currentdate = request.GET.get('currentdate_nav')
-        print('NAV', currentdate)
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
-        print("nav")
     elif request.GET.get('date'):
         offset = 0
         currentdate = request.GET.get('date')
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d')
         currentdate = currentdate.date()
-        print("date")
     else:
         currentdate = datetime.date.today()
         offset = 0
-        print("today")
 
     # Starts with knowing the day of the week
     # .weekday statt [2] funktioniert erst ab Python 3.9
@@ -509,7 +498,6 @@ def faq(request):
                 f.save()
                 return redirect('faq')
         if request.POST.get('edit_save'):
-            print(request.POST.get('edit_save'))
             obj = FAQ.objects.get(id=int(request.POST.get('edit_save')))
             form = FAQForm(request.POST, instance=obj)
             if form.is_valid():
