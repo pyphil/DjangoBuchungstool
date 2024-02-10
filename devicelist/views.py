@@ -44,6 +44,12 @@ def devicelist_all(request):
         obj = obj.filter(room__id=filter_room).order_by('room', 'device')
     else:
         filter_room = ""
+    if request.GET.get('textfilter'):
+        try:
+            idfilter = int(request.GET.get('textfilter'))
+        except ValueError:
+            idfilter = None
+        obj = obj.filter(beschreibung__icontains=request.GET.get('textfilter')) | obj.filter(id=idfilter) | obj.filter(room__room__icontains=request.GET.get('textfilter'))
 
     status = Status.objects.all()
     options = []
@@ -63,6 +69,7 @@ def devicelist_all(request):
         'rooms': rooms,
         'filter_status': filter_status,
         'filter_room': filter_room,
+        'textfilter': request.GET.get('textfilter'),
     }
     return render(request, 'devicelist_all.html', context)
 
@@ -70,7 +77,6 @@ def devicelist_all(request):
 def devicelistEntry(request, id, room, date, std, entry_id):
     if not request.session.get('has_access'):
         return render(request, 'buchungstoolNoAccess.html',)
-
     obj = get_object_or_404(DevicelistEntry, id=id)
     if request.method == "GET":
         # Update -> load instance
@@ -91,16 +97,23 @@ def devicelistEntry(request, id, room, date, std, entry_id):
                     status = Status.objects.get(id=int(request.POST.get('status')))
                 else:
                     status = request.POST.get('status')
+                f.save()
+                if request.POST.get('behoben'):
+                    bearbeitet_von = request.POST.get('behoben')
+                else:
+                    bearbeitet_von = ""
                 mail_text = (
+                    "ID: " + str(obj.id) + "\n" +
                     "Datum: " + request.POST.get('datum') + "\n" +
                     "Stunde: " + request.POST.get('stunde') + "\n" +
                     "Koffer: " + koffer.short_name + "\n" +
                     "Gerät: " + str(device) + "\n" +
                     "Kürzel: " + request.POST.get('krzl') + "\n" +
                     "Beschreibung: " + request.POST.get('beschreibung') + "\n" +
-                    "Status: " + str(status)
+                    "Status: " + str(status) + "\n" + 
+                    "Bearbeitet von: " + bearbeitet_von
                 )
-                subject = 'DjangoBuchungstool Update Schadenmeldung'
+                subject = f'Support Ticket {str(obj.id)} Update: {str(status)}'
 
                 if request.POST.get('email_to_second'):
                     email_to_second = request.POST.get('email_to_second')
@@ -109,7 +122,6 @@ def devicelistEntry(request, id, room, date, std, entry_id):
 
                 thread = MailThread(subject, mail_text, email_to_second)
                 thread.start()
-                f.save()
                 if request.POST.get('devicelist_all'):
                     return redirect('devicelist_all')
                 else:
@@ -124,7 +136,8 @@ def devicelistEntry(request, id, room, date, std, entry_id):
             else:
                 status = request.POST.get('status')
             mail_text = (
-                    "Folgende Schaden- oder Problemmeldung wurde gelöscht:\n\n"
+                    "Folgende Schaden- oder Problemmeldung wurde gelöscht:\n\n" +
+                    "ID: " + str(obj.id) + "\n" +
                     "Datum: " + request.POST.get('datum') + "\n" +
                     "Stunde: " + request.POST.get('stunde') + "\n" +
                     "Koffer: " + koffer.short_name + "\n" +
@@ -136,7 +149,7 @@ def devicelistEntry(request, id, room, date, std, entry_id):
 
             email_to_second = ""
 
-            subject = 'DjangoBuchungstool gelöschte Schadenmeldung'
+            subject = f'Support Ticket {str(obj.id)} gelöscht'
             thread = MailThread(subject, mail_text, email_to_second)
             thread.start()
             obj.delete()
@@ -188,7 +201,9 @@ def devicelistEntryNew(request, room=None, date=None, std=None, entry_id=None):
                     status = Status.objects.get(id=int(request.POST.get('status')))
                 else:
                     status = request.POST.get('status')
+                obj = f.save()
                 mail_text = (
+                    "ID: " + str(obj.id) + "\n" +
                     "Datum: " + request.POST.get('datum') + "\n" +
                     "Stunde: " + request.POST.get('stunde') + "\n" +
                     "Koffer: " + koffer.short_name + "\n" +
@@ -203,11 +218,9 @@ def devicelistEntryNew(request, room=None, date=None, std=None, entry_id=None):
                 else:
                     email_to_second = ""
 
-                subject = 'DjangoBuchungstool Schadenmeldung'
+                subject = 'Neues Support Ticket ' + str(obj.id)
                 thread = MailThread(subject, mail_text, email_to_second)
                 thread.start()
-
-                f.save()
 
                 if room:
                     return redirect('devicelist', room=room, date=date, std=std, entry_id=entry_id)
@@ -239,8 +252,6 @@ def lastDeviceUsers(request, room, date, dev):
     devices = Booking.objects.filter(room=room, datum__lte=date).order_by('-datum', '-stunde')[:10]
     devlist = []
     for i in devices:
-        print(i.datum, date)
-        print(i.stunde, 1)
         # filter out current date lessons greater than current lesson
         if not (str(i.datum) == str(date) and int(i.stunde) > 1):
             # gettattr is equivalent to i.iPad_... and enables us to loop through
