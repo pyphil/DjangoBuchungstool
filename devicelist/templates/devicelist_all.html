@@ -90,12 +90,12 @@
                     <td class="{{ devicelist_entry.status.color }}">{{ devicelist_entry.status }}</td>
                     <td>
                       <div class="text-end">
-                        <span style="white-space: nowrap;">
-                          <a href="{% url 'deviceEntry' devicelist_entry.id devicelist_entry.room.short_name devicelist_entry.datum devicelist_entry.stunde devicelist_entry.id %}?devicelist_all=True" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i> Ändern</a>
-                          {% if devicelist_entry.device.dbname %}
+                        <a href="{% url 'deviceEntry' devicelist_entry.id devicelist_entry.room.short_name devicelist_entry.datum devicelist_entry.stunde devicelist_entry.id %}?devicelist_all=True" class="btn btn-secondary btn-sm mb-1"><i class="bi bi-pencil-fill"></i> Ändern</a>
+                        {% if devicelist_entry.device.dbname %}
+                          <span style="white-space: nowrap;">
                             <a href="{% url 'deviceusers' devicelist_entry.room.short_name devicelist_entry.datum devicelist_entry.device.dbname %}?devicelist_all=True" class="btn btn-secondary btn-sm"><i class="bi bi-people-fill"></i> letzte Benutzer</a>
-                          {% endif %}
-                        </span>
+                          </span>
+                        {% endif %}
                       </div>
                     </td>
                       </tr>
