@@ -83,9 +83,11 @@
                     class="bi bi-arrow-left-square"> </i>zurück</a>
               </div>
             {% elif "devices" in request.path and not request.path == "/devices/all/" %}
-              <div class="navbar-nav ms-auto"> <a class="nav-link active" href="/buchungstool/{{ room }}/{{ entry_id }}/?isodate={{ date }}&std={{ std }}"><i
-                    class="bi bi-arrow-left-square"> </i>zurück zum Buchungstermin</a>
-              </div>
+              {% if not devicelist_all %}
+                <div class="navbar-nav ms-auto"> <a class="nav-link active" href="/buchungstool/{{ room }}/{{ entry_id }}/?isodate={{ date }}&std={{ std }}"><i
+                      class="bi bi-arrow-left-square"> </i>zurück zum Buchungstermin</a>
+                </div>
+              {% endif %}
             {% else %}
               <div class="navbar-nav ms-auto"> <a class="nav-link active" href="{% url 'buchungstoolRooms' %}"><i
                     class="bi bi-arrow-left-square"> </i>zur Auswahl der Räume und Geräte</a>
