@@ -11,20 +11,20 @@ source .venv/bin/activate (Linux)
 
 ### Install Django in venv
 ```
-python3 -m pip install django
+python -m pip install django
 ```
 
 ### Migrate migrations to new db
 ```
-python3 manage.py migrate
+python manage.py migrate
 ```
 
 ### Create superuser for /admin/
 ```
-python3 manage.py createsuperuser
+python manage.py createsuperuser
 ```
 
 ### Run development server
 ```
-python3 manage.py runserver
+python manage.py runserver
 ```
